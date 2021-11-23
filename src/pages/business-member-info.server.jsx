@@ -2,7 +2,7 @@ import {Link} from '@shopify/hydrogen/client';
 
 import Layout from '../components/Layout.server';
 import Hero from '../components/Hero.server';
-import Pingpong from '../components/pingpong.server';
+import Pingpong from '../components/Pingpong.server';
 import Bumper from '../components/Bumper.server';
 
 const BusinessMemberInfo = () => {
