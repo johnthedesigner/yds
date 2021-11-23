@@ -65,7 +65,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      serif: ['Alegreya', 'serif'],
+      serif: ['Newsreader', 'serif'],
     },
     extend: {
       typography: (theme) => ({

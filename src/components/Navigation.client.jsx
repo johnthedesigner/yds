@@ -1,16 +1,28 @@
+import _ from 'lodash';
+
 import {Link} from '@shopify/hydrogen/client';
+import pages from '../pages.json';
+
+export const linkClass = (currentPath, linkedPage) => {
+  return linkedPage.path === currentPath
+    ? 'navbar__link navbar__link--active'
+    : 'navbar__link';
+};
 
 export default function Navigation({collections}) {
+  let navPages = _.filter(pages, (page) => {
+    return page.inMenu;
+  });
   return (
-    <nav className="hidden lg:block text-center">
-      <ul className="md:flex items-center justify-center">
-        {collections.map((collection) => (
-          <li key={collection.id}>
+    <nav className="navbar__main-menu--desktop">
+      <ul className="navbar__main-menu-list--desktop">
+        {_.map(navPages, (page, index) => (
+          <li key={`${page.slug}-${index}`} className="navbar__item">
             <Link
-              to={`/collections/${collection.handle}`}
-              className="block p-4 hover:opacity-80"
+              to={page.path}
+              className={linkClass('props.currentPath', page)}
             >
-              {collection.title}
+              {page.label}
             </Link>
           </li>
         ))}

@@ -1,44 +1,70 @@
+import _ from 'lodash';
 import {useState} from 'react';
 import {Link} from '@shopify/hydrogen/client';
 
 import CartToggle from './CartToggle.client';
-import CurrencySelector from './CurrencySelector.client';
 import Navigation from './Navigation.client';
 import MobileNavigation from './MobileNavigation.client';
 
-export default function Header({collections, storeName}) {
+const CommerceNavbar = (props) => {
+  if (props.isCommercePage) {
+    let CollectionLinks = () => {
+      return _.map(props.collections, (collection) => {
+        return (
+          <li key={collection.id}>
+            <Link
+              to={`/collections/${collection.handle}`}
+              className="block p-4 hover:opacity-80"
+            >
+              {collection.title}
+            </Link>
+          </li>
+        );
+      });
+    };
+    return (
+      <nav className="commerce-navbar">
+        <ul classname="commerce-navbar__list">
+          <CollectionLinks />
+        </ul>
+      </nav>
+    );
+  } else {
+    return null;
+  }
+};
+
+export default function Header({collections, storeName, isCommercePage}) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   return (
-    <header className="h-20 lg:h-32" role="banner">
-      <div
-        className={`fixed z-20 h-20 lg:h-32 w-full border-b border-gray-200 px-6 md:px-8 md:py-6 lg:pt-8 lg:pb-0 mx-auto bg-white ${
-          isMobileNavOpen ? '' : 'bg-opacity-95'
-        }`}
-      >
-        <div className="h-full flex lg:flex-col place-content-between">
-          <div className="text-center w-full flex justify-between items-center">
-            <CurrencySelector />
-            <MobileNavigation
-              collections={collections}
-              isOpen={isMobileNavOpen}
-              setIsOpen={setIsMobileNavOpen}
-            />
-            <Link
-              className="font-black uppercase text-3xl tracking-widest"
-              to="/"
-            >
-              {storeName}
-            </Link>
-            <CartToggle
-              handleClick={() => {
-                if (isMobileNavOpen) setIsMobileNavOpen(false);
-              }}
-            />
-          </div>
-          <Navigation collections={collections} storeName={storeName} />
+    <header role="banner" className="header">
+      <div>
+        <MobileNavigation
+          collections={collections}
+          isOpen={isMobileNavOpen}
+          setIsOpen={setIsMobileNavOpen}
+        />
+        <Link
+          className="logo-link--desktop"
+          to="/"
+          title="Yankee Dahlia Society"
+        >
+          <img className="logo--desktop" src="/logo-desktop.svg" />
+        </Link>
+        <div className="navbar--desktop">
+          <Navigation storeName={storeName} />
+          <CartToggle
+            handleClick={() => {
+              if (isMobileNavOpen) setIsMobileNavOpen(false);
+            }}
+          />
         </div>
       </div>
+      <CommerceNavbar
+        isCommercePage={isCommercePage}
+        collections={collections}
+      />
     </header>
   );
 }

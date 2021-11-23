@@ -6,7 +6,7 @@ import Footer from './Footer.server';
 import {useCartUI} from './CartUIProvider.client';
 import Cart from './Cart.client';
 
-export default function Layout({children, hero}) {
+export default function Layout({children, hero, isCommercePage}) {
   const {data} = useShopQuery({
     query: QUERY,
     variables: {
@@ -20,7 +20,7 @@ export default function Layout({children, hero}) {
   const {isCartOpen, closeCart} = useCartUI();
   const collections = data ? flattenConnection(data.collections) : null;
   const products = data ? flattenConnection(data.products) : null;
-  const storeName = data ? data.shop.name : '';
+  const storeName = data ? data.shop.name : 'Yankee Dahlia Society';
 
   return (
     <>
@@ -32,16 +32,14 @@ export default function Layout({children, hero}) {
           Skip to content
         </a>
       </div>
-      <div className="min-h-screen max-w-screen text-gray-700 font-serif">
-        <Header collections={collections} storeName={storeName} />
+      <div>
+        <Header
+          collections={collections}
+          storeName={storeName}
+          isCommercePage={isCommercePage}
+        />
         {/* eslint-disable-next-line @shopify/jsx-prefer-fragment-wrappers */}
         <div>
-          <div
-            className={`z-50 fixed top-0 bottom-0 left-0 right-0 bg-black transition-opacity duration-400 ${
-              isCartOpen ? 'opacity-20' : 'opacity-0 pointer-events-none'
-            }`}
-            onClick={isCartOpen ? closeCart : null}
-          />
           <Cart />
         </div>
         <main role="main" id="mainContent" className="relative bg-gray-50">

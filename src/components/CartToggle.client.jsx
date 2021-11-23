@@ -12,6 +12,7 @@ export default function CartToggle({handleClick}) {
 
   return (
     <button
+      className="navbar__cart-toggle"
       type="button"
       aria-expanded={isCartOpen}
       aria-controls="cart"

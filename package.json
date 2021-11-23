@@ -37,6 +37,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "graphql-tag": "^2.12.4",
+    "moment": "^2.29.1",
     "react": "18.0.0-alpha-e6be2d531",
     "react-dom": "18.0.0-alpha-e6be2d531",
     "react-router-dom": "^5.2.0",
