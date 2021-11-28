@@ -1,113 +1,52 @@
-import {
-  useShopQuery,
-  flattenConnection,
-  ProductProviderFragment,
-  Image,
-} from '@shopify/hydrogen';
-import gql from 'graphql-tag';
+import {Link} from '@shopify/hydrogen/client';
 
-import {Link} from '../components/Link.client';
 import Layout from '../components/Layout.server';
-import FeaturedCollection from '../components/FeaturedCollection.server';
-import ProductCard from '../components/ProductCard.server';
+import Hero from '../components/Hero.server';
+import Pingpong from '../components/Pingpong.server';
+import Bumper from '../components/Bumper.server';
+import HomeEventBlock from '../components/HomeEventBlock.client';
 
-export default function Index({country = {isoCode: 'US'}}) {
-  const {data} = useShopQuery({
-    query: QUERY,
-    variables: {
-      country: country.isoCode,
-    },
-  });
-
-  const collections = data ? flattenConnection(data.collections) : [];
-  const featuredProductsCollection = collections[0];
-  const featuredProducts = featuredProductsCollection
-    ? flattenConnection(featuredProductsCollection.products)
-    : null;
-  const featuredCollection =
-    collections && collections.length > 1 ? collections[1] : collections[0];
-
+const Index = () => {
   return (
-    // Temporarily remove the homepage hero
-    // <Layout hero={<GradientBackground />}>
-    <Layout>
-      <div className="relative mb-12">
-        <div className="bg-white p-12 shadow-xl rounded-xl mb-10">
-          {featuredProductsCollection ? (
-            <>
-              <div className="flex justify-between items-center mb-8 text-md font-serif">
-                <span className="text-black uppercase">
-                  {featuredProductsCollection.title}
-                </span>
-                <span className="hidden md:inline-flex">
-                  <Link
-                    to={`/collections/${featuredProductsCollection.handle}`}
-                    className="text-blue-600 hover:underline"
-                  >
-                    Shop all
-                  </Link>
-                </span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-                {featuredProducts.map((product) => (
-                  <div key={product.id}>
-                    <ProductCard product={product} />
-                  </div>
-                ))}
-              </div>
-              <div className="md:hidden text-center">
-                <Link
-                  to={`/collections/${featuredCollection.handle}`}
-                  className="text-blue-600"
-                >
-                  Shop all
-                </Link>
-              </div>
-            </>
-          ) : null}
-        </div>
-        <FeaturedCollection collection={featuredCollection} />
-      </div>
+    <Layout
+      hero={
+        <Hero
+          title="Yankee Dahlia Society"
+          image="/purple-flowers.jpg"
+          overlay="false"
+          height="40vh"
+        />
+      }
+      isCommercePage={false}
+    >
+      <Pingpong
+        side="left"
+        image="planting-dahlias.jpg"
+        imageAlt="A garden with rows of dahlias being planted"
+        ratioWidth={1}
+        ratioHeight={1.5}
+      >
+        <h3>
+          <b>We want you!</b> for Yankee Dahlia Society!
+        </h3>
+        <p>
+          YDS Memberships are available today for both individual and business
+          members. Register soon to attend our first meeting!
+        </p>
+        <Link href="/membership">
+          <a className="button" title="Find out more about YDS memberships">
+            Find out more
+          </a>
+        </Link>
+        <HomeEventBlock />
+      </Pingpong>
+      <Bumper
+        text="Already a member and looking for ways to lend a hand within Yankee Dahlia Society?"
+        buttonUrl="/get-involved"
+        buttonLabel="More Ways to Get Involved"
+      />
     </Layout>
   );
-}
+};
 
-const QUERY = gql`
-  query indexContent(
-    $country: CountryCode
-    $numCollections: Int = 2
-    $numProducts: Int = 3
-    $numProductMetafields: Int = 0
-    $numProductVariants: Int = 250
-    $numProductMedia: Int = 1
-    $numProductVariantMetafields: Int = 10
-    $numProductVariantSellingPlanAllocations: Int = 0
-    $numProductSellingPlanGroups: Int = 0
-    $numProductSellingPlans: Int = 0
-  ) @inContext(country: $country) {
-    collections(first: $numCollections) {
-      edges {
-        node {
-          descriptionHtml
-          description
-          handle
-          id
-          title
-          image {
-            ...ImageFragment
-          }
-          products(first: $numProducts) {
-            edges {
-              node {
-                ...ProductProviderFragment
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  ${ProductProviderFragment}
-  ${Image.Fragment}
-`;
+export default Index;
