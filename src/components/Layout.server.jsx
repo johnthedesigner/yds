@@ -21,6 +21,13 @@ export default function Layout({children, hero, isCommercePage}) {
   const collections = data ? flattenConnection(data.collections) : null;
   const products = data ? flattenConnection(data.products) : null;
   const storeName = data ? data.shop.name : 'Yankee Dahlia Society';
+  const productTypes = data ? flattenConnection(data.productTypes) : null;
+  const productTypeSlugs = productTypes.map((type) => {
+    return type
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '');
+  });
 
   return (
     <>
@@ -37,6 +44,8 @@ export default function Layout({children, hero, isCommercePage}) {
           collections={collections}
           storeName={storeName}
           isCommercePage={isCommercePage}
+          productTypes={productTypes}
+          productTypeSlugs={productTypeSlugs}
         />
         {/* eslint-disable-next-line @shopify/jsx-prefer-fragment-wrappers */}
         <div>
@@ -44,9 +53,8 @@ export default function Layout({children, hero, isCommercePage}) {
         </div>
         <main role="main" id="mainContent" className="relative bg-gray-50">
           {hero}
-          <div className="mx-auto max-w-7xl p-4 md:py-5 md:px-8">
-            {children}
-          </div>
+          {/* <div className="mx-auto max-w-7xl p-4 md:py-5 md:px-8"> */}
+          <div className="page__body">{children}</div>
         </main>
         <Footer collection={collections[0]} product={products[0]} />
       </div>
@@ -77,6 +85,11 @@ const QUERY = gql`
         node {
           handle
         }
+      }
+    }
+    productTypes(first: 10) {
+      edges {
+        node
       }
     }
   }

@@ -9,14 +9,14 @@ import MobileNavigation from './MobileNavigation.client';
 const CommerceNavbar = (props) => {
   if (props.isCommercePage) {
     let CollectionLinks = () => {
-      return _.map(props.collections, (collection) => {
+      return _.map(props.productTypes, (type, index) => {
         return (
-          <li key={collection.id}>
+          <li key={type.id} className="commerce-navbar__item">
             <Link
-              to={`/collections/${collection.handle}`}
+              to={`/category/${props.productTypeSlugs[index]}`}
               className="block p-4 hover:opacity-80"
             >
-              {collection.title}
+              {type}
             </Link>
           </li>
         );
@@ -24,7 +24,7 @@ const CommerceNavbar = (props) => {
     };
     return (
       <nav className="commerce-navbar">
-        <ul classname="commerce-navbar__list">
+        <ul className="commerce-navbar__list">
           <CollectionLinks />
         </ul>
       </nav>
@@ -34,7 +34,13 @@ const CommerceNavbar = (props) => {
   }
 };
 
-export default function Header({collections, storeName, isCommercePage}) {
+export default function Header({
+  collections,
+  storeName,
+  isCommercePage,
+  productTypes,
+  productTypeSlugs,
+}) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   return (
@@ -62,8 +68,10 @@ export default function Header({collections, storeName, isCommercePage}) {
         </div>
       </div>
       <CommerceNavbar
-        isCommercePage={isCommercePage}
+        isCommercePage={true}
         collections={collections}
+        productTypes={productTypes}
+        productTypeSlugs={productTypeSlugs}
       />
     </header>
   );

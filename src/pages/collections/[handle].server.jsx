@@ -82,6 +82,15 @@ const QUERY = gql`
         edges {
           node {
             vendor
+            totalInventory
+            priceRange {
+              minVariantPrice {
+                amount
+              }
+              maxVariantPrice {
+                amount
+              }
+            }
             ...ProductProviderFragment
           }
         }

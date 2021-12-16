@@ -230,7 +230,7 @@ button[type='submit'] {
 }
 
 .footer {
-  height: 14rem;
+  background: #fffbf1;
   display: flex;
   flex-direction: column;
 }
@@ -238,6 +238,7 @@ button[type='submit'] {
 .footer__body {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
   margin: 2rem;
 }
 
@@ -425,6 +426,23 @@ button[type='submit'].donation-form__submit-button {
 
 .navbar__cart-toggle {
   margin: 0 2rem;
+}
+
+.commerce-navbar {
+  background: #1f2835;
+  width: 100vw;
+}
+
+.commerce-navbar__list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.commerce-navbar__item {
+  display: inline;
 }
 
 .cart__dialog--empty {
