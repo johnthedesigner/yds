@@ -652,3 +652,30 @@ button[type='submit'].donation-form__submit-button {
   text-align: right;
   border-top: #ddd solid 1px;
 }
+
+/* Product Listing */
+
+.product-listing {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.product-listing__sidebar {
+  width: 25%;
+  max-width: 18rem;
+  padding-top: 6rem;
+}
+
+.product-listing__grid {
+  flex: 1;
+}
+
+.category-list__parent {
+  margin: 1rem 0;
+}
+
+.category-list__category {
+  margin-left: 1rem;
+}
