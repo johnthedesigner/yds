@@ -429,7 +429,7 @@ button[type='submit'].donation-form__submit-button {
 }
 
 .commerce-navbar {
-  background: #1f2835;
+  background: #c65a60;
   width: 100vw;
 }
 
@@ -443,6 +443,10 @@ button[type='submit'].donation-form__submit-button {
 
 .commerce-navbar__item {
   display: inline;
+}
+
+.commerce-navbar__item a {
+  color: white;
 }
 
 .cart__dialog--empty {
@@ -672,21 +676,44 @@ button[type='submit'].donation-form__submit-button {
   flex: 1;
 }
 
-.category-list__parent {
-  margin: 1rem 0;
-}
-
-.category-list__category {
-  margin-left: 1rem;
-}
-
 .product-grid {
   width: 100%;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .product-grid__item {
-  width: 25%;
   padding: 1rem;
+}
+
+.product-filters__set {
+  margin: 2rem 0;
+}
+
+.product-filters__facet {
+  font-size: 0.5rem;
+  margin: 0.5rem 1rem;
+}
+
+.product-filters__checkbox {
+  vertical-align: top;
+  display: block;
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
+.product-filters__label {
+  margin: 0;
+}
+
+.product-filters__facet-text {
+  padding: 0 1rem;
+  font-size: 1rem;
+}
+
+.product-filters__expand {
+  margin: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #c65a60;
+  cursor: pointer;
 }

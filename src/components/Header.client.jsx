@@ -16,7 +16,7 @@ const CommerceNavbar = (props) => {
             className="commerce-navbar__item"
           >
             <Link
-              to={`/category/${props.productTypeSlugs[index]}`}
+              to={`/shop/${props.productTypeSlugs[index]}`}
               className="block p-4 hover:opacity-80"
             >
               {type}

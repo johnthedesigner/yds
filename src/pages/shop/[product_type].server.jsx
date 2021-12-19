@@ -1,20 +1,19 @@
-import {useState} from 'react';
 import _ from 'lodash';
 import {
   MediaFileFragment,
   ProductProviderFragment,
   useShopQuery,
   flattenConnection,
-  RawHtml,
 } from '@shopify/hydrogen';
 import gql from 'graphql-tag';
-import {Link} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 import Layout from '../../components/Layout.server';
 import NotFound from '../../components/NotFound.server';
 import catalogData from '../../catalogData.json';
 import ProductFilters from '../../components/ProductFilters.client';
 import ProductCard from '../../components/ProductCard.server';
+import LoadMoreProducts from '../../components/LoadMoreProducts.client';
 
 const productTypesMap = {
   'gift-cards': 'Gift Cards',
@@ -22,12 +21,11 @@ const productTypesMap = {
   tubers: 'Tubers',
 };
 
-const TubersListing = ({selectedOptions}) => {
+const TubersListing = ({selectedOptions, productCount = 24}) => {
   const productDisplayIncrement = 24;
-  const product_type = 'tubers';
+  const {product_type} = useParams();
 
   // Build query tags list
-  // const [queryTags, setQueryTags] = useState([]);
   var queryTagString = '';
   _.each(selectedOptions, (tag, index) => {
     if (index === 0) {
@@ -39,17 +37,17 @@ const TubersListing = ({selectedOptions}) => {
   queryTagString = `tag:${product_type} AND (${queryTagString})`;
   console.log(queryTagString);
 
-  const {form, color, size} = catalogData.category;
+  const {form, color, size} = catalogData.category[product_type];
   const formKeys = _.keys(form);
   const colorKeys = _.keys(color);
   const sizeKeys = _.keys(size);
 
   // Fetch products from shopify
   const {data} = useShopQuery({
-    query: QUERY(productDisplayIncrement, queryTagString),
+    query: QUERY(productCount, queryTagString),
     variables: {
       country: 'US',
-      numProducts: productDisplayIncrement,
+      numProducts: productCount,
     },
   });
 
@@ -68,12 +66,12 @@ const TubersListing = ({selectedOptions}) => {
       <div className="product-listing">
         <div className="product-listing__sidebar">
           <ProductFilters
-            options={catalogData.category}
+            options={catalogData.category[product_type]}
             selected={selectedOptions}
           />
         </div>
         <div className="product-listing__grid">
-          <h1>Tubers</h1>
+          <h1>{productTypesMap[product_type]}</h1>
           <p>
             {sortedProducts.length}{' '}
             {sortedProducts.length === 1 ? 'product' : 'products'}
@@ -87,13 +85,19 @@ const TubersListing = ({selectedOptions}) => {
               );
             })}
           </div>
+          {hasNextPage && (
+            <LoadMoreProducts
+              productCount={productCount}
+              increment={productDisplayIncrement}
+            />
+          )}
         </div>
       </div>
     </Layout>
   );
 };
 
-const QUERY = (productDisplayIncrement, queryTagString) => {
+const QUERY = (productCount, queryTagString) => {
   return gql`
   query CollectionDetails(
     $numProductMetafields: Int = 0
@@ -104,7 +108,7 @@ const QUERY = (productDisplayIncrement, queryTagString) => {
     $numProductSellingPlanGroups: Int = 0
     $numProductSellingPlans: Int = 0
     ) {
-      products(first: ${productDisplayIncrement}, query: "${queryTagString}") {
+      products(first: ${productCount}, query: "${queryTagString}" sortKey: TITLE) {
         edges {
           cursor
           node {
