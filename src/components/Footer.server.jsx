@@ -16,13 +16,12 @@ export default function Footer({collection, product}) {
       if (page.inFooter) {
         return (
           <li className="footer__menu-item" key={page.path}>
-            <Link href={page.path}>
-              <a
-                className={linkClass(props.currentPath, page)}
-                title={page.title}
-              >
-                {page.label}
-              </a>
+            <Link
+              to={page.path}
+              className={linkClass(props.currentPath, page)}
+              title={page.title}
+            >
+              {page.label}
             </Link>
           </li>
         );
@@ -39,23 +38,21 @@ export default function Footer({collection, product}) {
         <ul className="footer__menu">
           <Links />
           <li className="footer__menu-item">
-            <Link href="http://instagram.com/yankeedahliasociety">
-              <a
-                className="footer__social-icon"
-                title="Yankee Dahlia Society on Instagram"
-                target="_blank"
-              >
-                <img src="/icon-ig.svg" />
-              </a>
+            <Link
+              to="http://instagram.com/yankeedahliasociety"
+              className="footer__social-icon"
+              title="Yankee Dahlia Society on Instagram"
+              target="_blank"
+            >
+              <img src="/icon-ig.svg" />
             </Link>
-            <Link href="http://facebook.com/yankeedahliasociety">
-              <a
-                className="footer__social-icon"
-                title="Yankee Dahlia Society on Facebook"
-                target="_blank"
-              >
-                <img src="/icon-fb.svg" />
-              </a>
+            <Link
+              to="http://facebook.com/yankeedahliasociety"
+              className="footer__social-icon"
+              title="Yankee Dahlia Society on Facebook"
+              target="_blank"
+            >
+              <img src="/icon-fb.svg" />
             </Link>
           </li>
         </ul>

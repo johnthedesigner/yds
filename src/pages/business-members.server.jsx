@@ -54,7 +54,7 @@ const BusinessMembers = () => {
     if (props.link) {
       return (
         <span>
-          <Link href={props.link}>
+          <Link to={props.link}>
             <a target="_blank">
               <img src="/website.svg" />
             </a>
@@ -70,7 +70,7 @@ const BusinessMembers = () => {
     if (props.link) {
       return (
         <span>
-          <Link href={props.link}>
+          <Link to={props.link}>
             <a target="_blank">
               <img src="/fb.svg" />
             </a>
@@ -86,7 +86,7 @@ const BusinessMembers = () => {
     if (props.handle) {
       return (
         <span>
-          <Link href={`http://instagram.com/${props.handle}`}>
+          <Link to={`http://instagram.com/${props.handle}`}>
             <a target="_blank">
               <img src="/ig.svg" />
             </a>

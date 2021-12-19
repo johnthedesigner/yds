@@ -91,10 +91,12 @@ const GetInvolved = () => {
             dahlias for tubers each season is a major source of funding for the
             club’s programs through the year.
           </p>
-          <Link href="/contact">
-            <a className="button" title="Fill Out Our Contact Form to Inquire">
-              Fill Out Our Contact Form to Inquire
-            </a>
+          <Link
+            to="/contact"
+            className="button"
+            title="Fill Out Our Contact Form to Inquire"
+          >
+            Fill Out Our Contact Form to Inquire
           </Link>
         </CompactText>
       </CompactTextWrapper>

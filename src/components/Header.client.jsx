@@ -11,7 +11,10 @@ const CommerceNavbar = (props) => {
     let CollectionLinks = () => {
       return _.map(props.productTypes, (type, index) => {
         return (
-          <li key={type.id} className="commerce-navbar__item">
+          <li
+            key={props.productTypeSlugs[index]}
+            className="commerce-navbar__item"
+          >
             <Link
               to={`/category/${props.productTypeSlugs[index]}`}
               className="block p-4 hover:opacity-80"

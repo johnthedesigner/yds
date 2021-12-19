@@ -50,7 +50,7 @@ const BusinessMemberInfo = () => {
           Check out our logos & badges usage page to grab a badge image and
           check out how to show off your new Y.D.S. membership!
         </p>
-        <Link href="/badge-info">
+        <Link to="/badge-info">
           <a className="button">Get a Y.D.S. Badge</a>
         </Link>
       </Pingpong>
@@ -68,7 +68,7 @@ const BusinessMemberInfo = () => {
           one of our feature speakers, and other great ways to engage with our
           members.
         </p>
-        <Link href="/get-involved">
+        <Link to="/get-involved">
           <a className="button">Get Involved</a>
         </Link>
       </Pingpong>
@@ -84,7 +84,7 @@ const BusinessMemberInfo = () => {
           Come join the fun and add your energy and expertise to our full
           calendar of fun virtual and in-person meetings.
         </p>
-        <Link href="/meetings">
+        <Link to="/meetings">
           <a className="button">Explore Meetings & Events</a>
         </Link>
       </Pingpong>

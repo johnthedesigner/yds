@@ -33,7 +33,7 @@ const Index = () => {
           YDS Memberships are available today for both individual and business
           members. Register soon to attend our first meeting!
         </p>
-        <Link href="/membership">
+        <Link to="/membership">
           <a className="button" title="Find out more about YDS memberships">
             Find out more
           </a>

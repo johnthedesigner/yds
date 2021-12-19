@@ -55,7 +55,7 @@ const BadgeInfo = () => {
           </a>
           .
         </p>
-        <Link href="/badge-info">
+        <Link to="/badge-info">
           <a
             href="https://drive.google.com/drive/folders/1Icruo22IOFhDubVIUvofXgLK998S5vEG?usp=sharing"
             target="_blank"

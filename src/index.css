@@ -679,3 +679,14 @@ button[type='submit'].donation-form__submit-button {
 .category-list__category {
   margin-left: 1rem;
 }
+
+.product-grid {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.product-grid__item {
+  width: 25%;
+  padding: 1rem;
+}
