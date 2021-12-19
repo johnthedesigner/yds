@@ -2,7 +2,6 @@ import {useServerState} from '@shopify/hydrogen/client';
 
 export default function LoadMoreProducts({productCount, increment}) {
   const {pending, serverState, setServerState} = useServerState();
-  console.log(serverState);
 
   return (
     <div className="flex justify-center h-14">

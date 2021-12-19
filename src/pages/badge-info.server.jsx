@@ -55,14 +55,13 @@ const BadgeInfo = () => {
           </a>
           .
         </p>
-        <Link to="/badge-info">
-          <a
-            href="https://drive.google.com/drive/folders/1Icruo22IOFhDubVIUvofXgLK998S5vEG?usp=sharing"
-            target="_blank"
-            className="button"
-          >
-            Download Here
-          </a>
+        <Link
+          to="/badge-info"
+          href="https://drive.google.com/drive/folders/1Icruo22IOFhDubVIUvofXgLK998S5vEG?usp=sharing"
+          target="_blank"
+          className="button"
+        >
+          Download Here
         </Link>
       </Pingpong>
     </Layout>

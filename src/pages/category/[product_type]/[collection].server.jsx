@@ -59,9 +59,7 @@ export default function Collection({
                 {_.map(catalogData.category.form, (form) => {
                   return (
                     <li key={form} className="category-list__category">
-                      <Link to={`/categories/forms/${form}`}>
-                        <a>{form}</a>
-                      </Link>
+                      <Link to={`/categories/forms/${form}`}>{form}</Link>
                     </li>
                   );
                 })}
@@ -73,9 +71,7 @@ export default function Collection({
                 {_.map(catalogData.category.color, (color) => {
                   return (
                     <li key={form} className="category-list__category">
-                      <Link to={`/categories/forms/${form}`}>
-                        <a>{form}</a>
-                      </Link>
+                      <Link to={`/categories/forms/${form}`}>{form}</Link>
                     </li>
                   );
                 })}
@@ -87,9 +83,7 @@ export default function Collection({
                 {_.map(catalogData.category.size, (size) => {
                   return (
                     <li key={form} className="category-list__category">
-                      <Link to={`/categories/forms/${form}`}>
-                        <a>{form}</a>
-                      </Link>
+                      <Link to={`/categories/forms/${form}`}>{form}</Link>
                     </li>
                   );
                 })}

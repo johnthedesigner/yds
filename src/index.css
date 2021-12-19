@@ -219,7 +219,7 @@ button[type='submit'] {
   box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.2);
   box-sizing: margin-box;
   overflow: auto;
-  padding-top: 4.25rem;
+  padding-top: 2rem;
 }
 
 @media screen and (max-width: 800px) {
@@ -718,4 +718,12 @@ button[type='submit'].donation-form__submit-button {
   font-size: 1rem;
   color: #c65a60;
   cursor: pointer;
+}
+
+/* Product Detail */
+.product-detail {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  margin: 0 auto;
 }

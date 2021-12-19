@@ -35,7 +35,6 @@ const TubersListing = ({selectedOptions, productCount = 24}) => {
     }
   });
   queryTagString = `tag:${product_type} AND (${queryTagString})`;
-  console.log(queryTagString);
 
   // Fetch products from shopify
   const {data} = useShopQuery({

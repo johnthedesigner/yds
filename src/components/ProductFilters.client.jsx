@@ -38,8 +38,8 @@ const FilterGroup = ({option, optionKey, selected}) => {
                 className="product-filters__checkbox"
                 name={tag}
                 type="checkbox"
-                value={_.includes(selected, tag)}
-                onClick={() => {
+                defaultValue={_.includes(selected, tag)}
+                onChange={() => {
                   setServerState('selectedOptions', _.xor([tag], selected));
                 }}
               />

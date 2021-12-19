@@ -54,10 +54,8 @@ const BusinessMembers = () => {
     if (props.link) {
       return (
         <span>
-          <Link to={props.link}>
-            <a target="_blank">
-              <img src="/website.svg" />
-            </a>
+          <Link to={props.link} target="_blank">
+            <img src="/website.svg" />
           </Link>
         </span>
       );
@@ -70,10 +68,8 @@ const BusinessMembers = () => {
     if (props.link) {
       return (
         <span>
-          <Link to={props.link}>
-            <a target="_blank">
-              <img src="/fb.svg" />
-            </a>
+          <Link to={props.link} target="_blank">
+            <img src="/fb.svg" />
           </Link>
         </span>
       );
@@ -86,10 +82,8 @@ const BusinessMembers = () => {
     if (props.handle) {
       return (
         <span>
-          <Link to={`http://instagram.com/${props.handle}`}>
-            <a target="_blank">
-              <img src="/ig.svg" />
-            </a>
+          <Link to={`http://instagram.com/${props.handle}`} target="_blank">
+            <img src="/ig.svg" />
           </Link>
         </span>
       );

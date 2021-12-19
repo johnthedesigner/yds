@@ -63,7 +63,7 @@ export default function Collection({
                   return (
                     <li className="category-list__category">
                       <Link to={`/category/${product_type}/form/${form}`}>
-                        <a>{form}</a>
+                        {form}
                       </Link>
                     </li>
                   );
@@ -77,7 +77,7 @@ export default function Collection({
                   return (
                     <li className="category-list__category">
                       <Link to={`/category/${product_type}/color/${color}`}>
-                        <a>{color}</a>
+                        {color}
                       </Link>
                     </li>
                   );
@@ -91,7 +91,7 @@ export default function Collection({
                   return (
                     <li className="category-list__category">
                       <Link to={`/category/${product_type}/size/${size}`}>
-                        <a>{size}</a>
+                        {size}
                       </Link>
                     </li>
                   );
