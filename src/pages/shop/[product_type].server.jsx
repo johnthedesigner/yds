@@ -37,11 +37,6 @@ const TubersListing = ({selectedOptions, productCount = 24}) => {
   queryTagString = `tag:${product_type} AND (${queryTagString})`;
   console.log(queryTagString);
 
-  const {form, color, size} = catalogData.category[product_type];
-  const formKeys = _.keys(form);
-  const colorKeys = _.keys(color);
-  const sizeKeys = _.keys(size);
-
   // Fetch products from shopify
   const {data} = useShopQuery({
     query: QUERY(productCount, queryTagString),

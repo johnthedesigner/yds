@@ -446,6 +446,8 @@ button[type='submit'].donation-form__submit-button {
 }
 
 .commerce-navbar__item a {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
   color: white;
 }
 
