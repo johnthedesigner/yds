@@ -69,20 +69,19 @@ const ProductFilters = ({options}) => {
 
   const numSelected = selectedOptions ? selectedOptions.length : 0;
 
-  const clearButtonStyles = {
-    display: numSelected === 0 ? 'none' : 'block',
-  };
+  // const clearButtonStyles = {
+  //   display: numSelected === 0 ? 'none' : 'block',
+  // };
 
   return (
     <div className="product-filters">
       <h4>Filter Options</h4>
       <button
         className="product-filters__clear-button"
-        style={clearButtonStyles}
         onClick={() => {
           setServerState('selectedOptions', []);
         }}
-        disabled={pending}
+        disabled={pending || selectedOptions.length === 0}
       >
         Clear Filters
       </button>

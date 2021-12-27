@@ -1,9 +1,7 @@
 import {useServerState} from '@shopify/hydrogen/client';
 
-export default function LoadMoreProducts({productCount, increment}) {
+export default function LoadMoreProducts({startingCount}) {
   const {pending, serverState, setServerState} = useServerState();
-  console.log(productCount, increment);
-  console.log(serverState);
 
   return (
     <div className="flex justify-center h-14">
@@ -18,10 +16,10 @@ export default function LoadMoreProducts({productCount, increment}) {
           }`}
           onClick={() => {
             setServerState(
-              'productCount',
-              serverState.productCount
-                ? serverState.productCount + increment
-                : productCount + increment,
+              'collectionProductCount',
+              serverState.collectionProductCount
+                ? serverState.collectionProductCount + 24
+                : startingCount + 1,
             );
           }}
         >

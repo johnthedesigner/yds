@@ -12,7 +12,7 @@ import Layout from '../../components/Layout.server';
 import NotFound from '../../components/NotFound.server';
 import catalogData from '../../catalogData.json';
 import ProductFilters from '../../components/ProductFilters.client';
-import ProductCard from '../../components/ProductCard.server';
+import ProductCard from '../../components/ProductCard';
 import LoadMoreProducts from '../../components/LoadMoreProducts.client';
 
 const productTypesMap = {
@@ -55,6 +55,7 @@ const TubersListing = ({selectedOptions, productCount = 96}) => {
   const sortedProducts = _.orderBy(products, 'title');
   const hasNextPage = data.products.pageInfo.hasNextPage;
 
+  console.log(products);
   return (
     <Layout>
       <div className="product-listing">
@@ -98,6 +99,7 @@ const TubersListing = ({selectedOptions, productCount = 96}) => {
 const QUERY = (productCount, queryTagString) => {
   return gql`
   query CollectionDetails(
+    $includeReferenceMetafieldDetails: Boolean = true
     $numProductMetafields: Int = 0
     $numProductVariants: Int = 250
     $numProductMedia: Int = 6

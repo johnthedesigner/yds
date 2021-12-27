@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {Link} from './Link.client';
+import {Link} from '@shopify/hydrogen';
 
 import Donate from './Donate.client';
 import pages from '../pages.json';

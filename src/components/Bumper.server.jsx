@@ -4,7 +4,7 @@ import {Link} from '@shopify/hydrogen/client';
 const BumperLink = (props) => {
   if (props.buttonUrl) {
     return (
-      <Link className="button" href={props.buttonUrl} title={props.buttonLabel}>
+      <Link className="button" to={props.buttonUrl} title={props.buttonLabel}>
         {props.buttonLabel}
       </Link>
     );

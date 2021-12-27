@@ -10,8 +10,11 @@ import {
 
 function ProductPriceMarkup() {
   return (
-    <div>
-      <Product.SelectedVariant.Price priceType="compareAt">
+    <div className="flex md:flex-col items-end font-semibold text-lg md:items-start md:mb-4">
+      <Product.SelectedVariant.Price
+        priceType="compareAt"
+        className="text-gray-500 line-through text-lg mr-2.5"
+      >
         {({amount, currencyNarrowSymbol}) => `${currencyNarrowSymbol}${amount}`}
       </Product.SelectedVariant.Price>
       <Product.SelectedVariant.Price className="text-gray-900">
@@ -108,7 +111,7 @@ export default function ProductDetails({product}) {
     <>
       <Seo product={product} />
       <Product product={product} initialVariantId={initialVariant.id}>
-        <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-x-8 my-8">
+        <div className="grid grid-cols-1 md:grid-cols-[2fr,1fr] gap-x-8 my-16">
           <div className="md:hidden mt-5 mb-8">
             <Product.Title
               as="h1"
@@ -127,7 +130,6 @@ export default function ProductDetails({product}) {
 
           <Gallery />
 
-          {/* eslint-disable-next-line @shopify/jsx-prefer-fragment-wrappers */}
           <div>
             <div className="hidden md:block">
               <Product.Title

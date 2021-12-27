@@ -1,4 +1,9 @@
-import {useShopQuery, flattenConnection, Image} from '@shopify/hydrogen';
+import {
+  Image,
+  useShopQuery,
+  flattenConnection,
+  LocalizationProvider,
+} from '@shopify/hydrogen';
 import gql from 'graphql-tag';
 
 import Header from './Header.client';
