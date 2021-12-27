@@ -672,6 +672,9 @@ button[type='submit'].donation-form__submit-button {
   width: 25%;
   max-width: 18rem;
   padding-top: 6rem;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 1rem;
 }
 
 .product-listing__grid {
@@ -718,6 +721,12 @@ button[type='submit'].donation-form__submit-button {
   font-size: 1rem;
   color: #c65a60;
   cursor: pointer;
+}
+
+.too-many-products {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 4rem 0;
 }
 
 /* Product Detail */

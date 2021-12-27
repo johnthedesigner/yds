@@ -21,7 +21,7 @@ const productTypesMap = {
   tubers: 'Tubers',
 };
 
-const TubersListing = ({selectedOptions, productCount = 24}) => {
+const TubersListing = ({selectedOptions, productCount = 96}) => {
   const productDisplayIncrement = 24;
   const {product_type} = useParams();
 
@@ -80,10 +80,14 @@ const TubersListing = ({selectedOptions, productCount = 24}) => {
             })}
           </div>
           {hasNextPage && (
-            <LoadMoreProducts
-              productCount={productCount}
-              increment={productDisplayIncrement}
-            />
+            <h2 className="too-many-products">
+              Too many products to display. Apply filters to see additional
+              products.
+            </h2>
+            // <LoadMoreProducts
+            //   productCount={productCount}
+            //   increment={productDisplayIncrement}
+            // />
           )}
         </div>
       </div>
