@@ -55,7 +55,6 @@ const TubersListing = ({selectedOptions, productCount = 96}) => {
   const sortedProducts = _.orderBy(products, 'title');
   const hasNextPage = data.products.pageInfo.hasNextPage;
 
-  console.log(products);
   return (
     <Layout>
       <div className="product-listing">

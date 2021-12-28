@@ -36,6 +36,7 @@ img {
 
 html {
   scroll-padding-top: 10rem;
+  min-height: 100vh;
 }
 
 model-viewer::part(default-progress-mask) {
@@ -51,7 +52,6 @@ html,
 body {
   background: white;
   width: 100vw;
-  height: 100vh;
   padding: 0;
   margin: 0;
   /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -214,12 +214,11 @@ button[type='submit'] {
 .page__body {
   background: white;
   position: relative;
-  min-height: 100vh;
   flex: 1;
   box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.2);
   box-sizing: margin-box;
   overflow: auto;
-  padding-top: 2rem;
+  padding: 2rem 0;
 }
 
 @media screen and (max-width: 800px) {
@@ -429,16 +428,15 @@ button[type='submit'].donation-form__submit-button {
 }
 
 .commerce-navbar {
-  background: #c65a60;
+  background: #1f2835;
   width: 100vw;
 }
 
 .commerce-navbar__list {
   list-style: none;
   display: flex;
-  flex-direction: row;
-  margin: 0 auto;
-  width: fit-content;
+  flex-direction: row-reverse;
+  margin: 0 0.5rem;
 }
 
 .commerce-navbar__item {
@@ -735,4 +733,50 @@ button[type='submit'].donation-form__submit-button {
   flex-direction: row;
   width: 90%;
   margin: 0 auto;
+}
+
+.product-detail__gallery-container {
+  flex: 2;
+  padding: 1rem;
+}
+
+.product-detail__product-info {
+  flex: 1;
+  padding: 1rem;
+}
+
+.product-detail__title {
+  margin: 1rem 0;
+}
+
+.product-detail__price {
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 1rem 0;
+}
+
+.product-detail__button {
+  position: relative;
+  background: #fffbf1;
+  border: none;
+  padding: 1rem 1.5rem 0.75rem;
+  margin: 1rem 0;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.4);
+}
+
+.product-detail__button:before {
+  content: ' ';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  border: 1px solid #c65a60;
+  pointer-events: none;
+}
+
+.product-detail__description {
+  margin: 1rem 0;
 }

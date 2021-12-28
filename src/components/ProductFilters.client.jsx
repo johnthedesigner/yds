@@ -65,13 +65,8 @@ const ProductFilters = ({options}) => {
     serverState && serverState.selectedOptions
       ? serverState.selectedOptions
       : [];
-  console.log(selectedOptions);
 
   const numSelected = selectedOptions ? selectedOptions.length : 0;
-
-  // const clearButtonStyles = {
-  //   display: numSelected === 0 ? 'none' : 'block',
-  // };
 
   return (
     <div className="product-filters">
