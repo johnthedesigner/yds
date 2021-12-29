@@ -5,6 +5,7 @@ import {Link} from '@shopify/hydrogen/client';
 import CartToggle from './CartToggle.client';
 import Navigation from './Navigation.client';
 import MobileNavigation from './MobileNavigation.client';
+import AuthMenu from './AuthMenu.client';
 
 const CommerceNavbar = (props) => {
   if (props.isCommercePage) {
@@ -24,6 +25,9 @@ const CommerceNavbar = (props) => {
       <nav className="commerce-navbar">
         <ul className="commerce-navbar__list">
           <CollectionLinks />
+          <li className="commerce-navbar__item">
+            <AuthMenu />
+          </li>
         </ul>
       </nav>
     );

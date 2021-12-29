@@ -6,14 +6,17 @@ import {
   flattenConnection,
 } from '@shopify/hydrogen';
 import gql from 'graphql-tag';
-import {useParams} from 'react-router-dom';
+import {useLocation, useParams} from 'react-router-dom';
+// import {withAuthenticationRequired} from '@auth0/auth0-react';
 
+import shopifyConfig from '../../../shopify.config';
 import Layout from '../../components/Layout.server';
 import NotFound from '../../components/NotFound.server';
 import catalogData from '../../catalogData.json';
 import ProductFilters from '../../components/ProductFilters.client';
 import ProductCard from '../../components/ProductCard';
-import LoadMoreProducts from '../../components/LoadMoreProducts.client';
+// import {Loading} from '../../components/AuthMenu.client';
+import AuthRequired from '../../components/AuthRequired.client';
 
 const productTypesMap = {
   'gift-cards': 'Gift Cards',
@@ -59,36 +62,30 @@ const TubersListing = ({selectedOptions, productCount = 96}) => {
     <Layout>
       <div className="product-listing">
         <div className="product-listing__sidebar">
-          <ProductFilters
-            options={catalogData.category[product_type]}
-            selected={selectedOptions}
-          />
+          <AuthRequired>
+            <ProductFilters
+              options={catalogData.category[product_type]}
+              selected={selectedOptions}
+            />
+          </AuthRequired>
         </div>
         <div className="product-listing__grid">
           <h1>{productTypesMap[product_type]}</h1>
-          <p>
-            {sortedProducts.length}{' '}
-            {sortedProducts.length === 1 ? 'product' : 'products'}
-          </p>
-          <div className="product-grid">
-            {sortedProducts.map((product) => {
-              return (
-                <div key={product.id} className="product-grid__item">
-                  <ProductCard product={product} />
-                </div>
-              );
-            })}
-          </div>
-          {hasNextPage && (
-            <h2 className="too-many-products">
-              Too many products to display. Apply filters to see additional
-              products.
-            </h2>
-            // <LoadMoreProducts
-            //   productCount={productCount}
-            //   increment={productDisplayIncrement}
-            // />
-          )}
+          <AuthRequired>
+            <p>
+              {sortedProducts.length}{' '}
+              {sortedProducts.length === 1 ? 'product' : 'products'}
+            </p>
+            <div className="product-grid">
+              {sortedProducts.map((product) => {
+                return (
+                  <div key={product.id} className="product-grid__item">
+                    <ProductCard product={product} />
+                  </div>
+                );
+              })}
+            </div>
+          </AuthRequired>
         </div>
       </div>
     </Layout>

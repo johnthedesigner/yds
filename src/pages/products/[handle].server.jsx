@@ -1,9 +1,11 @@
 import _ from 'lodash';
 import {Product, flattenConnection, useProduct} from '@shopify/hydrogen/client';
 import {Image, useShopQuery, ProductProviderFragment} from '@shopify/hydrogen';
-import {useParams} from 'react-router-dom';
+import {useLocation, useParams} from 'react-router-dom';
 import gql from 'graphql-tag';
+import {withAuthenticationRequired} from '@auth0/auth0-react';
 
+import {Loading} from '../../components/AuthMenu.client';
 import ProductDetails from '../../components/ProductDetails.client';
 import NotFound from '../../components/NotFound.server';
 import Layout from '../../components/Layout.server';
@@ -14,7 +16,7 @@ import {
   BUTTON_SECONDARY_CLASSES,
 } from '../../components/Button.client';
 
-export default function ProductDetail({country = {isoCode: 'US'}}) {
+const ProductDetail = ({country = {isoCode: 'US'}}) => {
   const {handle} = useParams();
 
   const {data} = useShopQuery({
@@ -82,7 +84,7 @@ export default function ProductDetail({country = {isoCode: 'US'}}) {
       </div>
     </Layout>
   );
-}
+};
 
 const QUERY = gql`
   query product(
@@ -120,3 +122,10 @@ const QUERY = gql`
 
   ${ProductProviderFragment}
 `;
+
+export default withAuthenticationRequired(ProductDetail, {
+  onRedirecting: () => <Loading />,
+  returnTo: 'http://localhost:3000/shop/tubers',
+});
+
+// export default ProductDetail;
