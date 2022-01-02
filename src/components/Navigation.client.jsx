@@ -1,12 +1,19 @@
 import _ from 'lodash';
+import {useLocation} from 'react-router-dom';
 
 import {Link} from '@shopify/hydrogen/client';
 import pages from '../pages.json';
 
 export const linkClass = (currentPath, linkedPage) => {
-  return linkedPage.path === currentPath
-    ? 'navbar__link navbar__link--active'
-    : 'navbar__link';
+  let {pathname} = useLocation();
+  let isHome = pathname === '/' && linkedPage.path === '/';
+  if (linkedPage.path === '/') {
+    return isHome ? 'navbar__link navbar__link--active' : 'navbar__link';
+  } else {
+    return linkedPage.path === pathname || _.includes(pathname, linkedPage.path)
+      ? 'navbar__link navbar__link--active'
+      : 'navbar__link';
+  }
 };
 
 export default function Navigation({collections}) {

@@ -17,6 +17,7 @@ const Auth0ProviderWithHistory = ({children}) => {
       clientId={shopifyConfig.auth0ClientId}
       redirectUri={shopifyConfig.siteDomain + pathname}
       onRedirectCallback={onRedirectCallback}
+      cacheLocation="localstorage"
     >
       {children}
     </Auth0Provider>

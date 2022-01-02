@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {useAuth0} from '@auth0/auth0-react';
 import {useHistory, useLocation} from 'react-router-dom';
+import {useEffect, useState} from 'react';
 
 export const shopRoute = '/shop';
 
@@ -21,29 +22,59 @@ export const Loading = () => {
 const AuthMenu = () => {
   const {loginWithRedirect, logout, user, isAuthenticated, isLoading} =
     useAuth0();
-  // const {name, picture, email} = user;
+  // let [loadedAuthenticated, setLoadedAuthenticated] = useState(false);
+  // useEffect(() => {
+  //   if (isLoading) {
+  //     setLoadedAuthenticated(false);
+  //   } else {
+  //     if (isAuthenticated) {
+  //       setLoadedAuthenticated(true);
+  //     } else {
+  //       setLoadedAuthenticated(false);
+  //     }
+  //   }
+  // }, [isLoading, isAuthenticated]);
   let history = useHistory();
   const {pathname} = useLocation();
   const shopUrl = 'http://localhost:3000' + shopRoute;
 
   const LoginButton = () => {
-    return <button onClick={() => loginWithRedirect()}>Log In</button>;
+    return (
+      <button
+        className="auth-menu__log-in-button"
+        onClick={() => loginWithRedirect()}
+      >
+        Member Login
+      </button>
+    );
   };
 
   const LogoutButton = () => {
-    return <button onClick={() => logout({returnTo: shopUrl})}>Log Out</button>;
+    return (
+      <button
+        className="auth-menu__log-out-button"
+        onClick={() => logout({returnTo: shopUrl})}
+      >
+        Log Out
+      </button>
+    );
   };
 
   return (
     <div className="auth-menu">
-      {isLoading || !isAuthenticated ? (
-        <LoginButton />
-      ) : (
+      {!isLoading && isAuthenticated ? (
         <>
-          <img src={user.picture} width="16" height="16" />
-          {user.name}
+          <img
+            className="auth-menu__avatar"
+            src={user.picture}
+            width="24"
+            height="24"
+          />
+          <span className="auth-menu__username">{user.name}</span>
           <LogoutButton />
         </>
+      ) : (
+        <LoginButton />
       )}
     </div>
   );

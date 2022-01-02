@@ -3,9 +3,7 @@ import {Product, flattenConnection, useProduct} from '@shopify/hydrogen/client';
 import {Image, useShopQuery, ProductProviderFragment} from '@shopify/hydrogen';
 import {useLocation, useParams} from 'react-router-dom';
 import gql from 'graphql-tag';
-import {withAuthenticationRequired} from '@auth0/auth0-react';
 
-import {Loading} from '../../components/AuthMenu.client';
 import ProductDetails from '../../components/ProductDetails.client';
 import NotFound from '../../components/NotFound.server';
 import Layout from '../../components/Layout.server';
@@ -15,6 +13,7 @@ import {
   BUTTON_PRIMARY_CLASSES,
   BUTTON_SECONDARY_CLASSES,
 } from '../../components/Button.client';
+import AuthRequired from '../../components/AuthRequired.client';
 
 const ProductDetail = ({country = {isoCode: 'US'}}) => {
   const {handle} = useParams();
@@ -61,26 +60,28 @@ const ProductDetail = ({country = {isoCode: 'US'}}) => {
   return (
     <Layout>
       <div className="product-detail">
-        <Product product={data.product} initialVariantId={initialVariant.id}>
-          <div className="product-detail__gallery-container">
-            <Gallery />
-          </div>
-          <div className="product-detail__product-info">
-            <div>
-              <Product.Title as="h1" className="product-detail__title" />
-              <ProductPriceMarkup />
-              <p>
-                <small>
-                  <em>{data.product.totalInventory} left in stock.</em>
-                </small>
-              </p>
+        <AuthRequired>
+          <Product product={data.product} initialVariantId={initialVariant.id}>
+            <div className="product-detail__gallery-container">
+              <Gallery />
             </div>
-            <div>
-              <AddToCartMarkup />
+            <div className="product-detail__product-info">
+              <div>
+                <Product.Title as="h1" className="product-detail__title" />
+                <ProductPriceMarkup />
+                <p>
+                  <small>
+                    <em>{data.product.totalInventory} left in stock.</em>
+                  </small>
+                </p>
+              </div>
+              <div>
+                <AddToCartMarkup />
+              </div>
+              <Product.Description className="product-detail__description" />
             </div>
-            <Product.Description className="product-detail__description" />
-          </div>
-        </Product>
+          </Product>
+        </AuthRequired>
       </div>
     </Layout>
   );
@@ -123,9 +124,4 @@ const QUERY = gql`
   ${ProductProviderFragment}
 `;
 
-export default withAuthenticationRequired(ProductDetail, {
-  onRedirecting: () => <Loading />,
-  returnTo: 'http://localhost:3000/shop/tubers',
-});
-
-// export default ProductDetail;
+export default ProductDetail;
