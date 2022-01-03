@@ -4,6 +4,7 @@ import {
   ProductProviderFragment,
   useShopQuery,
   flattenConnection,
+  Product,
 } from '@shopify/hydrogen';
 import gql from 'graphql-tag';
 import {useLocation, useParams} from 'react-router-dom';
@@ -17,6 +18,8 @@ import ProductFilters from '../../components/ProductFilters.client';
 import ProductCard from '../../components/ProductCard';
 // import {Loading} from '../../components/AuthMenu.client';
 import AuthRequired from '../../components/AuthRequired.client';
+import Gallery from '../../components/Gallery.client';
+import NewProductCard from '../../components/NewProductCard';
 
 const productTypesMap = {
   'gift-cards': 'Gift Cards',
@@ -70,7 +73,7 @@ const TubersListing = ({selectedOptions, productCount = 96}) => {
           </AuthRequired>
         </div>
         <div className="product-listing__grid">
-          <h1>{productTypesMap[product_type]}</h1>
+          <h2>{productTypesMap[product_type]}</h2>
           <AuthRequired>
             <p>
               {sortedProducts.length}{' '}
@@ -80,7 +83,7 @@ const TubersListing = ({selectedOptions, productCount = 96}) => {
               {sortedProducts.map((product) => {
                 return (
                   <div key={product.id} className="product-grid__item">
-                    <ProductCard product={product} />
+                    <NewProductCard product={product} />
                   </div>
                 );
               })}
@@ -110,7 +113,33 @@ const QUERY = (productCount, queryTagString) => {
           node {
             vendor
             title
+            totalInventory
+            tags
             ...ProductProviderFragment
+            hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
+              key
+              value
+            }
+            country_of_origin: metafield(namespace: "my_fields", key: "country_of_origin") {
+              key
+              value
+            }
+            introduction_year: metafield(namespace: "my_fields", key: "introduction_year") {
+              key
+              value
+            }
+            asd_code: metafield(namespace: "my_fields", key: "ads_code") {
+              key
+              value
+            }
+            bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
+              key
+              value
+            }
+            height: metafield(namespace: "my_fields", key: "height") {
+              key
+              value
+            }
           }
         }
         pageInfo {

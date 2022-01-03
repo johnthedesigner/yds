@@ -361,7 +361,7 @@ button[type='submit'].donation-form__submit-button {
   display: flex;
   height: 5rem;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .navbar__list-container--mobile {
@@ -472,7 +472,7 @@ button[type='submit'].donation-form__submit-button {
   height: 3rem;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .user-menu-bar__item {
@@ -497,6 +497,24 @@ button[type='submit'].donation-form__submit-button {
 .auth-menu__avatar {
   margin-right: 0.25rem;
   border-radius: 50%;
+}
+
+.cart-icon {
+  position: relative;
+}
+
+.cart-icon__quantity {
+  position: absolute;
+  display: inline-block;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  background: #c65a60;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  text-align: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.5rem;
 }
 
 .hero {

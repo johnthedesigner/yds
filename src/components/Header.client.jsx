@@ -24,52 +24,12 @@ const UserMenuBar = () => {
   );
 };
 
-const CommerceNavbar = (props) => {
-  if (props.isCommercePage) {
-    let CollectionLinks = () => {
-      return _.map(props.productTypes, (type, index) => {
-        return (
-          <li
-            key={props.productTypeSlugs[index]}
-            className="commerce-navbar__item"
-          >
-            <Link to={`/shop/${props.productTypeSlugs[index]}`}>{type}</Link>
-          </li>
-        );
-      });
-    };
-    return (
-      <nav className="commerce-navbar">
-        <ul className="commerce-navbar__list">
-          {/* <CollectionLinks /> */}
-          <li className="commerce-navbar__item">
-            <AuthMenu />
-          </li>
-        </ul>
-      </nav>
-    );
-  } else {
-    return null;
-  }
-};
-
-export default function Header({
-  collections,
-  storeName,
-  isCommercePage,
-  productTypes,
-  productTypeSlugs,
-}) {
+export default function Header({storeName}) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   return (
     <>
       <header role="banner" className="header">
-        {/* <MobileNavigation
-        collections={collections}
-        isOpen={isMobileNavOpen}
-        setIsOpen={setIsMobileNavOpen}
-      /> */}
         <Link
           className="logo-link--desktop"
           to="/"
@@ -80,18 +40,7 @@ export default function Header({
         <UserMenuBar />
         <div className="navbar--desktop">
           <Navigation storeName={storeName} />
-          {/* <CartToggle
-            handleClick={() => {
-              if (isMobileNavOpen) setIsMobileNavOpen(false);
-            }}
-          /> */}
         </div>
-        {/* <CommerceNavbar
-          isCommercePage={true}
-          collections={collections}
-          productTypes={productTypes}
-          productTypeSlugs={productTypeSlugs}
-        /> */}
       </header>
       <div className="header-spacer" />
     </>

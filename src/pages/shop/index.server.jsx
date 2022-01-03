@@ -13,6 +13,7 @@ import NotFound from '../../components/NotFound.server';
 import catalogData from '../../catalogData.json';
 import ProductFilters from '../../components/ProductFilters.client';
 import ProductCard from '../../components/ProductCard';
+import NewProductCard from '../../components/NewProductCard';
 import LoadMoreProducts from '../../components/LoadMoreProducts.client';
 
 const productTypesMap = {
@@ -63,7 +64,7 @@ const ShopIndex = ({selectedOptions, productCount = 96}) => {
           {sortedProducts.map((product) => {
             return (
               <div key={product.id} className="product-grid__item">
-                <ProductCard product={product} />
+                <NewProductCard product={product} />
               </div>
             );
           })}
@@ -91,7 +92,38 @@ const QUERY = () => {
           node {
             vendor
             title
+            tags
             ...ProductProviderFragment
+            hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
+              key
+              value
+            }
+            country_of_origin: metafield(
+              namespace: "my_fields"
+              key: "country_of_origin"
+            ) {
+              key
+              value
+            }
+            introduction_year: metafield(
+              namespace: "my_fields"
+              key: "introduction_year"
+            ) {
+              key
+              value
+            }
+            asd_code: metafield(namespace: "my_fields", key: "ads_code") {
+              key
+              value
+            }
+            bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
+              key
+              value
+            }
+            height: metafield(namespace: "my_fields", key: "height") {
+              key
+              value
+            }
           }
         }
         pageInfo {

@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import {useAuth0} from '@auth0/auth0-react';
 import {useHistory, useLocation} from 'react-router-dom';
-import {useEffect, useState} from 'react';
 
 export const shopRoute = '/shop';
 
@@ -22,18 +21,7 @@ export const Loading = () => {
 const AuthMenu = () => {
   const {loginWithRedirect, logout, user, isAuthenticated, isLoading} =
     useAuth0();
-  // let [loadedAuthenticated, setLoadedAuthenticated] = useState(false);
-  // useEffect(() => {
-  //   if (isLoading) {
-  //     setLoadedAuthenticated(false);
-  //   } else {
-  //     if (isAuthenticated) {
-  //       setLoadedAuthenticated(true);
-  //     } else {
-  //       setLoadedAuthenticated(false);
-  //     }
-  //   }
-  // }, [isLoading, isAuthenticated]);
+
   let history = useHistory();
   const {pathname} = useLocation();
   const shopUrl = 'http://localhost:3000' + shopRoute;
