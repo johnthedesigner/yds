@@ -10,7 +10,8 @@ export const linkClass = (currentPath, linkedPage) => {
   if (linkedPage.path === '/') {
     return isHome ? 'navbar__link navbar__link--active' : 'navbar__link';
   } else {
-    return linkedPage.path === pathname || _.includes(pathname, linkedPage.path)
+    return linkedPage.path === pathname ||
+      _.startsWith(pathname, linkedPage.path)
       ? 'navbar__link navbar__link--active'
       : 'navbar__link';
   }

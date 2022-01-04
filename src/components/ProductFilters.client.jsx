@@ -6,19 +6,18 @@ import queryString from 'query-string';
 
 const ProductFilters = ({options}) => {
   const {pending, serverState, setServerState} = useServerState();
-  const [groupExpanded, setGroupExpanded] = useState(false);
 
   const history = useHistory();
   const {pathname, search} = useLocation();
 
   const updateFilters = (options) => {
     if (options.length === 0) {
-      history.push({
+      history.replace({
         pathname: '/shop/tubers',
       });
     } else {
       let tagsConcatenated = _.concat(options);
-      history.push({
+      history.replace({
         pathname: '/shop/tubers',
         search: `?tags=${tagsConcatenated}`,
       });
@@ -27,17 +26,16 @@ const ProductFilters = ({options}) => {
   };
 
   useEffect(() => {
-    console.log(pathname, search);
     let tagsConcatenated = queryString.parse(search).tags;
-    console.log(tagsConcatenated);
     if (tagsConcatenated) {
       let tags = tagsConcatenated.split(',');
-      console.log(tags);
       updateFilters(tags);
     }
   }, []);
 
   const FilterGroup = ({option, optionKey, selected}) => {
+    const [groupExpanded, setGroupExpanded] = useState(false);
+
     // Get keys for facets, and shorten the list unless expanded
     const facetKeys = _.keys(option);
     var displayedFacetKeys = [];
