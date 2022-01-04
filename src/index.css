@@ -760,6 +760,12 @@ button[type='submit'].donation-form__submit-button {
   font-size: 1.5rem;
 }
 
+.product-grid__title-link {
+  flex: 1;
+  text-decoration: none;
+  color: #1f2835;
+}
+
 .product-grid__price {
   font-size: 1.25rem;
   font-weight: 700;
@@ -780,6 +786,7 @@ button[type='submit'].donation-form__submit-button {
   padding: 0.5rem 1rem;
   background: rgba(0, 0, 0, 0.3);
   color: white;
+  pointer-events: none;
 }
 
 .product-grid__inventory {

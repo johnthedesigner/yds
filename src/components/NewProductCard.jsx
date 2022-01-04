@@ -1,5 +1,4 @@
 // import locale from 'locale-codes';
-
 import {
   MediaFileFragment,
   ProductProviderFragment,
@@ -8,6 +7,8 @@ import {
   Product,
 } from '@shopify/hydrogen';
 import _ from 'lodash';
+import {Link} from 'react-router-dom';
+
 import Gallery from './Gallery.client';
 
 const ProductCard = ({product}) => {
@@ -75,7 +76,12 @@ const ProductCard = ({product}) => {
   return (
     <Product product={product} initialVariantId={initialVariant.id}>
       <div className="product-grid__image">
-        <Gallery />
+        <Link
+          className="product-grid__image-link"
+          to={`/shop/products/${product.handle}`}
+        >
+          <Gallery />
+        </Link>
         <div className="product-grid__image-overlay">
           <p className="product-grid__inventory">
             <small>
@@ -88,7 +94,12 @@ const ProductCard = ({product}) => {
       <div className="product-grid__product-info">
         <div>
           <div className="product-grid__title-row">
-            <Product.Title as="h1" className="product-grid__title" />
+            <Link
+              className="product-grid__title-link"
+              to={`/shop/product/${product.handle}`}
+            >
+              <Product.Title as="h1" className="product-grid__title" />
+            </Link>
             <Product.SelectedVariant.Price
               className="product-grid__price"
               as="p"

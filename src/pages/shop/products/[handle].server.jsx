@@ -4,16 +4,16 @@ import {Image, useShopQuery, ProductProviderFragment} from '@shopify/hydrogen';
 import {useLocation, useParams} from 'react-router-dom';
 import gql from 'graphql-tag';
 
-import ProductDetails from '../../components/ProductDetails.client';
-import NotFound from '../../components/NotFound.server';
-import Layout from '../../components/Layout.server';
-import Gallery from '../../components/Gallery.client';
-import ProductOptions from '../../components/ProductOptions.client';
+import ProductDetails from '../../../components/ProductDetails.client';
+import NotFound from '../../../components/NotFound.server';
+import Layout from '../../../components/Layout.server';
+import Gallery from '../../../components/Gallery.client';
+import ProductOptions from '../../../components/ProductOptions.client';
 import {
   BUTTON_PRIMARY_CLASSES,
   BUTTON_SECONDARY_CLASSES,
-} from '../../components/Button.client';
-import AuthRequired from '../../components/AuthRequired.client';
+} from '../../../components/Button.client';
+import AuthRequired from '../../../components/AuthRequired.client';
 
 const ProductDetail = ({country = {isoCode: 'US'}}) => {
   const {handle} = useParams();
