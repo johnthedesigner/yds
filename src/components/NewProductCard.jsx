@@ -1,3 +1,5 @@
+// import locale from 'locale-codes';
+
 import {
   MediaFileFragment,
   ProductProviderFragment,
@@ -52,9 +54,19 @@ const ProductCard = ({product}) => {
     }
   };
 
-  const ProductDescriptor = ({fieldKey, product, label}) => {
-    if (product[fieldKey]) {
-      return <div>{`${label}: ${product[fieldKey].value}`}</div>;
+  const CountryFlag = ({product}) => {
+    if (product.country_of_origin) {
+      let countryString = product.country_of_origin.value.toLowerCase();
+      let countryCode = 'us';
+      //    Find a way to import with iso country codes or convert
+      //   let countryCode = locale.where('location', countryString);
+      //   console.log(locale, countryCode);
+      return (
+        <img
+          className="product-grid__image-flag"
+          src={`/flags/1x1/${countryCode}.svg`}
+        />
+      );
     } else {
       return null;
     }
@@ -64,32 +76,33 @@ const ProductCard = ({product}) => {
     <Product product={product} initialVariantId={initialVariant.id}>
       <div className="product-grid__image">
         <Gallery />
-      </div>
-      <div className="product-grid__product-info">
-        <div>
-          <Product.Title as="h1" className="product-grid__title" />
-          <Product.SelectedVariant.Price className="product-grid__price" as="p">
-            <Price />
-          </Product.SelectedVariant.Price>
-          <p>
+        <div className="product-grid__image-overlay">
+          <p className="product-grid__inventory">
             <small>
               <em>{product.totalInventory} left in stock.</em>
             </small>
           </p>
-          <p className="product-grid__product-descriptor">
-            <HybridizerYear
-              hybridizer={product.hybridizer}
-              introduction_year={product.introduction_year}
-            />
-            <TagDescriptor tag="form" label="Form" />
-            <TagDescriptor tag="size" label="Size" />
-            <TagDescriptor tag="color" label="Color" />
-            <ProductDescriptor
-              label="Country of Origin"
-              fieldKey="country_of_origin"
-              product={product}
-            />
-          </p>
+          <CountryFlag product={product} />
+        </div>
+      </div>
+      <div className="product-grid__product-info">
+        <div>
+          <div className="product-grid__title-row">
+            <Product.Title as="h1" className="product-grid__title" />
+            <Product.SelectedVariant.Price
+              className="product-grid__price"
+              as="p"
+            >
+              <Price />
+            </Product.SelectedVariant.Price>
+          </div>
+          <HybridizerYear
+            hybridizer={product.hybridizer}
+            introduction_year={product.introduction_year}
+          />
+          <TagDescriptor tag="form" label="Form" />
+          <TagDescriptor tag="size" label="Size" />
+          <TagDescriptor tag="color" label="Color" />
         </div>
       </div>
     </Product>

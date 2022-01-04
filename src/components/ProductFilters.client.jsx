@@ -1,10 +1,41 @@
 import _ from 'lodash';
 import {useServerState} from '@shopify/hydrogen/client';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import {useHistory, useLocation} from 'react-router-dom';
+import queryString from 'query-string';
 
 const ProductFilters = ({options}) => {
   const {pending, serverState, setServerState} = useServerState();
   const [groupExpanded, setGroupExpanded] = useState(false);
+
+  const history = useHistory();
+  const {pathname, search} = useLocation();
+
+  const updateFilters = (options) => {
+    if (options.length === 0) {
+      history.push({
+        pathname: '/shop/tubers',
+      });
+    } else {
+      let tagsConcatenated = _.concat(options);
+      history.push({
+        pathname: '/shop/tubers',
+        search: `?tags=${tagsConcatenated}`,
+      });
+    }
+    setServerState('selectedOptions', options);
+  };
+
+  useEffect(() => {
+    console.log(pathname, search);
+    let tagsConcatenated = queryString.parse(search).tags;
+    console.log(tagsConcatenated);
+    if (tagsConcatenated) {
+      let tags = tagsConcatenated.split(',');
+      console.log(tags);
+      updateFilters(tags);
+    }
+  }, []);
 
   const FilterGroup = ({option, optionKey, selected}) => {
     // Get keys for facets, and shorten the list unless expanded
@@ -41,7 +72,7 @@ const ProductFilters = ({options}) => {
                   type="checkbox"
                   checked={_.includes(selectedOptions, tag)}
                   onChange={() => {
-                    setServerState('selectedOptions', _.xor([tag], selected));
+                    updateFilters(_.xor([tag], selected));
                   }}
                   disabled={pending}
                 />
@@ -74,7 +105,7 @@ const ProductFilters = ({options}) => {
       <button
         className="product-filters__clear-button"
         onClick={() => {
-          setServerState('selectedOptions', []);
+          updateFilters([]);
         }}
         disabled={pending || selectedOptions.length === 0}
       >

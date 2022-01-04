@@ -41,6 +41,7 @@
     "graphql-tag": "^2.12.4",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
+    "query-string": "^7.0.1",
     "react": "18.0.0-alpha-e6be2d531",
     "react-dom": "18.0.0-alpha-e6be2d531",
     "react-router-dom": "^5.2.0",
