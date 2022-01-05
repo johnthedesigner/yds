@@ -2,7 +2,11 @@ import _ from 'lodash';
 import {useAuth0} from '@auth0/auth0-react';
 import {useHistory, useLocation} from 'react-router-dom';
 
+import shopifyConfig from '../../shopify.config';
+const {siteDomain} = shopifyConfig;
+
 export const shopRoute = '/shop';
+export const productsRoute = '/shop/products';
 
 export const isShopHomepage = () => {
   let {pathname} = useLocation();
@@ -24,7 +28,8 @@ const AuthMenu = () => {
 
   let history = useHistory();
   const {pathname} = useLocation();
-  const shopUrl = 'http://localhost:3000' + shopRoute;
+  const shopUrl = siteDomain + shopRoute;
+  const productsUrl = siteDomain + productsRoute;
 
   const LoginButton = () => {
     return (
