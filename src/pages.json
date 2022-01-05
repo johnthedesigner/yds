@@ -26,6 +26,15 @@
     "inFooter": true,
     "inSitemap": true
   },
+  "all-products": {
+    "label": "All Products",
+    "title": "Y.D.S. Online Shop - All Products | Yankee Dahlia Society, New England",
+    "description": "Buy tubers, cuttings, supplies & gift certificates to help grow dahlias and to grow Y.D.S.",
+    "path": "/shop/products",
+    "inMenu": false,
+    "inFooter": false,
+    "inSitemap": true
+  },
   "membership": {
     "label": "Membership",
     "title": "Membership | Yankee Dahlia Society, New England",

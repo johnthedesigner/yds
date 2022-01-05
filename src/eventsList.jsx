@@ -697,4 +697,90 @@ export const events = [
       },
     ],
   },
+  {
+    date: '2022-01-01',
+    dateEnd: '2022-01-07',
+    time: '9am-2pm',
+    name: 'Dividing Club Tubers @ Woburn, MA',
+    label: eventTypes.workday,
+    showMore: [
+      {
+        name: 'Details',
+        content: () => {
+          return (
+            <>
+              <p>
+                We need your help dividing our many club tubers for our January
+                Tuber Sale. Everyone is welcomed! Both new and experienced
+                members who can and want to learn how to divide are welcomed as
+                there are many other steps to help out with as well; Dividing,
+                labeling, cleaning tubers & inventory. Please sign up so we can
+                have an awesome 2022 Tuber Sale.
+              </p>
+              <p>
+                To RSVP for this work day look for the Signup Genius link in the
+                monthly club newsletter.
+              </p>
+            </>
+          );
+        },
+      },
+    ],
+  },
+  {
+    date: '2022-01-13',
+    dateEnd: '2022-01-14',
+    time: '9am-2pm',
+    name: 'Reviewing Inventory/Dividing Tubers @ Woburn, MA',
+    label: eventTypes.workday,
+    showMore: [
+      {
+        name: 'Details',
+        content: () => {
+          return (
+            <>
+              <p>
+                We need your help dividing our many club tubers for our January
+                Tuber Sale. Everyone is welcomed! Both new and experienced
+                members who can and want to learn how to divide are welcomed as
+                there are many other steps to help out with as well; Dividing,
+                labeling, cleaning tubers & inventory. Please sign up so we can
+                have an awesome 2022 Tuber Sale.
+              </p>
+              <p>
+                To RSVP for this work day look for the Signup Genius link in the
+                monthly club newsletter.
+              </p>
+            </>
+          );
+        },
+      },
+    ],
+  },
+  {
+    date: '2022-01-23',
+    time: '11am-2pm',
+    name: 'New Year Club Party Celebration @ Spence Farm in Woburn, MA',
+    label: eventTypes.meeting,
+    showMore: [
+      {
+        name: 'Details',
+        content: () => {
+          return (
+            <>
+              <p>
+                We will kick off the new year in January at Spence Farm with a
+                party, fun dahlia themed raffle items to choose from as well as
+                door prizes and the Generous Gardeners as our special guest
+                speaker. Save the date for Sunday, January 23, 2022 from 11-2pm.
+                For those that purchase from the Y.D.S. tuber sale in January,
+                this will be your opportunity to come pick up your dahlia tuber
+                order.
+              </p>
+            </>
+          );
+        },
+      },
+    ],
+  },
 ];

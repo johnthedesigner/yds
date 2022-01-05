@@ -1,5 +1,12 @@
+import _ from 'lodash';
 import {flattenConnection, useShopQuery} from '@shopify/hydrogen';
 import gql from 'graphql-tag';
+
+import pages from '../pages';
+import ShopifyConfig from '../../shopify.config';
+
+const {siteDomain} = ShopifyConfig;
+const getDate = new Date().toISOString();
 
 export default function Sitemap({response}) {
   response.doNotStream();
@@ -11,12 +18,26 @@ export default function Sitemap({response}) {
   return response.send(shopSitemap(data));
 }
 
+const staticPages = _.map(pages, (page) => {
+  if (page.inSitemap) {
+    return `
+      <url>
+        <loc>${siteDomain}${page.path}</loc>
+        <lastmod>${getDate}</lastmod>
+      </url>
+    `;
+  } else {
+    return null;
+  }
+}).join('');
+
 function shopSitemap(data) {
   return `
     <urlset
       xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
       xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
     >
+      ${staticPages}
       ${flattenConnection(data.products)
         .map((product) => {
           return `

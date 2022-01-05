@@ -20,10 +20,7 @@
     "phone": "978-779-0741",
     "email": "gaylejoseph@comcast.net",
     "member since": "03/26/21",
-    "ig handle": "",
-    "facebook url": "",
-    "business name": "Gayle Joseph",
-    "business url": ""
+    "business name": "Gayle Joseph"
   },
   {
     "first name": "Melissa",
@@ -85,8 +82,6 @@
     "phone": "978-430-9398",
     "email": "admin@froghollowdahlias.com",
     "member since": "04/06/21",
-    "ig handle": "",
-    "facebook url": "",
     "business name": "Frog Hollow Farm",
     "business url": "http://froghollowdahlias.com"
   },
@@ -139,8 +134,7 @@
     "member since": "05/11/21",
     "ig handle": "bowerybeachfarm",
     "facebook url": "https://www.facebook.com/BoweryBeachFarm",
-    "business name": "Bowery Beach Farm",
-    "business url": ""
+    "business name": "Bowery Beach Farm"
   },
   {
     "first name": "Vee",
@@ -151,7 +145,6 @@
     "email": "bestbudswormcastings@gmail.com",
     "member since": "07/18/21",
     "ig handle": "bestbudswormcastings",
-    "facebook url": "",
     "business name": "Best Buds Worm Castings",
     "business url": "https://www.bestbudswormcastings.com/"
   },
@@ -164,7 +157,6 @@
     "email": "rob@rwsphotos.com",
     "member since": "08-04-21",
     "ig handle": "rwsphotos",
-    "facebook url": "",
     "business name": "RW's Photos",
     "business url": "http://rwsphotos.com"
   },
@@ -196,5 +188,26 @@
     "member since": "09-04-2021",
     "ig handle": "ArmstrongAcresMA",
     "business name": "Armstrong Acres"
+  },
+  {
+    "city": "Rehoboth",
+    "state": "MA",
+    "member since": "03-01-2021",
+    "ig handle": "brilliantdahliaflower",
+    "facebook url": "https://www.facebook.com/Brilliantdahliaflowerfarm/",
+    "business name": "Brilliant Dahlia Flower Farm",
+    "business url": "https://www.brilliantdahlia.com/"
+  },
+  {
+    "first name": "Justine",
+    "last name": "Muir",
+    "city": "Westminster",
+    "state": "MA",
+    "phone": "508-341-2040",
+    "email": "justinemuir15@gmail.com",
+    "member since": "03/22/21",
+    "ig handle": "peterfieldsfarm",
+    "facebook url": "https://www.facebook.com/Peterfields-Farm-105769551498689",
+    "business name": "Peterfields Farm"
   }
 ]
