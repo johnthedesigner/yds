@@ -843,16 +843,17 @@ button[type='submit'].donation-form__submit-button {
   display: flex;
   flex-direction: row;
   width: 90%;
-  margin: 0 auto;
+  max-width: 80rem;
+  margin: 3rem auto;
 }
 
 .product-detail__gallery-container {
-  flex: 2;
+  flex: 3;
   padding: 1rem;
 }
 
 .product-detail__product-info {
-  flex: 1;
+  flex: 2;
   padding: 1rem;
 }
 

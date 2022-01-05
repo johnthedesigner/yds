@@ -10,12 +10,12 @@ import gql from 'graphql-tag';
 import {useHistory, useLocation, useParams} from 'react-router-dom';
 // import {useEffect} from 'react';
 
-import Layout from '../../components/Layout.server';
-import NotFound from '../../components/NotFound.server';
-import catalogData from '../../catalogData.json';
-import ProductFilters from '../../components/ProductFilters.client';
-import AuthRequired from '../../components/AuthRequired.client';
-import NewProductCard from '../../components/NewProductCard';
+import Layout from '../../../components/Layout.server';
+import NotFound from '../../../components/NotFound.client';
+import catalogData from '../../../catalogData.json';
+import ProductFilters from '../../../components/ProductFilters.client';
+import AuthRequired from '../../../components/AuthRequired.client';
+import NewProductCard from '../../../components/NewProductCard';
 
 const productTypesMap = {
   'gift-cards': 'Gift Cards',
@@ -23,20 +23,13 @@ const productTypesMap = {
   tubers: 'Tubers',
 };
 
-const TubersListing = (
-  {selectedOptions, productCount = 96},
-  pending = false,
-) => {
+const ShopIndex = ({selectedOptions, productCount = 96}, pending = false) => {
   const productDisplayIncrement = 24;
-  const {product_type} = useParams();
+  // const {product_type} = useParams();
+  const product_type = 'tubers';
 
   const history = useHistory();
   const {pathname} = useLocation();
-
-  // useEffect(() => {
-  //   console.log(pathname);
-  //   // history.push(pathname);
-  // }, [selectedOptions]);
 
   // Build query tags list
   var queryTagString = '';
@@ -157,4 +150,4 @@ const QUERY = (productCount, queryTagString) => {
 `;
 };
 
-export default TubersListing;
+export default ShopIndex;

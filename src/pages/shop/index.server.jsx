@@ -7,9 +7,10 @@ import {
 } from '@shopify/hydrogen';
 import gql from 'graphql-tag';
 import {useParams} from 'react-router-dom';
+import {useAuth0} from '@auth0/auth0-react';
 
 import Layout from '../../components/Layout.server';
-import NotFound from '../../components/NotFound.server';
+import NotFound from '../../components/NotFound.client';
 import catalogData from '../../catalogData.json';
 import ProductFilters from '../../components/ProductFilters.client';
 import ProductCard from '../../components/ProductCard';
@@ -26,16 +27,7 @@ const ShopIndex = ({selectedOptions, productCount = 96}) => {
   const productDisplayIncrement = 24;
   const {product_type} = useParams();
 
-  // Build query tags list
-  //   var queryTagString = '';
-  //   _.each(selectedOptions, (tag, index) => {
-  //     if (index === 0) {
-  //       queryTagString += `tag:${tag}`;
-  //     } else {
-  //       queryTagString += ` OR tag:${tag}`;
-  //     }
-  //   });
-  //   queryTagString = `tag:${product_type} AND (${queryTagString})`;
+  const {isAuthenticated, isLoading} = useAuth0();
 
   // Fetch products from shopify
   const {data} = useShopQuery({
@@ -60,6 +52,11 @@ const ShopIndex = ({selectedOptions, productCount = 96}) => {
       <div className="shop-index">
         <h1>Y.D.S. Shop</h1>
         <h2>Tubers</h2>
+        <p>
+          {isAuthenticated && !isLoading
+            ? 'User is logged in'
+            : 'User is not logged in'}
+        </p>
         <div className="product-grid">
           {sortedProducts.map((product) => {
             return (

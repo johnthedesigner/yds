@@ -10,63 +10,25 @@ import _ from 'lodash';
 import {Link} from 'react-router-dom';
 
 import Gallery from './Gallery.client';
+import TagDescriptor from './TagDescriptor';
+import HybridizerDescriptor from './HybridizerDescriptor';
 
 const ProductCard = ({product}) => {
   let initialVariant = flattenConnection(product.variants)[0];
-  let {key, value} = product;
 
-  const Price = ({currencyCode, amount, currencyNarrowSymbol}) => {
+  const Price = ({amount, currencyNarrowSymbol}) => {
     return `${currencyNarrowSymbol}${amount}`;
-  };
-
-  const Descriptor = ({label, value}) => {
-    return (
-      <div className="descriptor">
-        <div className="descriptor__key">{label}</div>
-        <div className="descriptor__value">{value}</div>
-      </div>
-    );
-  };
-
-  const TagDescriptor = ({tag, label}) => {
-    let tagString = _.find(product.tags, (productTag) => {
-      return _.includes(productTag, tag);
-    });
-    if (tagString) {
-      let value = tagString.split('-')[1];
-      return <Descriptor label={label} value={value} />;
-    } else {
-      return null;
-    }
-  };
-
-  const HybridizerYear = ({hybridizer, introduction_year}) => {
-    if (hybridizer && introduction_year) {
-      return (
-        <Descriptor
-          label="Hybridizer"
-          value={`${hybridizer.value}(${introduction_year.value})`}
-        />
-      );
-    } else if (hybridizer) {
-      return <Descriptor label="Hybridizer" value={hybridizer.value} />;
-    } else {
-      return null;
-    }
   };
 
   const CountryFlag = ({product}) => {
     if (product.country_of_origin) {
-      let countryString = product.country_of_origin.value.toLowerCase();
-      let countryCode = 'us';
+      //   let countryString = product.country_of_origin.value.toLowerCase();
+      //   let countryCode = 'us';
       //    Find a way to import with iso country codes or convert
       //   let countryCode = locale.where('location', countryString);
       //   console.log(locale, countryCode);
       return (
-        <img
-          className="product-grid__image-flag"
-          src={`/flags/1x1/${countryCode}.svg`}
-        />
+        <img className="product-grid__image-flag" src={`/flags/1x1/us.svg`} />
       );
     } else {
       return null;
@@ -107,13 +69,13 @@ const ProductCard = ({product}) => {
               <Price />
             </Product.SelectedVariant.Price>
           </div>
-          <HybridizerYear
+          <HybridizerDescriptor
             hybridizer={product.hybridizer}
             introduction_year={product.introduction_year}
           />
-          <TagDescriptor tag="form" label="Form" />
-          <TagDescriptor tag="size" label="Size" />
-          <TagDescriptor tag="color" label="Color" />
+          <TagDescriptor product={product} tag="form" label="Form" />
+          <TagDescriptor product={product} tag="size" label="Size" />
+          <TagDescriptor product={product} tag="color" label="Color" />
         </div>
       </div>
     </Product>

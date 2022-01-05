@@ -5,7 +5,7 @@ import {
 } from '@shopify/hydrogen';
 import gql from 'graphql-tag';
 
-import Layout from './Layout.server';
+// import Layout from './Layout.server';
 import Button from './Button.client';
 import ProductCard from './ProductCard';
 
@@ -47,7 +47,7 @@ export default function NotFound({country = {isoCode: 'US'}}) {
   const products = data ? flattenConnection(data.products) : [];
 
   return (
-    <Layout>
+    <>
       <NotFoundHero />
       <div className="my-8">
         <p className="mb-8 text-lg text-black font-medium uppercase">
@@ -61,7 +61,7 @@ export default function NotFound({country = {isoCode: 'US'}}) {
           ))}
         </div>
       </div>
-    </Layout>
+    </>
   );
 }
 

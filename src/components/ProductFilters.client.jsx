@@ -13,12 +13,12 @@ const ProductFilters = ({options}) => {
   const updateFilters = (options) => {
     if (options.length === 0) {
       history.replace({
-        pathname: '/shop/tubers',
+        pathname: '/shop/products',
       });
     } else {
       let tagsConcatenated = _.concat(options);
       history.replace({
-        pathname: '/shop/tubers',
+        pathname: '/shop/products',
         search: `?tags=${tagsConcatenated}`,
       });
     }

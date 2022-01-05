@@ -11,7 +11,7 @@ import gql from 'graphql-tag';
 import LoadMoreProducts from '../../components/LoadMoreProducts.client';
 import Layout from '../../components/Layout.server';
 import ProductCard from '../../components/ProductCard';
-import NotFound from '../../components/NotFound.server';
+import NotFound from '../../components/NotFound.client';
 
 export default function Collection({
   country = {isoCode: 'US'},
