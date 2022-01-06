@@ -780,7 +780,7 @@ button[type='submit'].donation-form__submit-button {
   display: flex;
   align-items: center;
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   left: 0;
   padding: 0.5rem 1rem;
@@ -791,6 +791,7 @@ button[type='submit'].donation-form__submit-button {
 
 .product-grid__inventory {
   flex: 1;
+  height: 1.75rem;
 }
 
 .product-grid__image-flag {

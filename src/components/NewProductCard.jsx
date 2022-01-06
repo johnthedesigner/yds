@@ -46,9 +46,11 @@ const ProductCard = ({product}) => {
         </Link>
         <div className="product-grid__image-overlay">
           <p className="product-grid__inventory">
-            <small>
-              <em>{product.totalInventory} left in stock.</em>
-            </small>
+            {product.totalInventory < 5 && (
+              <small>
+                <em>{product.totalInventory} left in stock.</em>
+              </small>
+            )}
           </p>
           <CountryFlag product={product} />
         </div>

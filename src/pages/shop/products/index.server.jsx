@@ -41,7 +41,7 @@ const ShopIndex = ({selectedOptions, productCount = 96}, pending = false) => {
       queryTagString += ` OR tag:${tag}`;
     }
   });
-  queryTagString = `tag:${product_type} AND (${queryTagString})`;
+  queryTagString = `(tag:${product_type}) AND (${queryTagString})`;
 
   // Fetch products from shopify
   const {data} = useShopQuery({
