@@ -103,7 +103,7 @@ const QUERY = (productCount, queryTagString) => {
     $numProductSellingPlanGroups: Int = 0
     $numProductSellingPlans: Int = 0
     ) {
-      products(first: ${productCount}, query: "${queryTagString}" sortKey: TITLE) {
+      products(first: ${productCount} query: "${queryTagString}" sortKey: TITLE) {
         edges {
           cursor
           node {
