@@ -16,6 +16,7 @@ import catalogData from '../../../catalogData.json';
 import ProductFilters from '../../../components/ProductFilters.client';
 import AuthRequired from '../../../components/AuthRequired.client';
 import NewProductCard from '../../../components/NewProductCard';
+import ProductSort from '../../../components/ProductSort.client';
 
 const productTypesMap = {
   'gift-cards': 'Gift Cards',
@@ -23,7 +24,12 @@ const productTypesMap = {
   tubers: 'Tubers',
 };
 
-const ShopIndex = ({selectedOptions, productCount = 96}, pending = false) => {
+const ShopIndex = ({
+  selectedOptions,
+  productCount = 96,
+  sortOption = 'titleAsc',
+  pending = false,
+}) => {
   const productDisplayIncrement = 24;
   // const {product_type} = useParams();
   const product_type = 'tubers';
@@ -34,7 +40,6 @@ const ShopIndex = ({selectedOptions, productCount = 96}, pending = false) => {
   // Build query tags list
   var queryTagString = '';
   _.each(selectedOptions, (tag, index) => {
-    console.log(tag);
     if (index === 0) {
       queryTagString += `tag:${tag}`;
     } else {
@@ -59,8 +64,19 @@ const ShopIndex = ({selectedOptions, productCount = 96}, pending = false) => {
 
   // If there are products, prepare product data
   const products = data ? flattenConnection(data.products) : [];
-  const sortedProducts = _.orderBy(products, 'title');
-  const hasNextPage = data.products.pageInfo.hasNextPage;
+  // const sortedProducts = products;
+  let ascDesc = _.includes(sortOption, 'Asc') ? 'asc' : 'desc';
+  var sortedProducts = _.orderBy(
+    products,
+    (product) => {
+      if (sortOption === 'titleAsc' || sortOption === 'titleDesc') {
+        return product.title;
+      } else {
+        return 1 * product.priceRange.minVariantPrice.amount;
+      }
+    },
+    ascDesc,
+  );
 
   return (
     <Layout>
@@ -74,6 +90,7 @@ const ShopIndex = ({selectedOptions, productCount = 96}, pending = false) => {
           </AuthRequired>
         </div>
         <div className="product-listing__grid">
+          <ProductSort sortOption={sortOption} />
           <AuthRequired>
             <div className="product-grid">
               {sortedProducts.map((product) => {
@@ -103,7 +120,7 @@ const QUERY = (productCount, queryTagString) => {
     $numProductSellingPlanGroups: Int = 0
     $numProductSellingPlans: Int = 0
     ) {
-      products(first: ${productCount} query: "${queryTagString}" sortKey: TITLE) {
+      products(first: ${productCount} query: "${queryTagString}") {
         edges {
           cursor
           node {

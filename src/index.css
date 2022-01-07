@@ -800,6 +800,12 @@ button[type='submit'].donation-form__submit-button {
   border-radius: 50%;
 }
 
+/* Product Sort */
+.product-sort {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 /* Product Filters */
 .product-filters__set {
   margin: 2rem 0;
