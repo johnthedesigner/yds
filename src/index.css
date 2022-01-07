@@ -854,6 +854,11 @@ button[type='submit'].donation-form__submit-button {
   margin: 3rem auto;
 }
 
+.product-detail__breadcrumb {
+  text-align: center;
+  margin: 1rem;
+}
+
 .product-detail__gallery-container {
   flex: 3;
   padding: 1rem;

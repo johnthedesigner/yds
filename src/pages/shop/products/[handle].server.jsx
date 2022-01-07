@@ -3,6 +3,7 @@ import {Product, flattenConnection, useProduct} from '@shopify/hydrogen/client';
 import {useShopQuery, ProductProviderFragment} from '@shopify/hydrogen';
 import {useParams} from 'react-router-dom';
 import gql from 'graphql-tag';
+import {Link} from 'react-router-dom';
 
 import NotFound from '../../../components/NotFound.client';
 import Layout from '../../../components/Layout.server';
@@ -29,16 +30,6 @@ const ProductDetail = ({country = {isoCode: 'US'}}) => {
   const {product} = data;
   const initialVariant = flattenConnection(product.variants)[0];
 
-  function ProductPriceMarkup() {
-    return (
-      <Product.SelectedVariant.Price className="product-detail__price" as="p">
-        {({currencyCode, amount, currencyNarrowSymbol}) =>
-          `${currencyNarrowSymbol}${amount}`
-        }
-      </Product.SelectedVariant.Price>
-    );
-  }
-
   function AddToCartMarkup() {
     const {selectedVariant} = useProduct();
     const isOutOfStock = !selectedVariant.availableForSale;
@@ -63,20 +54,30 @@ const ProductDetail = ({country = {isoCode: 'US'}}) => {
 
   return (
     <Layout>
-      <div className="product-detail">
-        <AuthRequired>
-          <Product product={data.product} initialVariantId={initialVariant.id}>
+      <AuthRequired>
+        <Product product={data.product} initialVariantId={initialVariant.id}>
+          <div className="product-detail__breadcrumb">
+            <Link to="/shop">Shop</Link> /{' '}
+            <Link to="/shop/products">All Products</Link> /{' '}
+            <Product.Title as="span" className="product-detail__title" />
+          </div>
+          <div className="product-detail">
             <div className="product-detail__gallery-container">
               <Gallery />
             </div>
             <div className="product-detail__product-info">
               <div>
                 <Product.Title as="h1" className="product-detail__title" />
-                <ProductPriceMarkup />
+                <Product.SelectedVariant.Price
+                  className="product-detail__price"
+                  as="p"
+                />
                 <p>
-                  <small>
-                    <em>{data.product.totalInventory} left in stock.</em>
-                  </small>
+                  {product.totalInventory < 5 && (
+                    <small>
+                      <em>{data.product.totalInventory} left in stock.</em>
+                    </small>
+                  )}
                 </p>
               </div>
               <ConditionalDescription />
@@ -91,9 +92,9 @@ const ProductDetail = ({country = {isoCode: 'US'}}) => {
                 <AddToCartMarkup />
               </div>
             </div>
-          </Product>
-        </AuthRequired>
-      </div>
+          </div>
+        </Product>
+      </AuthRequired>
     </Layout>
   );
 };
