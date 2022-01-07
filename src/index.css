@@ -804,6 +804,7 @@ button[type='submit'].donation-form__submit-button {
 .product-sort {
   display: flex;
   flex-direction: row-reverse;
+  padding: 2rem;
 }
 
 /* Product Filters */

@@ -7,7 +7,7 @@ import {
   Product,
 } from '@shopify/hydrogen';
 import gql from 'graphql-tag';
-import {useHistory, useLocation, useParams} from 'react-router-dom';
+import {Link, useHistory, useLocation, useParams} from 'react-router-dom';
 // import {useEffect} from 'react';
 
 import Layout from '../../../components/Layout.server';
@@ -80,6 +80,9 @@ const ShopIndex = ({
 
   return (
     <Layout>
+      <div className="product-detail__breadcrumb">
+        <Link to="/shop">Shop</Link> / <b>All Products</b>
+      </div>
       <div className="product-listing">
         <div className="product-listing__sidebar">
           <AuthRequired>

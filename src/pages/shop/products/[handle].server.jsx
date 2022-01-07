@@ -59,7 +59,7 @@ const ProductDetail = ({country = {isoCode: 'US'}}) => {
           <div className="product-detail__breadcrumb">
             <Link to="/shop">Shop</Link> /{' '}
             <Link to="/shop/products">All Products</Link> /{' '}
-            <Product.Title as="span" className="product-detail__title" />
+            <Product.Title as="b" className="product-detail__title" />
           </div>
           <div className="product-detail">
             <div className="product-detail__gallery-container">
