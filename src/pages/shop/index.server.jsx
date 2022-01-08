@@ -26,7 +26,7 @@ import {
 } from '../../components/AccessControl.client';
 import LoginButton from '../../components/LoginButton..client';
 
-const LaunchDateTime = '2022-01-07T21:11:00-05:00';
+const LaunchDateTime = '2022-01-08T15:00:00-05:00';
 
 const productTypesMap = {
   'gift-cards': 'Gift Cards',
@@ -85,7 +85,7 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
             <WithRegularAccess>
               <p>
                 The tuber sale opens for all Y.D.S. members on January 15th,
-                2022 at 12:00pm
+                2022 at 3:00pm
               </p>
               <ShowAfter threshold={LaunchDateTime}>
                 <p>The members-only tuber sale has started!</p>
@@ -99,8 +99,8 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
             <WithEarlyAccess>
               <p>
                 The tuber sale opens for Y.D.S. members with early access on
-                January 8th, 2022 at 12:00 pm and for all Y.D.S. members on
-                January 15th, 2022 at 12:00pm
+                January 8th, 2022 at 3:00 pm and for all Y.D.S. members on
+                January 15th, 2022 at 3:00pm
               </p>
               <ShowAfter threshold={LaunchDateTime}>
                 <p>The early access tuber sale has started!</p>
