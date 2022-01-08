@@ -25,11 +25,23 @@ const productTypesMap = {
 };
 
 const ShopIndex = ({
+  response,
   selectedOptions,
   productCount = 96,
   sortOption = 'titleAsc',
   pending = false,
 }) => {
+  response.cache({
+    // Cache the page for one hour.
+    // maxAge: 60 * 60,
+    maxAge: 0,
+    // Serve the stale page for up to 23 hours while getting a fresh response in the background.
+    // staleWhileRevalidate: 23 * 60 * 60,
+    staleWhileRevalidate: 0,
+    // cache-control no-cache
+    noStore: true,
+  });
+
   const productDisplayIncrement = 24;
   // const {product_type} = useParams();
   const product_type = 'tubers';

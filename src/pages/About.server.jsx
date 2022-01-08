@@ -4,7 +4,18 @@ import Pingpong from '../components/Pingpong.server';
 import Bumper from '../components/Bumper.server';
 // import pages from '../../pages.json';
 
-const About = () => {
+const About = ({response}) => {
+  response.cache({
+    // Cache the page for one hour.
+    // maxAge: 60 * 60,
+    maxAge: 0,
+    // Serve the stale page for up to 23 hours while getting a fresh response in the background.
+    // staleWhileRevalidate: 23 * 60 * 60,
+    staleWhileRevalidate: 0,
+    // cache-control no-cache
+    noStore: true,
+  });
+
   return (
     <Layout
       hero={

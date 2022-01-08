@@ -15,7 +15,7 @@ const Index = ({response}) => {
     // staleWhileRevalidate: 23 * 60 * 60,
     staleWhileRevalidate: 0,
     // cache-control no-cache
-    cacheControl: 'No-Cache',
+    noStore: true,
   });
 
   return (

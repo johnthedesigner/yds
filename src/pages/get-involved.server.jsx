@@ -8,7 +8,18 @@ import {
   CompactTextWrapper,
 } from '../components/CompactText.server';
 
-const GetInvolved = () => {
+const GetInvolved = ({response}) => {
+  response.cache({
+    // Cache the page for one hour.
+    // maxAge: 60 * 60,
+    maxAge: 0,
+    // Serve the stale page for up to 23 hours while getting a fresh response in the background.
+    // staleWhileRevalidate: 23 * 60 * 60,
+    staleWhileRevalidate: 0,
+    // cache-control no-cache
+    noStore: true,
+  });
+
   return (
     <Layout
       hero={<Hero title="Get Involved" image="/garden.jpg" />}
