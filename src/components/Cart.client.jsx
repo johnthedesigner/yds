@@ -205,7 +205,7 @@ function CartFooter() {
             </span>
           </div>
         </div>
-        <CartShopPayButton className="flex my-4 justify-center w-full bg-[#5a31f4] py-2 rounded-md" />
+        {/* <CartShopPayButton className="flex my-4 justify-center w-full bg-[#5a31f4] py-2 rounded-md" /> */}
         <CartCheckoutButton className={BUTTON_PRIMARY_CLASSES}>
           Checkout
         </CartCheckoutButton>
