@@ -14,7 +14,7 @@ async function createServer() {
 
   app.use(require('compression')());
   app.use(
-    require('serve-static')(resolve('dist/client'), {
+    require('serve-static')(resolve('/dist/client'), {
       index: false,
     }),
   );
@@ -31,7 +31,7 @@ async function createServer() {
   return {app};
 }
 
-createServer((root = resolve('dist'))).then(({app}) => {
+createServer().then(({app}) => {
   const port = process.env.PORT || 8080;
   app.listen(port, () => {
     console.log(`Hydrogen running at http://localhost:${port}`);
