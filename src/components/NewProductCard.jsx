@@ -13,7 +13,7 @@ import Gallery from './Gallery.client';
 import TagDescriptor from './TagDescriptor';
 import HybridizerDescriptor from './HybridizerDescriptor';
 
-const ProductCard = ({product}) => {
+const ProductCard = ({product, linkCard = true, showDetails = true}) => {
   let initialVariant = flattenConnection(product.variants)[0];
 
   const Price = ({amount, currencyNarrowSymbol}) => {
@@ -40,7 +40,7 @@ const ProductCard = ({product}) => {
       <div className="product-grid__image">
         <Link
           className="product-grid__image-link"
-          to={`/shop/products/${product.handle}`}
+          to={linkCard ? `/shop/products/${product.handle}` : null}
         >
           <Gallery />
         </Link>
@@ -55,31 +55,33 @@ const ProductCard = ({product}) => {
           <CountryFlag product={product} />
         </div>
       </div>
-      <div className="product-grid__product-info">
-        <div>
-          <div className="product-grid__title-row">
-            <Link
-              className="product-grid__title-link"
-              to={`/shop/product/${product.handle}`}
-            >
-              <Product.Title as="h1" className="product-grid__title" />
-            </Link>
-            <Product.SelectedVariant.Price
-              className="product-grid__price"
-              as="p"
-            >
-              <Price />
-            </Product.SelectedVariant.Price>
+      {showDetails && (
+        <div className="product-grid__product-info">
+          <div>
+            <div className="product-grid__title-row">
+              <Link
+                className="product-grid__title-link"
+                to={linkCard ? `/shop/products/${product.handle}` : null}
+              >
+                <Product.Title as="h1" className="product-grid__title" />
+              </Link>
+              <Product.SelectedVariant.Price
+                className="product-grid__price"
+                as="p"
+              >
+                <Price />
+              </Product.SelectedVariant.Price>
+            </div>
+            <HybridizerDescriptor
+              hybridizer={product.hybridizer}
+              introduction_year={product.introduction_year}
+            />
+            <TagDescriptor product={product} tag="form" label="Form" />
+            <TagDescriptor product={product} tag="size" label="Size" />
+            <TagDescriptor product={product} tag="color" label="Color" />
           </div>
-          <HybridizerDescriptor
-            hybridizer={product.hybridizer}
-            introduction_year={product.introduction_year}
-          />
-          <TagDescriptor product={product} tag="form" label="Form" />
-          <TagDescriptor product={product} tag="size" label="Size" />
-          <TagDescriptor product={product} tag="color" label="Color" />
         </div>
-      </div>
+      )}
     </Product>
   );
 };

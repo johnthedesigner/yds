@@ -105,11 +105,17 @@ a {
   background: #fffbf1;
   border: #fffbf1 solid 0.5rem;
   padding: 0.5rem 1rem;
+  color: rgb(61, 69, 73);
   font-family: 'Newsreader', serif;
   font-size: 1.25rem;
+  font-weight: 300;
   text-decoration: none;
   transition: all linear 0.15s;
   box-shadow: 0 0.125rem 0.25rem rgba(80, 111, 152, 0.4);
+}
+
+a.button {
+  color: rgb(61, 69, 73);
 }
 
 .button:hover {
@@ -218,7 +224,7 @@ button[type='submit'] {
   box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.2);
   box-sizing: margin-box;
   overflow: auto;
-  padding: 2rem 0;
+  padding: 0;
 }
 
 @media screen and (max-width: 800px) {
@@ -300,7 +306,7 @@ button[type='submit'].donation-form__submit-button {
 .header-spacer {
   position: relative;
   width: 100vw;
-  height: 7rem;
+  height: 8rem;
 }
 
 .logo-link--mobile {
@@ -719,6 +725,40 @@ button[type='submit'].donation-form__submit-button {
   border-top: #ddd solid 1px;
 }
 
+/* Shop Index */
+.shop-index__header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-image: url('/dahlia-garden.jpg');
+  background-position: center center;
+  background-size: cover;
+  height: 60vh;
+  color: white;
+}
+.shop-index__header:before {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.shop-index__welcome-text {
+  margin: 2rem;
+  position: relative;
+  max-width: 500px;
+}
+
+.shop-index__button-row {
+  margin: 2rem 0;
+}
+
 /* Product Listing */
 .product-listing {
   display: flex;
@@ -926,4 +966,14 @@ button[type='submit'].donation-form__submit-button {
 .gallery__image {
   width: 100%;
   height: auto;
+}
+
+/* Login Button */
+.log-in-button {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.125rem;
+  background: #506f98;
+  color: white;
+  font-size: 0.75rem;
 }

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, {has} from 'lodash';
 import {
   MediaFileFragment,
   ProductProviderFragment,
@@ -7,7 +7,7 @@ import {
 } from '@shopify/hydrogen';
 import gql from 'graphql-tag';
 import {useParams} from 'react-router-dom';
-import {useAuth0} from '@auth0/auth0-react';
+import {Link} from 'react-router-dom';
 
 import Layout from '../../components/Layout.server';
 import NotFound from '../../components/NotFound.client';
@@ -16,6 +16,17 @@ import ProductFilters from '../../components/ProductFilters.client';
 import ProductCard from '../../components/ProductCard';
 import NewProductCard from '../../components/NewProductCard';
 import LoadMoreProducts from '../../components/LoadMoreProducts.client';
+import ShopIndexBody from '../../components/ShopIndexBody.client';
+import {
+  WithEarlyAccess,
+  WithRegularAccess,
+  WithoutAccess,
+  ShowBefore,
+  ShowAfter,
+} from '../../components/AccessControl.client';
+import LoginButton from '../../components/LoginButton..client';
+
+const LaunchDateTime = '2022-01-07T21:11:00-05:00';
 
 const productTypesMap = {
   'gift-cards': 'Gift Cards',
@@ -26,8 +37,6 @@ const productTypesMap = {
 const ShopIndex = ({selectedOptions, productCount = 96}) => {
   const productDisplayIncrement = 24;
   const {product_type} = useParams();
-
-  const {isAuthenticated, isLoading} = useAuth0();
 
   // Fetch products from shopify
   const {data} = useShopQuery({
@@ -50,18 +59,58 @@ const ShopIndex = ({selectedOptions, productCount = 96}) => {
   return (
     <Layout>
       <div className="shop-index">
-        <h1>Y.D.S. Shop</h1>
-        <h2>Tubers</h2>
-        <p>
-          {isAuthenticated && !isLoading
-            ? 'User is logged in'
-            : 'User is not logged in'}
-        </p>
+        <div className="shop-index__header">
+          <div className="shop-index__welcome-text">
+            <h1>Y.D.S. Shop</h1>
+            <WithoutAccess>
+              <p>Y.D.S. Tuber sales are open to Y.D.S. Members only</p>
+              <div className="shop-index__button-row">
+                <LoginButton />{' '}
+                <Link to="/membership" className="button">
+                  Y.D.S. Membership
+                </Link>
+              </div>
+            </WithoutAccess>
+            <WithRegularAccess>
+              <p>
+                The tuber sale opens for all Y.D.S. members on January 15th,
+                2022 at 12:00pm
+              </p>
+              <ShowAfter threshold={LaunchDateTime}>
+                <p>The members-only tuber sale has started!</p>
+                <div className="shop-index__button-row">
+                  <Link className="button" to="/shop/products">
+                    Browse All Products
+                  </Link>
+                </div>
+              </ShowAfter>
+            </WithRegularAccess>
+            <WithEarlyAccess>
+              <p>
+                The tuber sale opens for Y.D.S. members with early access on
+                January 8th, 2022 at 12:00 pm and for all Y.D.S. members on
+                January 15th, 2022 at 12:00pm
+              </p>
+              <ShowAfter threshold={LaunchDateTime}>
+                <p>The early access tuber sale has started!</p>
+                <div className="shop-index__button-row">
+                  <Link className="button" to="/shop/products">
+                    Browse All Products
+                  </Link>
+                </div>
+              </ShowAfter>
+            </WithEarlyAccess>
+          </div>
+        </div>
         <div className="product-grid">
           {sortedProducts.map((product) => {
             return (
               <div key={product.id} className="product-grid__item">
-                <NewProductCard product={product} />
+                <NewProductCard
+                  product={product}
+                  linkCard={false}
+                  showDetails={false}
+                />
               </div>
             );
           })}

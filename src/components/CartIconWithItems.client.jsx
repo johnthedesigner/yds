@@ -4,18 +4,24 @@ import CartIcon from './CartIcon';
 
 export default function CartIconWithItems() {
   const itemCount = useCartLinesTotalQuantity();
-  const quantityStyle = {
-    display: itemCount === 0 ? 'none' : 'block',
+
+  const QuantityBadge = ({itemCount}) => {
+    if (itemCount > 0) {
+      return (
+        <div className="cart-icon__quantity" aria-hidden>
+          {itemCount}
+        </div>
+      );
+    } else {
+      return null;
+    }
   };
 
   return (
     <>
       <div className="cart-icon">
         <CartIcon />
-
-        <div className="cart-icon__quantity" style={quantityStyle} aria-hidden>
-          {itemCount > 0 ? itemCount : null}
-        </div>
+        <QuantityBadge itemCount={itemCount} />
       </div>
       <span className="sr-only">Cart, {itemCount} items</span>
     </>
