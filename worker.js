@@ -12,9 +12,9 @@ addEventListener('fetch', (event) => {
         // cache: caches.default,
         cache: {
           // Cache the data for one second.
-          maxAge: 1,
+          maxAge: 0,
           // Serve stale data for up to nine seconds while getting a fresh response in the background.
-          staleWhileRevalidate: 9,
+          staleWhileRevalidate: 0,
         },
         context: event,
       }),
