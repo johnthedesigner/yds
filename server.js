@@ -14,7 +14,7 @@ async function createServer() {
 
   app.use(require('compression')());
   app.use(
-    require('serve-static')(resolve('/dist/client'), {
+    require('serve-static')(resolve('dist/client'), {
       index: false,
     }),
   );
