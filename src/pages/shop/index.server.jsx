@@ -113,7 +113,7 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
             </WithEarlyAccess>
           </div>
         </div>
-        <div className="product-grid">
+        {/* <div className="product-grid">
           {sortedProducts.map((product) => {
             return (
               <div key={product.id} className="product-grid__item">
@@ -125,7 +125,7 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </div>
     </Layout>
   );
