@@ -25,8 +25,6 @@ const UserMenuBar = () => {
 };
 
 export default function Header({storeName}) {
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
-
   return (
     <>
       <header role="banner" className="header">
@@ -42,10 +40,7 @@ export default function Header({storeName}) {
           <Navigation storeName={storeName} />
         </div>
         <div className="navbar--mobile">
-          <MobileNavigation
-            isOpen={isMobileNavOpen}
-            setIsOpen={setIsMobileNavOpen}
-          />
+          <MobileNavigation />
         </div>
       </header>
       <div className="header-spacer" />

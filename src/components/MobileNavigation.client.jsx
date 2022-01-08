@@ -1,20 +1,18 @@
 import _ from 'lodash';
-import {Fragment} from 'react';
 import {Link} from '@shopify/hydrogen/client';
-import {FocusTrap} from '@headlessui/react';
+import {useState} from 'react';
+import {useLocation} from 'react-router-dom';
 
-import OpenIcon from './OpenIcon';
 import pages from '../pages.json';
+import shopifyConfig from '../../shopify.config';
 
 export default function MobileNavigation({isOpen, setIsOpen}) {
-  const OpenFocusTrap = isOpen ? FocusTrap : Fragment;
+  // const OpenFocusTrap = isOpen ? FocusTrap : Fragment;
+  const [menuOpen, setMenuOpen] = useState(false);
+  let {pathname} = useLocation();
+  let {siteDomain} = shopifyConfig;
 
-  let navPages = _.filter(pages, (page) => {
-    return page.inMenu;
-  });
-
-  const linkClass = (currentPath, linkedPage) => {
-    let {pathname} = useLocation();
+  const linkClass = (linkedPage) => {
     let isHome = pathname === '/' && linkedPage.path === '/';
     if (linkedPage.path === '/') {
       return isHome ? 'navbar__link navbar__link--active' : 'navbar__link';
@@ -26,84 +24,39 @@ export default function MobileNavigation({isOpen, setIsOpen}) {
     }
   };
 
-  const collections = [
-    {id: 1, handle: 'one', title: 'One'},
-    {id: 2, handle: 'two', title: 'Two'},
-    {id: 3, handle: 'three', title: 'Three'},
-  ];
+  let Links = () => {
+    return _.map(pages, (page) => {
+      if (page.inMenu) {
+        return (
+          <li className="navbar__item" key={page.path}>
+            <Link to={page.path} className={linkClass(page)} title={page.title}>
+              {page.label}
+            </Link>
+          </li>
+        );
+      } else {
+        return null;
+      }
+    });
+  };
 
   return (
-    <div className="lg:hidden">
-      <OpenFocusTrap>
-        <button
-          type="button"
-          className="flex justify-center items-center w-7 h-full"
-          onClick={() => setIsOpen((previousIsOpen) => !previousIsOpen)}
-        >
-          {isOpen ? <CloseIcon /> : <OpenIcon />}
-        </button>
-        {isOpen ? (
-          <div className="absolute -left-0 top-20 w-full h-screen z-10 bg-gray-50 px-4 md:px-12 py-7">
-            <ul>
-              {navPages.map((page) => (
-                <li
-                  className="border-b border-gray-200"
-                  key={`${page.slug}-${index}`}
-                >
-                  <Link
-                    className="group py-5 text-gray-700 flex items-center justify-between"
-                    to={linkClass('props.currentPath', page)}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {page.label}
-                    <ArrowRightIcon className="hidden group-hover:block" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
-      </OpenFocusTrap>
-    </div>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 18 18"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M1 17L17 1M1 1L17 17"
-        stroke="black"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ArrowRightIcon({className}) {
-  return (
-    <svg
-      className={className}
-      width="7"
-      height="12"
-      viewBox="0 0 7 12"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M0.999762 12C0.743762 12 0.487762 11.902 0.292762 11.707C-0.0982383 11.316 -0.0982383 10.684 0.292762 10.293L4.58576 6.00001L0.292762 1.70701C-0.0982383 1.31601 -0.0982383 0.684006 0.292762 0.293006C0.683762 -0.0979941 1.31576 -0.0979941 1.70676 0.293006L6.70676 5.29301C7.09776 5.68401 7.09776 6.31601 6.70676 6.70701L1.70676 11.707C1.51176 11.902 1.25576 12 0.999762 12Z"
-        fill="black"
-      />
-    </svg>
+    <nav className="navbar--mobile">
+      <div className="menu__button">
+        <img src="/hamburger.svg" onClick={() => setMenuOpen(!menuOpen)} />
+      </div>
+      <div
+        className="navbar__list-container--mobile"
+        style={{
+          pointerEvents: menuOpen ? 'all' : 'none',
+          opacity: menuOpen ? 1 : 0,
+        }}
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        <ul className="navbar__list--mobile">
+          <Links />
+        </ul>
+      </div>
+    </nav>
   );
 }

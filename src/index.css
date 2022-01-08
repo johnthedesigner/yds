@@ -341,9 +341,10 @@ button[type='submit'].donation-form__submit-button {
   display: block;
   position: absolute;
   z-index: 100;
-  top: 1rem;
-  right: 1rem;
+  top: 0.75rem;
+  left: 1rem;
   cursor: pointer;
+  z-index: 1000;
 }
 
 .navbar--desktop {
