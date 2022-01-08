@@ -1,9 +1,6 @@
-import {useShop, Helmet} from '@shopify/hydrogen/client';
+import {Helmet} from '@shopify/hydrogen/client';
 
 export default function Seo({shopName, product}) {
-  const {locale} = useShop();
-  const lang = locale.split(/[-_]/)[0];
-
   if (product) {
     const variant = product.variants.edges[0].node;
     const price = variant.priceV2;
@@ -66,7 +63,7 @@ export default function Seo({shopName, product}) {
    */
   return (
     <Helmet defaultTitle={shopName} titleTemplate={`%s - ${shopName}`}>
-      <html lang={lang} />
+      <html lang="en" />
       <meta property="og:site_name" content={shopName} />
     </Helmet>
   );
