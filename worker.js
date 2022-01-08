@@ -11,11 +11,13 @@ addEventListener('fetch', (event) => {
         indexTemplate: indexHtml,
         // cache: caches.default,
         cache: {
+          cacheControl: 'No-Cache',
           // Cache the data for one second.
           maxAge: 0,
           // Serve stale data for up to nine seconds while getting a fresh response in the background.
           staleWhileRevalidate: 0,
         },
+        cacheControl: 'No-Cache',
         context: event,
       }),
     );
