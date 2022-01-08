@@ -14,6 +14,7 @@ import Layout from '../../../components/Layout.server';
 import NotFound from '../../../components/NotFound.client';
 import catalogData from '../../../catalogData.json';
 import ProductFilters from '../../../components/ProductFilters.client';
+import ProductFiltersMobile from '../../../components/ProductFiltersMobile.client';
 import AuthRequired from '../../../components/AuthRequired.client';
 import NewProductCard from '../../../components/NewProductCard';
 import ProductSort from '../../../components/ProductSort.client';
@@ -118,6 +119,10 @@ const ShopIndex = ({
             </div>
           </AuthRequired>
         </div>
+        <ProductFiltersMobile
+          options={catalogData.category[product_type]}
+          selected={selectedOptions}
+        />
       </div>
     </Layout>
   );

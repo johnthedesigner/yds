@@ -753,7 +753,8 @@ button[type='submit'].donation-form__submit-button {
 .shop-index__welcome-text {
   margin: 2rem;
   position: relative;
-  max-width: 500px;
+  width: 500px;
+  max-width: 90vw;
 }
 
 .shop-index__button-row {
@@ -841,6 +842,30 @@ button[type='submit'].donation-form__submit-button {
   border-radius: 50%;
 }
 
+.product-listing__mobile-filter {
+  display: none;
+}
+
+@media screen and (max-width: 1000px) {
+  .product-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .product-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .product-listing__sidebar {
+    display: none;
+  }
+}
+
 /* Product Sort */
 .product-sort {
   display: flex;
@@ -887,6 +912,33 @@ button[type='submit'].donation-form__submit-button {
   padding: 4rem 0;
 }
 
+.product-filters--mobile {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.2);
+  padding: 0 2rem;
+  z-index: 100000;
+  border-top: #999999 solid 1px;
+}
+
+.product-filters__mobile-body {
+  overflow-y: auto;
+  height: 100%;
+  transition: height ease-in-out 0.2s;
+}
+
+.product-filters__mobile-header {
+  display: flex;
+  padding: 1rem 0;
+}
+
+.product-filters__mobile-title {
+  flex: 1;
+}
+
 /* Product Detail */
 .product-detail {
   display: flex;
@@ -894,6 +946,12 @@ button[type='submit'].donation-form__submit-button {
   width: 90%;
   max-width: 80rem;
   margin: 3rem auto;
+}
+
+@media screen and (max-width: 700px) {
+  .product-detail {
+    flex-direction: column;
+  }
 }
 
 .product-detail__breadcrumb {
