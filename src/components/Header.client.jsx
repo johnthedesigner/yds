@@ -41,6 +41,12 @@ export default function Header({storeName}) {
         <div className="navbar--desktop">
           <Navigation storeName={storeName} />
         </div>
+        <div className="navbar--mobile">
+          <MobileNavigation
+            isOpen={isMobileNavOpen}
+            setIsOpen={setIsMobileNavOpen}
+          />
+        </div>
       </header>
       <div className="header-spacer" />
     </>

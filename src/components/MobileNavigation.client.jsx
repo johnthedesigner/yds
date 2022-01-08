@@ -1,12 +1,36 @@
+import _ from 'lodash';
 import {Fragment} from 'react';
 import {Link} from '@shopify/hydrogen/client';
 import {FocusTrap} from '@headlessui/react';
 
-import MobileCurrencySelector from './MobileCurrencySelector.client';
 import OpenIcon from './OpenIcon';
+import pages from '../pages.json';
 
-export default function MobileNavigation({collections, isOpen, setIsOpen}) {
+export default function MobileNavigation({isOpen, setIsOpen}) {
   const OpenFocusTrap = isOpen ? FocusTrap : Fragment;
+
+  let navPages = _.filter(pages, (page) => {
+    return page.inMenu;
+  });
+
+  const linkClass = (currentPath, linkedPage) => {
+    let {pathname} = useLocation();
+    let isHome = pathname === '/' && linkedPage.path === '/';
+    if (linkedPage.path === '/') {
+      return isHome ? 'navbar__link navbar__link--active' : 'navbar__link';
+    } else {
+      return linkedPage.path === pathname ||
+        _.startsWith(pathname, linkedPage.path)
+        ? 'navbar__link navbar__link--active'
+        : 'navbar__link';
+    }
+  };
+
+  const collections = [
+    {id: 1, handle: 'one', title: 'One'},
+    {id: 2, handle: 'two', title: 'Two'},
+    {id: 3, handle: 'three', title: 'Three'},
+  ];
 
   return (
     <div className="lg:hidden">
@@ -21,20 +45,22 @@ export default function MobileNavigation({collections, isOpen, setIsOpen}) {
         {isOpen ? (
           <div className="absolute -left-0 top-20 w-full h-screen z-10 bg-gray-50 px-4 md:px-12 py-7">
             <ul>
-              {collections.map((collection) => (
-                <li className="border-b border-gray-200" key={collection.id}>
+              {navPages.map((page) => (
+                <li
+                  className="border-b border-gray-200"
+                  key={`${page.slug}-${index}`}
+                >
                   <Link
                     className="group py-5 text-gray-700 flex items-center justify-between"
-                    to={`/collections/${collection.handle}`}
+                    to={linkClass('props.currentPath', page)}
                     onClick={() => setIsOpen(false)}
                   >
-                    {collection.title}
+                    {page.label}
                     <ArrowRightIcon className="hidden group-hover:block" />
                   </Link>
                 </li>
               ))}
             </ul>
-            <MobileCurrencySelector />
           </div>
         ) : null}
       </OpenFocusTrap>
