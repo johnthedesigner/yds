@@ -962,6 +962,10 @@ button[type='submit'].donation-form__submit-button {
   flex: 1;
 }
 
+.descriptor__value {
+  text-align: right;
+}
+
 /* Gallery */
 .gallery__image {
   width: 100%;

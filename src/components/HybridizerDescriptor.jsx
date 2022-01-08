@@ -5,7 +5,7 @@ const HybridizerDescriptor = ({hybridizer, introduction_year}) => {
     return (
       <Descriptor
         label="Hybridizer"
-        value={`${hybridizer.value}(${introduction_year.value})`}
+        value={`${hybridizer.value} (${introduction_year.value})`}
       />
     );
   } else if (hybridizer) {
