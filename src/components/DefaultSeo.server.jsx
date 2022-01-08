@@ -10,7 +10,7 @@ export default function SeoServer() {
     },
   } = useShopQuery({
     query: QUERY,
-    cache: {maxAge: 60 * 60 * 12, staleWhileRevalidate: 60 * 60 * 12},
+    // cache: {maxAge: 60 * 60 * 12, staleWhileRevalidate: 60 * 60 * 12},
   });
 
   return <Seo shopName={shopName} />;
