@@ -866,6 +866,12 @@ button[type='submit'].donation-form__submit-button {
   }
 }
 
+@media screen and (min-width: 700px) {
+  .product-filters--mobile {
+    display: none;
+  }
+}
+
 /* Product Sort */
 .product-sort {
   display: flex;
