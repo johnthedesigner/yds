@@ -9,7 +9,6 @@ const ProductSort = ({sortOption}) => {
           className="product-sort__select"
           name="sort_key"
           onChange={(e) => {
-            console.log(e.target.value);
             setServerState('sortOption', e.target.value);
           }}
           disabled={pending}

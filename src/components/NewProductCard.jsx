@@ -12,6 +12,11 @@ import {Link} from 'react-router-dom';
 import Gallery from './Gallery.client';
 import TagDescriptor from './TagDescriptor';
 import HybridizerDescriptor from './HybridizerDescriptor';
+import {
+  WithAnyAccess,
+  WithEarlyAccess,
+  WithoutAccess,
+} from './AccessControl.client';
 
 const ProductCard = ({product, linkCard = true, showDetails = true}) => {
   let initialVariant = flattenConnection(product.variants)[0];
@@ -22,13 +27,13 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
 
   const CountryFlag = ({product}) => {
     if (product.country_of_origin) {
-      //   let countryString = product.country_of_origin.value.toLowerCase();
-      //   let countryCode = 'us';
-      //    Find a way to import with iso country codes or convert
-      //   let countryCode = locale.where('location', countryString);
-      //   console.log(locale, countryCode);
+      let countryString = product.country_of_origin.value.toLowerCase();
       return (
-        <img className="product-grid__image-flag" src={`/flags/1x1/us.svg`} />
+        <img
+          className="product-grid__image-flag"
+          src={`/flags/1x1/${countryString}.svg`}
+          title={`Country of Origin: ${product.country_of_origin.value}`}
+        />
       );
     } else {
       return null;
@@ -45,13 +50,15 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
           <Gallery />
         </Link>
         <div className="product-grid__image-overlay">
-          <p className="product-grid__inventory">
-            {product.totalInventory < 5 && (
-              <small>
-                <em>{product.totalInventory} left in stock.</em>
-              </small>
-            )}
-          </p>
+          <WithEarlyAccess>
+            <p className="product-grid__inventory">
+              {product.totalInventory < 5 && (
+                <small>
+                  <em>{product.totalInventory} left in stock.</em>
+                </small>
+              )}
+            </p>
+          </WithEarlyAccess>
           <CountryFlag product={product} />
         </div>
       </div>
@@ -65,12 +72,21 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
               >
                 <Product.Title as="h1" className="product-grid__title" />
               </Link>
-              <Product.SelectedVariant.Price
-                className="product-grid__price"
-                as="p"
-              >
-                <Price />
-              </Product.SelectedVariant.Price>
+              <WithAnyAccess>
+                <Product.SelectedVariant.Price
+                  className="product-grid__price"
+                  as="p"
+                >
+                  <Price />
+                </Product.SelectedVariant.Price>
+              </WithAnyAccess>
+              <WithoutAccess>
+                <p>
+                  <small>
+                    <em>Log in for pricing</em>
+                  </small>
+                </p>
+              </WithoutAccess>
             </div>
             <HybridizerDescriptor
               hybridizer={product.hybridizer}
