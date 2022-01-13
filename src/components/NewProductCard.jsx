@@ -17,6 +17,7 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
   let initialVariant = flattenConnection(product.variants)[0];
 
   const Price = ({amount, currencyNarrowSymbol}) => {
+    console.log(amount, currencyNarrowSymbol);
     return `${currencyNarrowSymbol}${amount}`;
   };
 

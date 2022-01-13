@@ -738,6 +738,7 @@ button[type='submit'].donation-form__submit-button {
   background-position: center center;
   background-size: cover;
   height: 60vh;
+  min-height: max-content;
   color: white;
 }
 .shop-index__header:before {
