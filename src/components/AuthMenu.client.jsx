@@ -35,7 +35,7 @@ const AuthMenu = () => {
     return (
       <button
         className="auth-menu__log-in-button"
-        onClick={() => loginWithRedirect()}
+        onClick={() => loginWithRedirect({redirectUri: `${siteDomain}/shop`})}
       >
         Member Login
       </button>
@@ -74,7 +74,3 @@ const AuthMenu = () => {
 };
 
 export default AuthMenu;
-
-// export default withAuthenticationRequired(AuthMenu, {
-//   onRedirecting: () => <Loading />,
-// });

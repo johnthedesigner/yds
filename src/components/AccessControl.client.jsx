@@ -30,11 +30,17 @@ export const WithRegularAccess = ({children}) => {
   }
 };
 
+export const WithAnyAccess = ({children}) => {
+  const {isAuthenticated, pending} = useAuth0();
+  if (isAuthenticated) {
+    return <>{children}</>;
+  } else {
+    return null;
+  }
+};
+
 export const WithoutAccess = ({children}) => {
   const {pending, isAuthenticated} = useAuth0();
-  if (pending) {
-    return <p>Loading...</p>;
-  }
   if (!pending && !isAuthenticated) {
     return <>{children}</>;
   } else {
@@ -46,7 +52,6 @@ export const ShowBefore = ({threshold, children}) => {
   let thresholdDate = DateTime.fromISO(threshold);
   let now = DateTime.now();
   let countdown = now.until(thresholdDate).length('seconds');
-  console.log(countdown, countdown >= 0);
   if (countdown >= 0) {
     return <>{children}</>;
   } else {
@@ -58,7 +63,6 @@ export const ShowAfter = ({threshold, children}) => {
   let thresholdDate = DateTime.fromISO(threshold);
   let now = DateTime.now();
   let countdown = now.until(thresholdDate).length('seconds');
-  console.log(countdown, countdown >= 0);
   if (countdown >= 0) {
     return null;
   } else {
