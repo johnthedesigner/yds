@@ -8,6 +8,7 @@ import {
 import gql from 'graphql-tag';
 import {useParams} from 'react-router-dom';
 import {Link} from 'react-router-dom';
+import {useAuth0} from '@auth0/auth0-react';
 
 import Layout from '../../components/Layout.server';
 import NotFound from '../../components/NotFound.client';
@@ -34,7 +35,12 @@ const productTypesMap = {
   tubers: 'Tubers',
 };
 
-const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
+const ShopIndex = ({
+  response,
+  selectedOptions,
+  productCount = 96,
+  authStatus = {isAuthenticated: false, isLoading: false, user: null},
+}) => {
   response.cache({
     // Cache the page for one hour.
     // maxAge: 60 * 60,
@@ -45,6 +51,10 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
     // cache-control no-cache
     noStore: true,
   });
+
+  // const {loginWithRedirect, logout, user, isAuthenticated, isLoading} =
+  //   useAuth0();
+  let {isAuthenticated, isLoading, user} = authStatus;
 
   const productDisplayIncrement = 24;
   const {product_type} = useParams();
@@ -72,6 +82,12 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
       <div className="shop-index">
         <div className="shop-index__header">
           <div className="shop-index__welcome-text">
+            {isLoading ? <h1>LOADING</h1> : <p>not loading</p>}
+            {isAuthenticated ? (
+              <h1>AUTHENTICATED</h1>
+            ) : (
+              <p>not authenticated</p>
+            )}
             <h1>Y.D.S. Shop</h1>
             <WithoutAccess>
               <p>Y.D.S. Tuber sales are open to Y.D.S. Members only</p>
@@ -111,6 +127,9 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
                 </div>
               </ShowAfter>
             </WithEarlyAccess>
+            <Link className="button" to="/shop/products">
+              Browse All Products
+            </Link>
           </div>
         </div>
         {/* <div className="product-grid">

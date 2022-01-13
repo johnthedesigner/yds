@@ -14,11 +14,7 @@ const UserMenuBar = () => {
         <AuthMenu />
       </div>
       <div className="user-menu-bar__item">
-        <CartToggle
-          handleClick={() => {
-            if (isMobileNavOpen) setIsMobileNavOpen(false);
-          }}
-        />
+        <CartToggle />
       </div>
     </div>
   );

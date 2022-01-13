@@ -48,7 +48,7 @@ function CartHeader() {
         <span className="sr-only">Close cart</span>
       </button>
       <span className="text-xs text-gray-500">
-        Free shipping on orders over $50
+        {/* Shoping Cart Promotional Text */}
       </span>
       <CartIconWithItems />
     </header>

@@ -4,13 +4,22 @@ import {useShopQuery, ProductProviderFragment} from '@shopify/hydrogen';
 import {useParams} from 'react-router-dom';
 import gql from 'graphql-tag';
 import {Link} from 'react-router-dom';
+import {useAuth0} from '@auth0/auth0-react';
 
 import NotFound from '../../../components/NotFound.client';
 import Layout from '../../../components/Layout.server';
 import Gallery from '../../../components/Gallery.client';
-import AuthRequired from '../../../components/AuthRequired.client';
+// import AuthRequired from '../../../components/AuthRequired.client';
 import TagDescriptor from '../../../components/TagDescriptor';
 import HybridizerDescriptor from '../../../components/HybridizerDescriptor';
+import {
+  ShowAfter,
+  ShowBefore,
+  WithEarlyAccess,
+  WithAnyAccess,
+  WithoutAccess,
+} from '../../../components/AccessControl.client';
+import LoginButton from '../../../components/LoginButton..client';
 
 const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
   response.cache({
@@ -23,6 +32,10 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
     // cache-control no-cache
     noStore: true,
   });
+
+  const earlyAccessStart = '2022-01-08T15:00:00-05:00';
+  const allAccessStart = '2022-01-08T15:00:00-05:00';
+  const allAccessEnd = '2022-01-08T15:00:00-05:00';
 
   const {handle} = useParams();
 
@@ -38,7 +51,7 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
     return <NotFound />;
   }
 
-  const {product} = data;
+  const {product} = data ? data : {};
   const initialVariant = flattenConnection(product.variants)[0];
 
   function AddToCartMarkup() {
@@ -65,47 +78,66 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
 
   return (
     <Layout>
-      <AuthRequired>
-        <Product product={data.product} initialVariantId={initialVariant.id}>
-          <div className="product-detail__breadcrumb">
-            <Link to="/shop">Shop</Link> /{' '}
-            <Link to="/shop/products">All Products</Link> /{' '}
-            <Product.Title as="b" className="product-detail__title" />
+      {/* <AuthRequired> */}
+      <Product product={data.product} initialVariantId={initialVariant.id}>
+        <div className="product-detail__breadcrumb">
+          <Link to="/shop">Shop</Link> /{' '}
+          <Link to="/shop/products">All Products</Link> /{' '}
+          <Product.Title as="b" className="product-detail__title" />
+        </div>
+        <div className="product-detail">
+          <div className="product-detail__gallery-container">
+            <Gallery />
           </div>
-          <div className="product-detail">
-            <div className="product-detail__gallery-container">
-              <Gallery />
-            </div>
-            <div className="product-detail__product-info">
-              <div>
-                <Product.Title as="h1" className="product-detail__title" />
-                <Product.SelectedVariant.Price
-                  className="product-detail__price"
-                  as="p"
-                />
-                <p>
-                  {product.totalInventory < 5 && (
-                    <small>
-                      <em>{data.product.totalInventory} left in stock.</em>
-                    </small>
-                  )}
-                </p>
-              </div>
-              <ConditionalDescription />
-              <HybridizerDescriptor
-                hybridizer={product.hybridizer}
-                introduction_year={product.introduction_year}
+          <div className="product-detail__product-info">
+            <div>
+              <Product.Title as="h1" className="product-detail__title" />
+              <Product.SelectedVariant.Price
+                className="product-detail__price"
+                as="p"
               />
-              <TagDescriptor product={product} tag="form" label="Form" />
-              <TagDescriptor product={product} tag="size" label="Size" />
-              <TagDescriptor product={product} tag="color" label="Color" />
-              <div>
-                <AddToCartMarkup />
-              </div>
+              <p>
+                {product.totalInventory < 5 && (
+                  <small>
+                    <em>{data.product.totalInventory} left in stock.</em>
+                  </small>
+                )}
+              </p>
+            </div>
+            <ConditionalDescription />
+            <HybridizerDescriptor
+              hybridizer={product.hybridizer}
+              introduction_year={product.introduction_year}
+            />
+            <TagDescriptor product={product} tag="form" label="Form" />
+            <TagDescriptor product={product} tag="size" label="Size" />
+            <TagDescriptor product={product} tag="color" label="Color" />
+            <div>
+              <ShowAfter threshold={earlyAccessStart}>
+                <ShowBefore threshold={allAccessStart}>
+                  <WithEarlyAccess>
+                    <AddToCartMarkup />
+                  </WithEarlyAccess>
+                </ShowBefore>
+              </ShowAfter>
+              <ShowAfter threshold={allAccessStart}>
+                <ShowBefore threshold={allAccessEnd}>
+                  <WithAnyAccess>
+                    <AddToCartMarkup />
+                  </WithAnyAccess>
+                </ShowBefore>
+              </ShowAfter>
+              <WithoutAccess>
+                <p style={{marginTop: '2rem'}}>
+                  <em>Sales are open to members only</em>
+                </p>
+                <LoginButton className="button" />
+              </WithoutAccess>
             </div>
           </div>
-        </Product>
-      </AuthRequired>
+        </div>
+      </Product>
+      {/* </AuthRequired> */}
     </Layout>
   );
 };
