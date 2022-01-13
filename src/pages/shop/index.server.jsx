@@ -84,10 +84,10 @@ const ShopIndex = ({
         <div className="shop-index__header">
           <div className="shop-index__welcome-text">
             <h1>Y.D.S. Shop</h1>
-            <p>Y.D.S. Tuber sales are open to Y.D.S. Members only</p>
+            <p>Y.D.S. Tuber sales are open to Y.D.S. Members only.</p>
             <p>
               The tuber sale opens for all Y.D.S. members on January 15th, 2022
-              at 3:00pm
+              at 3:00pm.
             </p>
             <WithEarlyAccess>
               <p>
