@@ -8,9 +8,17 @@ import {Link} from 'react-router-dom';
 import NotFound from '../../../components/NotFound.client';
 import Layout from '../../../components/Layout.server';
 import Gallery from '../../../components/Gallery.client';
-import AuthRequired from '../../../components/AuthRequired.client';
 import TagDescriptor from '../../../components/TagDescriptor';
 import HybridizerDescriptor from '../../../components/HybridizerDescriptor';
+import {
+  ShowAfter,
+  ShowBefore,
+  WithEarlyAccess,
+  WithAnyAccess,
+  WithoutAccess,
+  WithRegularAccess,
+} from '../../../components/AccessControl.client';
+import LoginButton from '../../../components/LoginButton..client';
 
 const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
   response.cache({
@@ -38,7 +46,7 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
     return <NotFound />;
   }
 
-  const {product} = data;
+  const {product} = data ? data : {};
   const initialVariant = flattenConnection(product.variants)[0];
 
   function AddToCartMarkup() {
@@ -63,49 +71,112 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
     }
   };
 
+  // Figure out what to show, based on auth, role and time window
+  const earlyAccessStart = '2022-01-08T15:00:00-05:00';
+  const allAccessStart = '2022-01-15T15:00:00-05:00';
+  const allAccessEnd = '2022-01-22T15:00:00-05:00';
+
+  // What should happen during the early access sale period
+  const EarlyAccessPeriod = () => {
+    return (
+      <ShowAfter threshold={earlyAccessStart}>
+        <ShowBefore threshold={allAccessStart}>
+          <WithEarlyAccess>
+            <AddToCartMarkup />
+          </WithEarlyAccess>
+          <WithRegularAccess>
+            <p style={{marginTop: '2rem'}}>
+              <em>
+                Sales are closed temporarily. As a member, you will be notified
+                in advance of our next sale.
+              </em>
+            </p>
+          </WithRegularAccess>
+        </ShowBefore>
+      </ShowAfter>
+    );
+  };
+
+  // What should happen during the all-members sale period
+  const AllAccessPeriod = () => {
+    return (
+      <ShowAfter threshold={allAccessStart}>
+        <ShowBefore threshold={allAccessEnd}>
+          <WithAnyAccess>
+            <AddToCartMarkup />
+          </WithAnyAccess>
+        </ShowBefore>
+      </ShowAfter>
+    );
+  };
+
+  // What should happen if there is no active sale
+  const NoAccessPeriod = () => {
+    return (
+      <ShowBefore threshold={earlyAccessStart}>
+        <ShowAfter threshold={allAccessEnd}>
+          <p style={{marginTop: '2rem'}}>
+            <em>
+              Sales are closed temporarily. Members will be notified in advance
+              of our next sale.
+            </em>
+          </p>
+        </ShowAfter>
+      </ShowBefore>
+    );
+  };
+
   return (
     <Layout>
-      <AuthRequired>
-        <Product product={data.product} initialVariantId={initialVariant.id}>
-          <div className="product-detail__breadcrumb">
-            <Link to="/shop">Shop</Link> /{' '}
-            <Link to="/shop/products">All Products</Link> /{' '}
-            <Product.Title as="b" className="product-detail__title" />
+      <Product product={data.product} initialVariantId={initialVariant.id}>
+        <div className="product-detail__breadcrumb">
+          <Link to="/shop">Shop</Link> /{' '}
+          <Link to="/shop/products">All Products</Link> /{' '}
+          <Product.Title as="b" className="product-detail__title" />
+        </div>
+        <div className="product-detail">
+          <div className="product-detail__gallery-container">
+            <Gallery />
           </div>
-          <div className="product-detail">
-            <div className="product-detail__gallery-container">
-              <Gallery />
-            </div>
-            <div className="product-detail__product-info">
-              <div>
-                <Product.Title as="h1" className="product-detail__title" />
-                <Product.SelectedVariant.Price
-                  className="product-detail__price"
-                  as="p"
-                />
-                <p>
-                  {product.totalInventory < 5 && (
-                    <small>
-                      <em>{data.product.totalInventory} left in stock.</em>
-                    </small>
-                  )}
-                </p>
-              </div>
-              <ConditionalDescription />
-              <HybridizerDescriptor
-                hybridizer={product.hybridizer}
-                introduction_year={product.introduction_year}
+          <div className="product-detail__product-info">
+            <div>
+              <Product.Title as="h1" className="product-detail__title" />
+              <Product.SelectedVariant.Price
+                className="product-detail__price"
+                as="p"
               />
-              <TagDescriptor product={product} tag="form" label="Form" />
-              <TagDescriptor product={product} tag="size" label="Size" />
-              <TagDescriptor product={product} tag="color" label="Color" />
-              <div>
-                <AddToCartMarkup />
-              </div>
+              <p>
+                {product.totalInventory < 5 && (
+                  <small>
+                    <em>{data.product.totalInventory} left in stock.</em>
+                  </small>
+                )}
+              </p>
+            </div>
+            <ConditionalDescription />
+            <HybridizerDescriptor
+              hybridizer={product.hybridizer}
+              introduction_year={product.introduction_year}
+            />
+            <TagDescriptor product={product} tag="form" label="Form" />
+            <TagDescriptor product={product} tag="size" label="Size" />
+            <TagDescriptor product={product} tag="color" label="Color" />
+            <div>
+              <EarlyAccessPeriod />
+              <AllAccessPeriod />
+              <NoAccessPeriod />
+              <WithoutAccess>
+                <p style={{marginTop: '2rem'}}>
+                  <em>Sales are open to members only</em>
+                </p>
+                <p style={{marginTop: '1rem'}}>
+                  <LoginButton className="button" />
+                </p>
+              </WithoutAccess>
             </div>
           </div>
-        </Product>
-      </AuthRequired>
+        </div>
+      </Product>
     </Layout>
   );
 };

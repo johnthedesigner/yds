@@ -98,26 +98,22 @@ const ShopIndex = ({
       </div>
       <div className="product-listing">
         <div className="product-listing__sidebar">
-          <AuthRequired>
-            <ProductFilters
-              options={catalogData.category[product_type]}
-              selected={selectedOptions}
-            />
-          </AuthRequired>
+          <ProductFilters
+            options={catalogData.category[product_type]}
+            selected={selectedOptions}
+          />
         </div>
         <div className="product-listing__grid">
           <ProductSort sortOption={sortOption} />
-          <AuthRequired>
-            <div className="product-grid">
-              {sortedProducts.map((product) => {
-                return (
-                  <div key={product.id} className="product-grid__item">
-                    <NewProductCard product={product} />
-                  </div>
-                );
-              })}
-            </div>
-          </AuthRequired>
+          <div className="product-grid">
+            {sortedProducts.map((product) => {
+              return (
+                <div key={product.id} className="product-grid__item">
+                  <NewProductCard product={product} />
+                </div>
+              );
+            })}
+          </div>
         </div>
         <ProductFiltersMobile
           options={catalogData.category[product_type]}

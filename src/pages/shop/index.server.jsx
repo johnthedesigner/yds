@@ -8,6 +8,7 @@ import {
 import gql from 'graphql-tag';
 import {useParams} from 'react-router-dom';
 import {Link} from 'react-router-dom';
+import {useAuth0} from '@auth0/auth0-react';
 
 import Layout from '../../components/Layout.server';
 import NotFound from '../../components/NotFound.client';
@@ -16,7 +17,6 @@ import ProductFilters from '../../components/ProductFilters.client';
 import ProductCard from '../../components/ProductCard';
 import NewProductCard from '../../components/NewProductCard';
 import LoadMoreProducts from '../../components/LoadMoreProducts.client';
-import ShopIndexBody from '../../components/ShopIndexBody.client';
 import {
   WithEarlyAccess,
   WithRegularAccess,
@@ -34,7 +34,12 @@ const productTypesMap = {
   tubers: 'Tubers',
 };
 
-const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
+const ShopIndex = ({
+  response,
+  selectedOptions,
+  productCount = 96,
+  authStatus = {isAuthenticated: false, isLoading: false, user: null},
+}) => {
   response.cache({
     // Cache the page for one hour.
     // maxAge: 60 * 60,
@@ -46,6 +51,10 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
     noStore: true,
   });
 
+  // const {loginWithRedirect, logout, user, isAuthenticated, isLoading} =
+  //   useAuth0();
+  let {isAuthenticated, isLoading, user} = authStatus;
+
   const productDisplayIncrement = 24;
   const {product_type} = useParams();
 
@@ -53,19 +62,21 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
   const {data} = useShopQuery({
     query: QUERY(),
     variables: {
+      handle: 'top-varieties',
       country: 'US',
     },
   });
 
   // If there are no products available, show "not found"
-  if (data?.products == null) {
+  console.log(data);
+  if (data?.collection.products == null) {
     return <NotFound />;
   }
 
   // If there are products, prepare product data
-  const products = data ? flattenConnection(data.products) : [];
+  const products = data ? flattenConnection(data.collection.products) : [];
   const sortedProducts = _.orderBy(products, 'title');
-  const hasNextPage = data.products.pageInfo.hasNextPage;
+  const hasNextPage = data.collection.products.pageInfo.hasNextPage;
 
   return (
     <Layout>
@@ -73,59 +84,44 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
         <div className="shop-index__header">
           <div className="shop-index__welcome-text">
             <h1>Y.D.S. Shop</h1>
-            <WithoutAccess>
-              <p>Y.D.S. Tuber sales are open to Y.D.S. Members only</p>
-              <div className="shop-index__button-row">
-                <LoginButton />{' '}
-                <Link to="/membership" className="button">
-                  Y.D.S. Membership
-                </Link>
-              </div>
-            </WithoutAccess>
-            <WithRegularAccess>
-              <p>
-                The tuber sale opens for all Y.D.S. members on January 15th,
-                2022 at 3:00pm
-              </p>
-              <ShowAfter threshold={LaunchDateTime}>
-                <p>The members-only tuber sale has started!</p>
-                <div className="shop-index__button-row">
-                  <Link className="button" to="/shop/products">
-                    Browse All Products
-                  </Link>
-                </div>
-              </ShowAfter>
-            </WithRegularAccess>
+            <p>Y.D.S. Tuber sales are open to Y.D.S. Members only</p>
+            <p>
+              The tuber sale opens for all Y.D.S. members on January 15th, 2022
+              at 3:00pm
+            </p>
             <WithEarlyAccess>
               <p>
                 The tuber sale opens for Y.D.S. members with early access on
-                January 8th, 2022 at 3:00 pm and for all Y.D.S. members on
-                January 15th, 2022 at 3:00pm
+                January 8th, 2022 at 3:00 pm.
               </p>
-              <ShowAfter threshold={LaunchDateTime}>
-                <p>The early access tuber sale has started!</p>
-                <div className="shop-index__button-row">
-                  <Link className="button" to="/shop/products">
-                    Browse All Products
-                  </Link>
-                </div>
-              </ShowAfter>
+              <p>The early access tuber sale has started!</p>
             </WithEarlyAccess>
+            <div className="shop-index__button-row">
+              <Link className="button" to="/shop/products">
+                Browse All Products
+              </Link>
+            </div>
+            <div className="shop-index__button-row">
+              <Link to="/membership" className="button">
+                Y.D.S. Membership
+              </Link>
+            </div>
           </div>
         </div>
-        {/* <div className="product-grid">
+        <h3 style={{textAlign: 'center', marginTop: '2rem'}}>Top Products</h3>
+        <div className="product-grid">
           {sortedProducts.map((product) => {
             return (
               <div key={product.id} className="product-grid__item">
                 <NewProductCard
                   product={product}
-                  linkCard={false}
-                  showDetails={false}
+                  // linkCard={false}
+                  // showDetails={false}
                 />
               </div>
             );
           })}
-        </div> */}
+        </div>
       </div>
     </Layout>
   );
@@ -134,6 +130,7 @@ const ShopIndex = ({response, selectedOptions, productCount = 96}) => {
 const QUERY = () => {
   return gql`
     query CollectionDetails(
+      $handle: String!
       $includeReferenceMetafieldDetails: Boolean = true
       $numProductMetafields: Int = 0
       $numProductVariants: Int = 250
@@ -143,49 +140,55 @@ const QUERY = () => {
       $numProductSellingPlanGroups: Int = 0
       $numProductSellingPlans: Int = 0
     ) {
-      products(first: 3, sortKey: TITLE) {
-        edges {
-          cursor
-          node {
-            vendor
-            title
-            tags
-            ...ProductProviderFragment
-            hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
-              key
-              value
-            }
-            country_of_origin: metafield(
-              namespace: "my_fields"
-              key: "country_of_origin"
-            ) {
-              key
-              value
-            }
-            introduction_year: metafield(
-              namespace: "my_fields"
-              key: "introduction_year"
-            ) {
-              key
-              value
-            }
-            asd_code: metafield(namespace: "my_fields", key: "ads_code") {
-              key
-              value
-            }
-            bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
-              key
-              value
-            }
-            height: metafield(namespace: "my_fields", key: "height") {
-              key
-              value
+      collection(handle: $handle) {
+        id
+        title
+        descriptionHtml
+
+        products(first: 3, sortKey: TITLE) {
+          edges {
+            cursor
+            node {
+              vendor
+              title
+              tags
+              ...ProductProviderFragment
+              hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
+                key
+                value
+              }
+              country_of_origin: metafield(
+                namespace: "my_fields"
+                key: "country_of_origin"
+              ) {
+                key
+                value
+              }
+              introduction_year: metafield(
+                namespace: "my_fields"
+                key: "introduction_year"
+              ) {
+                key
+                value
+              }
+              asd_code: metafield(namespace: "my_fields", key: "ads_code") {
+                key
+                value
+              }
+              bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
+                key
+                value
+              }
+              height: metafield(namespace: "my_fields", key: "height") {
+                key
+                value
+              }
             }
           }
-        }
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+          }
         }
       }
     }
