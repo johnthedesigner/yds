@@ -31,6 +31,23 @@ const staticPages = _.map(pages, (page) => {
   }
 }).join('');
 
+const imageInfo = (product) => {
+  let image = product.images.edges[0];
+  if (image) {
+    return `
+    <image:image>
+    <image:loc>
+      ${image.node.url}
+    </image:loc>
+    <image:title>
+      ${image.node.altText ?? ''}
+    </image:title>
+    <image:caption />
+  </image:image>
+`;
+  } else return '';
+};
+
 function shopSitemap(data) {
   return `
     <urlset
@@ -43,19 +60,11 @@ function shopSitemap(data) {
           return `
           <url>
             <loc>
-              https://hydrogen-preview.myshopify.com/products/${product.handle}
+            ${siteDomain}/shop/products/${product.handle}
             </loc>
             <lastmod>${product.updatedAt}</lastmod>
             <changefreq>daily</changefreq>
-            <image:image>
-              <image:loc>
-                ${product?.images?.edges?.[0]?.node?.url}
-              </image:loc>
-              <image:title>
-                ${product?.images?.edges?.[0]?.node?.altText ?? ''}
-              </image:title>
-              <image:caption />
-            </image:image>
+            ${imageInfo(product)}
           </url>
         `;
         })
