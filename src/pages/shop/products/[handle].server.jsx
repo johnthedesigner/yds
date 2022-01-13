@@ -141,17 +141,26 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
           <div className="product-detail__product-info">
             <div>
               <Product.Title as="h1" className="product-detail__title" />
-              <Product.SelectedVariant.Price
-                className="product-detail__price"
-                as="p"
-              />
-              <p>
-                {product.totalInventory < 5 && (
-                  <small>
-                    <em>{data.product.totalInventory} left in stock.</em>
-                  </small>
-                )}
-              </p>
+              <WithoutAccess>
+                <p style={{marginBottom: '2rem'}}>
+                  <em>Log in for pricing</em>
+                </p>
+              </WithoutAccess>
+              <WithAnyAccess>
+                <Product.SelectedVariant.Price
+                  className="product-detail__price"
+                  as="p"
+                />
+              </WithAnyAccess>
+              <WithEarlyAccess>
+                <p>
+                  {product.totalInventory < 5 && (
+                    <small>
+                      <em>{data.product.totalInventory} left in stock.</em>
+                    </small>
+                  )}
+                </p>
+              </WithEarlyAccess>
             </div>
             <ConditionalDescription />
             <HybridizerDescriptor

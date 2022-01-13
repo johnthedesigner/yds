@@ -12,12 +12,16 @@ import {Link} from 'react-router-dom';
 import Gallery from './Gallery.client';
 import TagDescriptor from './TagDescriptor';
 import HybridizerDescriptor from './HybridizerDescriptor';
+import {
+  WithAnyAccess,
+  WithEarlyAccess,
+  WithoutAccess,
+} from './AccessControl.client';
 
 const ProductCard = ({product, linkCard = true, showDetails = true}) => {
   let initialVariant = flattenConnection(product.variants)[0];
 
   const Price = ({amount, currencyNarrowSymbol}) => {
-    console.log(amount, currencyNarrowSymbol);
     return `${currencyNarrowSymbol}${amount}`;
   };
 
@@ -46,13 +50,15 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
           <Gallery />
         </Link>
         <div className="product-grid__image-overlay">
-          <p className="product-grid__inventory">
-            {product.totalInventory < 5 && (
-              <small>
-                <em>{product.totalInventory} left in stock.</em>
-              </small>
-            )}
-          </p>
+          <WithEarlyAccess>
+            <p className="product-grid__inventory">
+              {product.totalInventory < 5 && (
+                <small>
+                  <em>{product.totalInventory} left in stock.</em>
+                </small>
+              )}
+            </p>
+          </WithEarlyAccess>
           <CountryFlag product={product} />
         </div>
       </div>
@@ -66,12 +72,21 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
               >
                 <Product.Title as="h1" className="product-grid__title" />
               </Link>
-              <Product.SelectedVariant.Price
-                className="product-grid__price"
-                as="p"
-              >
-                <Price />
-              </Product.SelectedVariant.Price>
+              <WithAnyAccess>
+                <Product.SelectedVariant.Price
+                  className="product-grid__price"
+                  as="p"
+                >
+                  <Price />
+                </Product.SelectedVariant.Price>
+              </WithAnyAccess>
+              <WithoutAccess>
+                <p>
+                  <small>
+                    <em>Log in for pricing</em>
+                  </small>
+                </p>
+              </WithoutAccess>
             </div>
             <HybridizerDescriptor
               hybridizer={product.hybridizer}
