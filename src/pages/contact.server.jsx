@@ -5,6 +5,8 @@ import {
   CompactTextWrapper,
 } from '../components/CompactText.server';
 import ContactForm from '../components/ContactForm.client';
+import NewSeo from '../components/NewSeo.client';
+import pages from '../pages.json';
 
 const Contact = ({response}) => {
   response.cache({
@@ -23,6 +25,7 @@ const Contact = ({response}) => {
       hero={<Hero title="Contact Us" image="/macro-dahlia.jpg" />}
       isCommercePage={false}
     >
+      <NewSeo page={pages.contact} />
       <CompactTextWrapper>
         <CompactText>
           <h3>Have questions, ideas or would like to get involved?</h3>

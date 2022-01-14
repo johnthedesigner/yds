@@ -1,7 +1,7 @@
 {
   "prelaunch": {
     "label": "Coming Soon",
-    "title": "Coming Soon | Yankee Dahlia Society, New England",
+    "title": "Coming Soon",
     "description": "Promoting dahlia exhibition, hybridization, and education",
     "path": "/",
     "inMenu": false,
@@ -10,7 +10,7 @@
   },
   "home": {
     "label": "Home",
-    "title": "Home | Yankee Dahlia Society, New England",
+    "title": "Home",
     "description": "A New England dahlia club based in Wocester and Middlesex county in Massachusetts. We invite dahlia growers all throughout the New England area. Our club is a proud member of the American Dahlia Society",
     "path": "/",
     "inMenu": true,
@@ -19,7 +19,7 @@
   },
   "shop": {
     "label": "Shop",
-    "title": "Y.D.S. Online Shop | Yankee Dahlia Society, New England",
+    "title": "Y.D.S. Online Shop",
     "description": "Buy tubers, cuttings, supplies & gift certificates to help grow dahlias and to grow Y.D.S.",
     "path": "/shop",
     "inMenu": true,
@@ -28,7 +28,7 @@
   },
   "all-products": {
     "label": "All Products",
-    "title": "Y.D.S. Online Shop - All Products | Yankee Dahlia Society, New England",
+    "title": "Y.D.S. Online Shop - All Products",
     "description": "Buy tubers, cuttings, supplies & gift certificates to help grow dahlias and to grow Y.D.S.",
     "path": "/shop/products",
     "inMenu": false,
@@ -37,7 +37,7 @@
   },
   "membership": {
     "label": "Membership",
-    "title": "Membership | Yankee Dahlia Society, New England",
+    "title": "Membership",
     "description": "Become a member of Yankee Dahlia Society to attend meetings, classes and garden tours.",
     "path": "/membership",
     "inMenu": true,
@@ -46,7 +46,7 @@
   },
   "join": {
     "label": "Join",
-    "title": "Membership Registration | Yankee Dahlia Society, New England",
+    "title": "Membership Registration",
     "description": "Become a member of Yankee Dahlia Society to attend meetings, classes and garden tours.",
     "path": "/membership/join",
     "inMenu": false,
@@ -55,7 +55,7 @@
   },
   "getInvolved": {
     "label": "Get Involved",
-    "title": "Get Involved | Yankee Dahlia Society, New England",
+    "title": "Get Involved",
     "description": "Get more involved with Yankee Dahlia Society, volunteer, let us tour your garden. There are plenty of fun ways to get more involved.",
     "path": "/get-involved",
     "inMenu": false,
@@ -64,7 +64,7 @@
   },
   "meetings": {
     "label": "Meetings",
-    "title": "Meetings | Yankee Dahlia Society, New England",
+    "title": "Meetings",
     "description": "Find out when we are having our next meeting, event or garden tour and plan ahead to join in on the fun.",
     "path": "/meetings",
     "inMenu": true,
@@ -73,7 +73,7 @@
   },
   "shows": {
     "label": "Shows",
-    "title": "Dahlia Shows | Yankee Dahlia Society, New England",
+    "title": "Dahlia Shows",
     "description": "A calendar of regional and international Dahlia shows.",
     "path": "/shows",
     "inMenu": true,
@@ -82,7 +82,7 @@
   },
   "tubers": {
     "label": "Our Tubers",
-    "title": "Our Tubers | Yankee Dahlia Society, New England",
+    "title": "Our Tubers",
     "description": "Find out about our annual tuber sales and tuber swaps. Get some of your favorite dahlia varieties and help to support Yankee Dahlia Society at the same time",
     "path": "/tubers",
     "inMenu": true,
@@ -91,7 +91,7 @@
   },
   "about": {
     "label": "About Us",
-    "title": "About Us | Yankee Dahlia Society, New England",
+    "title": "About Us",
     "description": "We had a vision of creating a fun space where people who love dahlias could gather and connect, in person and through social media, to learn, have fun, and enjoy growing dahlias together.",
     "path": "/about",
     "inMenu": true,
@@ -100,7 +100,7 @@
   },
   "contact": {
     "label": "Contact Us",
-    "title": "Contact Us | Yankee Dahlia Society, New England",
+    "title": "Contact Us",
     "description": "Get in touch with Yankee Dahlia Society. Find us on Instagram or Facebook, ask dahlia growing questions or just let us know you're coming to a meeting.",
     "path": "/contact",
     "inMenu": true,
@@ -109,7 +109,7 @@
   },
   "businessMembers": {
     "label": "Businesses",
-    "title": "Business Members | Yankee Dahlia Society, New England",
+    "title": "Business Members",
     "description": "Get in touch with Yankee Dahlia Society. Find us on Instagram or Facebook, ask dahlia growing questions or just let us know you're coming to a meeting.",
     "path": "/business-members",
     "inMenu": false,
@@ -118,7 +118,7 @@
   },
   "businessMembershipInfo": {
     "label": "Business Membership Info",
-    "title": "Get the most out of your business membership | Yankee Dahlia Society, New England",
+    "title": "Get the most out of your business membership",
     "description": "We welcome our great business members. Now that you're a member, find out how to make the absolute most of your business membership.",
     "path": "/business-member-info",
     "inMenu": false,
@@ -127,7 +127,7 @@
   },
   "badgeInfo": {
     "label": "Member Badge Usage Info",
-    "title": "Member Badge Usage Info | Yankee Dahlia Society, New England",
+    "title": "Member Badge Usage Info",
     "description": "How to use the Y.D.S. membership badge on your website and marketing materials",
     "path": "/badge-info",
     "inMenu": false,

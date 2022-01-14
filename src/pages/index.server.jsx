@@ -5,6 +5,8 @@ import Hero from '../components/Hero.server';
 import Pingpong from '../components/Pingpong.server';
 import Bumper from '../components/Bumper.server';
 import HomeEventBlock from '../components/HomeEventBlock.client';
+import NewSeo from '../components/NewSeo.client';
+import pages from '../pages.json';
 
 const Index = ({response}) => {
   response.cache({
@@ -30,6 +32,7 @@ const Index = ({response}) => {
       }
       isCommercePage={false}
     >
+      <NewSeo page={pages.home} />
       <Pingpong
         side="left"
         image="planting-dahlias.jpg"

@@ -2,6 +2,8 @@ import Layout from '../components/Layout.server';
 import Hero from '../components/Hero.server';
 import Bumper from '../components/Bumper.server';
 import EventList from '../components/EventList.client';
+import NewSeo from '../components/NewSeo.client';
+import pages from '../pages.json';
 
 const Meetings = ({response}) => {
   response.cache({
@@ -22,6 +24,7 @@ const Meetings = ({response}) => {
       }
       isCommercePage={false}
     >
+      <NewSeo page={pages.meetings} />
       <Bumper text="Club meetings will typically be held on the 1st Sunday of the month.  During the dahlia blooming season we will hold a few extra events." />
       <EventList />
       <Bumper

@@ -1,6 +1,8 @@
 import Layout from '../components/Layout.server';
 import Hero from '../components/Hero.server';
 import ShowList from '../components/ShowList.client';
+import NewSeo from '../components/NewSeo.client';
+import pages from '../pages.json';
 
 const Shows = ({response}) => {
   response.cache({
@@ -21,6 +23,7 @@ const Shows = ({response}) => {
       }
       isCommercePage={false}
     >
+      <NewSeo page={pages.shows} />
       <ShowList />
     </Layout>
   );

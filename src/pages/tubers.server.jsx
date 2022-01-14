@@ -4,6 +4,8 @@ import Layout from '../components/Layout.server';
 import Hero from '../components/Hero.server';
 import Pingpong from '../components/Pingpong.server';
 import Bumper from '../components/Bumper.server';
+import NewSeo from '../components/NewSeo.client';
+import pages from '../pages.json';
 
 const Tubers = ({response}) => {
   response.cache({
@@ -22,6 +24,7 @@ const Tubers = ({response}) => {
       hero={<Hero title="Our Tubers" image="/dividing-dahlias.jpg" />}
       isCommercePage={false}
     >
+      <NewSeo page={pages.tubers} />
       <Pingpong
         side="left"
         image="/tubers.jpg"

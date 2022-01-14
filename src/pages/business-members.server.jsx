@@ -10,6 +10,8 @@ import {
   CompactTextWrapper,
 } from '../components/CompactText.server';
 import bizmembers from '../bizmembers';
+import NewSeo from '../components/NewSeo.client';
+import pages from '../pages.json';
 
 const BusinessMembers = ({response}) => {
   response.cache({
@@ -108,6 +110,7 @@ const BusinessMembers = ({response}) => {
       hero={<Hero title="Member Businesses" image="/garden.jpg" />}
       isCommercePage={false}
     >
+      <NewSeo page={pages.businessMembers} />
       <CompactTextWrapper>
         {_.map(sortedBizMembers, (member, index) => {
           return (
