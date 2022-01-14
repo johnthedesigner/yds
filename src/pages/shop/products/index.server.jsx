@@ -18,6 +18,8 @@ import ProductFiltersMobile from '../../../components/ProductFiltersMobile.clien
 import AuthRequired from '../../../components/AuthRequired.client';
 import NewProductCard from '../../../components/NewProductCard';
 import ProductSort from '../../../components/ProductSort.client';
+import NewSeo from '../../../components/NewSeo.client';
+import pages from '../../../pages.json';
 
 const productTypesMap = {
   'gift-cards': 'Gift Cards',
@@ -93,6 +95,7 @@ const ShopIndex = ({
 
   return (
     <Layout>
+      <NewSeo page={pages['all-products']} />
       <div className="product-detail__breadcrumb">
         <Link to="/shop">Shop</Link> / <b>All Products</b>
       </div>

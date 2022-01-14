@@ -25,6 +25,8 @@ import {
   ShowAfter,
 } from '../../components/AccessControl.client';
 import LoginButton from '../../components/LoginButton..client';
+import NewSeo from '../../components/NewSeo.client';
+import pages from '../../pages.json';
 
 const LaunchDateTime = '2022-01-08T15:00:00-05:00';
 
@@ -80,6 +82,7 @@ const ShopIndex = ({
 
   return (
     <Layout>
+      <NewSeo page={pages.shop} />
       <div className="shop-index">
         <div className="shop-index__header">
           <div className="shop-index__welcome-text">

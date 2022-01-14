@@ -5,6 +5,8 @@ import {
   CompactTextWrapper,
 } from '../../components/CompactText.server';
 import MembershipForm from '../../components/MembershipForm.client';
+import NewSeo from '../../components/NewSeo.client';
+import pages from '../../pages.json';
 
 const Join = ({response}) => {
   response.cache({
@@ -23,6 +25,7 @@ const Join = ({response}) => {
       hero={<Hero title="Join Yankee Dahlia Society" image="/flowers.jpg" />}
       isCommercePage={false}
     >
+      <NewSeo page={pages.join} />
       <CompactTextWrapper>
         <CompactText>
           <h3>WE WANT YOU for Yankee Dahlia Society!</h3>

@@ -4,6 +4,8 @@ import Layout from '../components/Layout.server';
 import Hero from '../components/Hero.server';
 import Pingpong from '../components/Pingpong.server';
 import Bumper from '../components/Bumper.server';
+import NewSeo from '../components/NewSeo.client';
+import pages from '../pages.json';
 
 const BusinessMemberInfo = ({response}) => {
   response.cache({
@@ -27,6 +29,7 @@ const BusinessMemberInfo = ({response}) => {
       }
       isCommercePage={false}
     >
+      <NewSeo page={pages.businessMembershipInfo} />
       <Pingpong
         side="right"
         image="/biz-member-listing.jpg"
