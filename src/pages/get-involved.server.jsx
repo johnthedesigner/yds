@@ -7,6 +7,8 @@ import {
   CompactText,
   CompactTextWrapper,
 } from '../components/CompactText.server';
+import NewSeo from '../components/NewSeo.client';
+import pages from '../pages.json';
 
 const GetInvolved = ({response}) => {
   response.cache({
@@ -25,6 +27,7 @@ const GetInvolved = ({response}) => {
       hero={<Hero title="Get Involved" image="/garden.jpg" />}
       isCommercePage={false}
     >
+      <NewSeo page={pages.getInvolved} />
       <Bumper
         text="Want to get more involved in Y.D.S.? Get in touch, we'd love to talk about opportunities to help with meetings, newsletters, garden tours and more."
         smallText="Time is our most valued asset.  We appreciate any amount of time you can contribute because running a successful club takes many hands, especially when it’s a brand new club.  If you would like to be at the forefront of making this club happen as a contributing member we welcome the assistance and expertise you can share.  Please see below ways to get involved.  Reach out to us via our contact form if you have any special skills or ideas on ways you can get involved."

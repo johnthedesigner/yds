@@ -4,6 +4,8 @@ import Layout from '../components/Layout.server';
 import Hero from '../components/Hero.server';
 import Bumper from '../components/Bumper.server';
 import Pingpong from '../components/Pingpong.server';
+import NewSeo from '../components/NewSeo.client';
+import pages from '../pages.json';
 
 const BadgeInfo = ({response}) => {
   response.cache({
@@ -22,6 +24,7 @@ const BadgeInfo = ({response}) => {
       hero={<Hero title="Y.D.S. Membership Badge" image="/flowers.jpg" />}
       isCommercePage={false}
     >
+      <NewSeo page={pages.badgeInfo} />
       <Bumper text="How to use the Y.D.S. membership badge" />
       <Pingpong
         side="right"

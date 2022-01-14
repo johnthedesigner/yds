@@ -19,6 +19,7 @@ import {
   WithRegularAccess,
 } from '../../../components/AccessControl.client';
 import LoginButton from '../../../components/LoginButton..client';
+import NewSeo from '../../../components/NewSeo.client';
 
 const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
   response.cache({
@@ -128,6 +129,7 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
 
   return (
     <Layout>
+      <NewSeo product={data.product} />
       <Product product={data.product} initialVariantId={initialVariant.id}>
         <div className="product-detail__breadcrumb">
           <Link to="/shop">Shop</Link> /{' '}
