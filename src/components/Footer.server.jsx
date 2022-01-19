@@ -54,6 +54,14 @@ export default function Footer({collection, product}) {
             >
               <img src="/icon-fb.svg" />
             </Link>
+            <Link
+              to="https://www.youtube.com/channel/UCfr-8mV00MNqG4e9I_-Zw1Q"
+              className="footer__social-icon"
+              title="Yankee Dahlia Society on Youtube"
+              target="_blank"
+            >
+              <img src="/icon-yt.svg" />
+            </Link>
           </li>
         </ul>
         <div className="donation-form__wrapper">
