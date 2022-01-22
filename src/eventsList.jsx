@@ -777,10 +777,86 @@ export const events = [
                 this will be your opportunity to come pick up your dahlia tuber
                 order.
               </p>
+              <p>
+                Yankee Dahlia Society is excited to host Susan Kelly, one of the
+                co-founders of Generous Gardeners. Come learn about this
+                wonderful non-profit organization and amazing dedicated team of
+                volunteers who design and maintain over 45 public garden spaces
+                in Gloucester, Massachusetts. She will share with us details on
+                their amazing display of over 900 dahlias on Stacy Boulevard
+                near the historic Fishermen’s Memorial. You won’t want to miss
+                this slide show presentation and details on their approach to
+                planting their display beds filled with both our favorite dahlia
+                varieties and complementary underplantings of gorgeous annuals
+                and daylilies. It is just the thing that will get us all excited
+                as we make plans for our own gardens and the upcoming growing
+                season.
+              </p>
             </>
           );
         },
       },
     ],
+  },
+  {
+    date: '2022-02-06',
+    time: '10:30am-12:00pm',
+    name: 'Virtual Meeting: With Special Guest Pauline Mourits from Cloverhome.NL',
+    label: eventTypes.meeting,
+    showMore: [
+      {
+        name: 'Details',
+        content: () => {
+          return (
+            <>
+              <p>
+                Our February meeting will be via Zoom. Join us with a cup of
+                coffee in the morning as we meet online with other dahlia
+                growers around the United States and the world. Yankee Dahlia
+                Society is absolutely excited for everyone to meet Pauline
+                Mourits, a talented photographer and writer with a love for
+                gardening and dahlias! We are thrilled that Pauline will join us
+                remotely all the way from the Netherlands. Pauline will take us
+                on a slide show tour of Dutch growing and some of their amazing
+                gardens, of course highlighting dahlia culture. You won’t want
+                to miss Pauline sharing with us her beautiful images and talking
+                about her design style and her approach to growing and arranging
+                flowers with a special emphasis on how she photographs flowers.
+              </p>
+              <p>
+                Yankee Dahlia Society is proud and honored to connect with
+                dahlia growers all around the world and share in the joy dahlias
+                bring.
+              </p>
+              <p>
+                <a href="https://www.cloverhome.nl/" target="_blank">
+                  https://www.cloverhome.nl/
+                </a>
+              </p>
+              <p>
+                <a
+                  href="https://www.instagram.com/cloverhome.nl/"
+                  target="_blank"
+                >
+                  https://www.instagram.com/cloverhome.nl/
+                </a>
+              </p>
+            </>
+          );
+        },
+      },
+    ],
+  },
+  {
+    date: '2022-03-06',
+    time: '11am-1pm',
+    name: 'In-Person Workshop: How to take cuttings & start dahlia seeds with Y.D.S Co-Presidents Carol Palmer & Misty Florez',
+    label: eventTypes.meeting,
+  },
+  {
+    date: '2022-04-03',
+    time: 'TBD',
+    name: 'Virtual Meeting: With Special Guest Warren Vigor and Dahlias from Down Under',
+    label: eventTypes.meeting,
   },
 ];
