@@ -850,13 +850,25 @@ export const events = [
   {
     date: '2022-03-06',
     time: '11am-1pm',
-    name: 'In-Person Workshop: How to take cuttings & start dahlia seeds with Y.D.S Co-Presidents Carol Palmer & Misty Florez',
+    name: 'In-Person Workshop @ Spence Farm in Woburn, MA',
     label: eventTypes.meeting,
   },
   {
     date: '2022-04-03',
     time: 'TBD',
-    name: 'Virtual Meeting: With Special Guest Warren Vigor and Dahlias from Down Under',
+    name: 'Virtual Meeting: With a Special Guest',
+    label: eventTypes.meeting,
+  },
+  {
+    date: '2022-05-01',
+    time: '11:00am–1:00pm',
+    name: 'In-Person meeting with Y.D.S. Member Presentation @ Spence Farm in Woburn, MA',
+    label: eventTypes.meeting,
+  },
+  {
+    date: '2022-06-26',
+    time: 'TBD',
+    name: 'Virtual Meeting: With a Special Guest',
     label: eventTypes.meeting,
   },
 ];
