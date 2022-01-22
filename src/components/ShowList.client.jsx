@@ -48,9 +48,9 @@ const Show = (props) => {
       <div className="event__location">Organization: {props.org}</div>
       <div className="event__location">Location: {props.location}</div>
       <div className="event__link">
-        <Link to={props.link} target="_blank">
+        <a href={props.link} target="_blank">
           {props.link}
-        </Link>
+        </a>
       </div>
       <br />
       <File file={props.file} />
