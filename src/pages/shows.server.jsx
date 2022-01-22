@@ -1,6 +1,7 @@
 import Layout from '../components/Layout.server';
 import Hero from '../components/Hero.server';
 import ShowList from '../components/ShowList.client';
+import Bumper from '../components/Bumper.server';
 
 const Shows = ({response}) => {
   response.cache({
@@ -16,11 +17,10 @@ const Shows = ({response}) => {
 
   return (
     <Layout
-      hero={
-        <Hero title="About Yankee Dahlia Society" image="/purple-flowers.jpg" />
-      }
+      hero={<Hero title="Dahlia Shows" image="/purple-flowers.jpg" />}
       isCommercePage={false}
     >
+      <Bumper text="Show dates, locations and info will be updated as they are announced by their respective clubs." />
       <ShowList />
     </Layout>
   );
