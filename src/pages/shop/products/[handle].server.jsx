@@ -75,7 +75,7 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
   // Figure out what to show, based on auth, role and time window
   const earlyAccessStart = '2022-01-08T15:00:00-05:00';
   const allAccessStart = '2022-01-15T15:00:00-05:00';
-  const allAccessEnd = '2022-01-22T15:00:00-05:00';
+  const allAccessEnd = '2023-01-15T15:00:00-05:00';
 
   // What should happen during the early access sale period
   const EarlyAccessPeriod = () => {

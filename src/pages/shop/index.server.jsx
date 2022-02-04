@@ -89,6 +89,10 @@ const ShopIndex = ({
             <h1>Y.D.S. Shop</h1>
             <p>Y.D.S. Tuber sales are open to Y.D.S. Members only.</p>
             <p>
+              Inventory will be replenished throughout the winter and spring.
+              Check your member newsletters for updates.
+            </p>
+            {/* <p>
               The tuber sale opens for all Y.D.S. members on January 15th, 2022
               at 3:00pm.
             </p>
@@ -98,7 +102,7 @@ const ShopIndex = ({
                 January 8th, 2022 at 3:00 pm.
               </p>
               <p>The early access tuber sale has started!</p>
-            </WithEarlyAccess>
+            </WithEarlyAccess> */}
             <div className="shop-index__button-row">
               <Link className="button" to="/shop/products">
                 Browse All Products
