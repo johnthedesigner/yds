@@ -800,7 +800,7 @@ export const events = [
   },
   {
     date: '2022-02-06',
-    time: '10:30am-12:00pm',
+    time: '10:30am-12:30pm',
     name: 'Virtual Meeting: With Special Guest Pauline Mourits from Cloverhome.NL',
     label: eventTypes.meeting,
     showMore: [
