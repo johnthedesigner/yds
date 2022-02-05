@@ -38,30 +38,30 @@ export default function Footer({collection, product}) {
         <ul className="footer__menu">
           <Links />
           <li className="footer__menu-item">
-            <Link
-              to="http://instagram.com/yankeedahliasociety"
+            <a
+              href="http://instagram.com/yankeedahliasociety"
               className="footer__social-icon"
               title="Yankee Dahlia Society on Instagram"
               target="_blank"
             >
               <img src="/icon-ig.svg" />
-            </Link>
-            <Link
-              to="http://facebook.com/yankeedahliasociety"
+            </a>
+            <a
+              href="http://facebook.com/yankeedahliasociety"
               className="footer__social-icon"
               title="Yankee Dahlia Society on Facebook"
               target="_blank"
             >
               <img src="/icon-fb.svg" />
-            </Link>
-            <Link
-              to="https://www.youtube.com/channel/UCfr-8mV00MNqG4e9I_-Zw1Q"
+            </a>
+            <a
+              href="https://www.youtube.com/channel/UCfr-8mV00MNqG4e9I_-Zw1Q"
               className="footer__social-icon"
               title="Yankee Dahlia Society on Youtube"
               target="_blank"
             >
               <img src="/icon-yt.svg" />
-            </Link>
+            </a>
           </li>
         </ul>
         <div className="donation-form__wrapper">
