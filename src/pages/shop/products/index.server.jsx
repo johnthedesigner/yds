@@ -30,7 +30,7 @@ const productTypesMap = {
 const ShopIndex = ({
   response,
   selectedOptions,
-  productCount = 96,
+  productCount = 200,
   sortOption = 'titleAsc',
   pending = false,
 }) => {
