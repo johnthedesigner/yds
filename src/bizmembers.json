@@ -225,5 +225,45 @@
     "member since": "09/01/21",
     "ig handle": "nestledown_dahlias",
     "business name": "Nestledown Dahlias"
+  },
+
+  {
+    "city": "Medford",
+    "state": "MA",
+    "member since": "04/01/21",
+    "ig handle": "gardenandroads",
+    "business url": "https://www.gardenandroads.com/",
+    "facebook url": "https://www.facebook.com/GenerousGardeners",
+    "business name": "Gardens and Roads"
+  },
+  {
+    "city": "Gloucester",
+    "state": "MA",
+    "member since": "01/01/22",
+    "ig handle": "generousgardeners",
+    "business url": "https://generousgardeners.org/",
+    "facebook url": "https://www.facebook.com/GenerousGardeners",
+    "business name": "Generous Gardeners"
+  },
+  {
+    "member since": "04/01/22",
+    "ig handle": "goldenhourdahlias",
+    "business name": "Golden Hour Dahlias"
+  },
+  {
+    "city": "Medford",
+    "state": "MA",
+    "member since": "01/01/22",
+    "ig handle": "justin_reis",
+    "business url": "https://www.justinreisceramics.com/",
+    "business name": "Justin Reis Ceramics"
+  },
+  {
+    "city": "Plainville",
+    "state": "MA",
+    "member since": "04/01/22",
+    "ig handle": "simplyheavenscentfarm",
+    "business url": "https://simplyheavenscentfarm.com/",
+    "business name": "Simply Heaven Scent Farm"
   }
 ]
