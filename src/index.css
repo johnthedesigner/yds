@@ -247,6 +247,15 @@ button[type='submit'] {
   margin: 2rem;
 }
 
+@media screen and (max-width: 800px) {
+  .footer__body {
+    flex-direction: column;
+  }
+  .footer__body > * {
+    margin-bottom: 3rem;
+  }
+}
+
 .footer__menu {
   list-style: none;
   margin: 0;
@@ -271,6 +280,11 @@ button[type='submit'] {
   font-size: 0.75rem;
   text-align: center;
   margin: 1rem 2rem;
+}
+
+.footer__amazon-smile {
+  width: 30rem;
+  margin: 0 2rem 4rem;
 }
 
 .donation-form__wrapper {
