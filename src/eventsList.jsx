@@ -861,9 +861,45 @@ export const events = [
   },
   {
     date: '2022-05-01',
-    time: '10:15am–1:00pm',
+    time: '9:15am–12:15pm',
     name: 'In-Person meeting with Y.D.S. Member Presentation @ Spence Farm in Woburn, MA',
     label: eventTypes.meeting,
+    showMore: [
+      {
+        name: 'Location',
+        content: () => {
+          return (
+            <p>
+              Spence Farm @ Hurld Wyman Elementary School, 41 Wyman Street,
+              Woburn, MA 01801
+            </p>
+          );
+        },
+      },
+      {
+        name: 'Details',
+        content: () => {
+          return (
+            <>
+              <p>
+                Our May 1st meeting will be in person at Spence Farm in Woburn.
+                We are so very thrilled to have YDS Member Andrea Campbell share
+                with us a slide show presentation on propagating dahlias from a
+                sport and how to collect dahlia seeds. Another fantastic program
+                as we continue our dahlia education at our monthly meetings.
+                Andrea will have some wonderful images to share along with first
+                hand experience propagating a sport since the fall. In addition,
+                Andrea has been extremely successful in collecting and growing
+                dahlias from seeds. Be sure to join us and get some tips as we
+                get ready for the 2022 dahlia growing season. You’ll know what
+                to do if you find a dahlia sport in your garden and want to
+                collect your own dahlia seeds this season.
+              </p>
+            </>
+          );
+        },
+      },
+    ],
   },
   {
     date: '2022-06-26',
