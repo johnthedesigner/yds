@@ -861,7 +861,7 @@ export const events = [
   },
   {
     date: '2022-05-01',
-    time: '11:00am–1:00pm',
+    time: '10:15am–1:00pm',
     name: 'In-Person meeting with Y.D.S. Member Presentation @ Spence Farm in Woburn, MA',
     label: eventTypes.meeting,
   },

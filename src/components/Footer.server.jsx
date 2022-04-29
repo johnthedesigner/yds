@@ -63,9 +63,46 @@ export default function Footer({collection, product}) {
               <img src="/icon-yt.svg" />
             </a>
           </li>
+          <li className="footer__menu-item">
+            <a
+              href="https://smile.amazon.com/ch/86-2027288"
+              className="footer__social-icon"
+              title="Yankee Dahlia Society on Amazon Smile"
+              target="_blank"
+            >
+              <img src="/amazon-smile.svg" />
+            </a>
+          </li>
         </ul>
+        {/* <div className="footer__amazon-smile">
+          <h3>Raise Money for YDS With Every Amazon Purchase</h3>
+          <p>
+            Yankee Dahlia Society works with the Amazon Smile program. Click the
+            link below and have Amazon donate 0.5% of your qualifying Amazon
+            Purchases to Yankeed Dahlia Society and help us to continue putting
+            on fun events, workshops and programs for our members.
+          </p>
+        </div> */}
         <div className="donation-form__wrapper">
           <Donate />
+          <br />
+          <br />
+          <br />
+          <h3>Raise Money for YDS With Every Amazon Purchase</h3>
+          <p>
+            Yankee Dahlia Society participates in the Amazon Smile program.
+            Click the link below and have Amazon donate 0.5% of your qualifying
+            Amazon Purchases to Yankee Dahlia Society and help us to continue
+            putting on fun events, workshops and programs for the club.
+          </p>
+          <br />
+          <a
+            className="button"
+            href="https://smile.amazon.com/ch/86-2027288"
+            target="_blank"
+          >
+            YDS on Amazon Smile
+          </a>
         </div>
       </div>
       <div className="footer__bottom">
