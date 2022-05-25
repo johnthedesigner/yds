@@ -45,11 +45,11 @@ const Index = ({response}) => {
         </h3>
         <p>
           YDS Memberships are available today for both individual and business
-          members. Register soon to attend our first meeting!
+          members. Register soon to attend your first meeting!
         </p>
         <Link
           to="/membership"
-          className="button"
+          className="button button--homepage"
           title="Find out more about YDS memberships"
         >
           Find out more

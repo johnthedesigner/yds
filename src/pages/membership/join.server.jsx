@@ -33,8 +33,8 @@ const Join = ({response}) => {
             Sign up now and receive an extended membership for your first year.
             Our membership year normally runs from August 1 through July 31.
             Join anytime between now and August 1, and your membership will
-            remain valid through July 31, 2022. It’s a great time to join us as
-            we launch!
+            remain valid through July 31, 2023. It’s a great time to join us as
+            the season is heating up!
           </p>
         </CompactText>
         <CompactText>
