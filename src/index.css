@@ -114,6 +114,13 @@ a {
   box-shadow: 0 0.125rem 0.25rem rgba(80, 111, 152, 0.4);
 }
 
+.button--homepage {
+  display: block;
+  width: fit-content;
+  margin-right: auto;
+  margin: 1rem 0 2rem;
+}
+
 a.button {
   color: rgb(61, 69, 73);
 }
