@@ -196,14 +196,6 @@ function CartFooter() {
               className="text-right "
             />
           </div>
-          <div role="row" className="flex justify-between mt-2">
-            <span className="font-semibold" role="rowheader">
-              Shipping
-            </span>
-            <span role="cell" className="uppercase">
-              Free
-            </span>
-          </div>
         </div>
         {/* <CartShopPayButton className="flex my-4 justify-center w-full bg-[#5a31f4] py-2 rounded-md" /> */}
         <CartCheckoutButton className={BUTTON_PRIMARY_CLASSES}>
