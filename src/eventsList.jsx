@@ -903,8 +903,100 @@ export const events = [
   },
   {
     date: '2022-06-26',
+    time: '10:00am – 12:00pm',
+    name: 'Virtual Meeting: Dahlia Virus Presentation by Dr. Hanu Pappu',
+    label: eventTypes.meeting,
+    showMore: [
+      {
+        name: 'Location',
+        content: () => {
+          return <p>Wenham, MA</p>;
+        },
+      },
+      {
+        name: 'Details',
+        content: () => {
+          return (
+            <>
+              <p>
+                Our next meeting will be via Zoom, and we are thrilled to
+                announce that our very special guest will be Dr. Hanu Pappu,
+                professor in the Department of Plant Pathology at Washington
+                State University, Pullman WA, and world renowned expert in
+                dahlia viruses.
+              </p>
+              <p>
+                Join us and learn what a dahlia virus is, how a virus can affect
+                dahlias, why you should care about them in your garden and what
+                to do if you think you have a virused plant. The work Dr. Hanu
+                Pappu and his team are doing is ongoing with new and interesting
+                developments. We look forward to the presentation with Dr. Pappu
+                as we learn about dahlia virus, current research and their
+                latest findings.
+              </p>
+              <p>
+                Did you know that the American Dahlia Society supports the WSU
+                Virus Project and the research of Dr. Hanu Pappu? The Clean
+                Stock Initiative is an ADS program that offers reduced cost
+                testing for virus in dahlias to dahlia clubs, individuals and
+                commercial dahlia growers subsidized through the Scheetz-Chuey
+                Foundation. Yankee Dahlia Society participated in and supports
+                the Clean Stock Initiative as it is an excellent way to help
+                maintain a healthy garden and dahlia stock.
+              </p>
+            </>
+          );
+        },
+      },
+    ],
+  },
+  {
+    date: '2022-07-23',
     time: 'TBD',
-    name: 'Virtual Meeting: With a Special Guest',
+    name: 'Previewing the dahlia garden and Lily garden tour with Y.D.S member Roy Christoph',
+    label: eventTypes.meeting,
+    showMore: [
+      {
+        name: 'Details',
+        content: () => {
+          return (
+            <>
+              <p>
+                Our next meeting will be via Zoom, and we are thrilled to
+                announce that our very special guest will be Dr. Hanu Pappu,
+                professor in the Department of Plant Pathology at Washington
+                State University, Pullman WA, and world renowned expert in
+                dahlia viruses.
+              </p>
+              <p>
+                Join us and learn what a dahlia virus is, how a virus can affect
+                dahlias, why you should care about them in your garden and what
+                to do if you think you have a virused plant. The work Dr. Hanu
+                Pappu and his team are doing is ongoing with new and interesting
+                developments. We look forward to the presentation with Dr. Pappu
+                as we learn about dahlia virus, current research and their
+                latest findings.
+              </p>
+              <p>
+                Did you know that the American Dahlia Society supports the WSU
+                Virus Project and the research of Dr. Hanu Pappu? The Clean
+                Stock Initiative is an ADS program that offers reduced cost
+                testing for virus in dahlias to dahlia clubs, individuals and
+                commercial dahlia growers subsidized through the Scheetz-Chuey
+                Foundation. Yankee Dahlia Society participated in and supports
+                the Clean Stock Initiative as it is an excellent way to help
+                maintain a healthy garden and dahlia stock.
+              </p>
+            </>
+          );
+        },
+      },
+    ],
+  },
+  {
+    date: '2022-08-11',
+    time: 'TBD',
+    name: 'Zoom Meeting - With a special guest presenter',
     label: eventTypes.meeting,
   },
 ];
