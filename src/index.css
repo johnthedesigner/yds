@@ -758,8 +758,6 @@ button[type='submit'].donation-form__submit-button {
   background-image: url('/dahlia-garden.jpg');
   background-position: center center;
   background-size: cover;
-  height: 60vh;
-  min-height: max-content;
   color: white;
 }
 .shop-index__header:before {
@@ -781,6 +779,22 @@ button[type='submit'].donation-form__submit-button {
 
 .shop-index__button-row {
   margin: 2rem 0;
+}
+
+.highlight-row__header {
+  padding: 0 3rem;
+}
+
+.highlight-row__title {
+  display: inline-block;
+  margin-right: 1rem;
+  padding: 1rem 0;
+}
+
+.highlight-row__link-button {
+  display: inline-block;
+  font-size: 1.5rem;
+  text-decoration: underline;
 }
 
 /* Product Listing */
@@ -810,12 +824,17 @@ button[type='submit'].donation-form__submit-button {
   grid-template-columns: repeat(3, 1fr);
 }
 
+.product-grid__highlight-row {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .product-grid__item {
   padding: 2rem;
 }
 
 .product-grid__title-row {
   display: flex;
+  flex-direction: column;
   padding: 1.5rem 1rem 1rem;
 }
 

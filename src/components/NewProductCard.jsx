@@ -49,18 +49,19 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
         >
           <Gallery />
         </Link>
-        <div className="product-grid__image-overlay">
-          <WithEarlyAccess>
-            <p className="product-grid__inventory">
-              {product.totalInventory < 5 && (
-                <small>
-                  <em>{product.totalInventory} left in stock.</em>
-                </small>
-              )}
-            </p>
-          </WithEarlyAccess>
-          <CountryFlag product={product} />
-        </div>
+        {product.totalInventory < 5 ||
+          (product.country_of_origin && (
+            <div className="product-grid__image-overlay">
+              <p className="product-grid__inventory">
+                {product.totalInventory < 5 && (
+                  <small>
+                    <em>{product.totalInventory} left in stock.</em>
+                  </small>
+                )}
+              </p>
+              <CountryFlag product={product} />
+            </div>
+          ))}
       </div>
       {showDetails && (
         <div className="product-grid__product-info">

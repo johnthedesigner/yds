@@ -193,23 +193,10 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
 };
 
 const QUERY = gql`
-  query product(
-    $country: CountryCode
-    $handle: String!
-    $includeReferenceMetafieldDetails: Boolean = true
-    $numProductMetafields: Int = 20
-    $numProductVariants: Int = 250
-    $numProductMedia: Int = 6
-    $numProductVariantMetafields: Int = 10
-    $numProductVariantSellingPlanAllocations: Int = 0
-    $numProductSellingPlanGroups: Int = 0
-    $numProductSellingPlans: Int = 0
-  ) @inContext(country: $country) {
+  query product($handle: String!) {
     product: product(handle: $handle) {
-      description
-      id
-      tags
-      totalInventory
+      vendor
+      title
       totalInventory
       tags
       hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
@@ -253,11 +240,42 @@ const QUERY = gql`
           }
         }
       }
-      ...ProductProviderFragment
+      media(first: 10) {
+        edges {
+          node {
+            ... on MediaImage {
+              mediaContentType
+              image {
+                id
+                url
+                altText
+                width
+                height
+              }
+            }
+          }
+        }
+      }
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            image {
+              id
+              url
+              altText
+              width
+              height
+            }
+            selectedOptions {
+              name
+              value
+            }
+          }
+        }
+      }
     }
   }
-
-  ${ProductProviderFragment}
 `;
 
 export default ProductDetail;

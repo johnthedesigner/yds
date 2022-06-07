@@ -11,6 +11,7 @@ import {Link} from 'react-router-dom';
 import {useAuth0} from '@auth0/auth0-react';
 
 import Layout from '../../components/Layout.server';
+import Bumper from '../../components/Bumper.server';
 import NotFound from '../../components/NotFound.client';
 import catalogData from '../../catalogData.json';
 import ProductFilters from '../../components/ProductFilters.client';
@@ -27,6 +28,7 @@ import {
 import LoginButton from '../../components/LoginButton..client';
 import NewSeo from '../../components/NewSeo.client';
 import pages from '../../pages.json';
+import ProductHighlightRow from '../../components/ProductHighlightRow.server';
 
 const LaunchDateTime = '2022-01-08T15:00:00-05:00';
 
@@ -53,33 +55,6 @@ const ShopIndex = ({
     noStore: true,
   });
 
-  // const {loginWithRedirect, logout, user, isAuthenticated, isLoading} =
-  //   useAuth0();
-  let {isAuthenticated, isLoading, user} = authStatus;
-
-  const productDisplayIncrement = 24;
-  const {product_type} = useParams();
-
-  // Fetch products from shopify
-  const {data} = useShopQuery({
-    query: QUERY(),
-    variables: {
-      handle: 'top-varieties',
-      country: 'US',
-    },
-  });
-
-  // If there are no products available, show "not found"
-  console.log(data);
-  if (data?.collection.products == null) {
-    return <NotFound />;
-  }
-
-  // If there are products, prepare product data
-  const products = data ? flattenConnection(data.collection.products) : [];
-  const sortedProducts = _.orderBy(products, 'title');
-  const hasNextPage = data.collection.products.pageInfo.hasNextPage;
-
   return (
     <Layout>
       <NewSeo page={pages.shop} />
@@ -87,79 +62,53 @@ const ShopIndex = ({
         <div className="shop-index__header">
           <div className="shop-index__welcome-text">
             <h1>Y.D.S. Shop</h1>
-            <p>Y.D.S. Tuber sales are open to Y.D.S. Members only.</p>
-            <p>
-              Inventory will be replenished throughout the winter and spring.
-              Check your member newsletters for updates.
-            </p>
-            {/* <p>
-              The tuber sale opens for all Y.D.S. members on January 15th, 2022
-              at 3:00pm.
-            </p>
-            <WithEarlyAccess>
-              <p>
-                The tuber sale opens for Y.D.S. members with early access on
-                January 8th, 2022 at 3:00 pm.
-              </p>
-              <p>The early access tuber sale has started!</p>
-            </WithEarlyAccess> */}
-            <div className="shop-index__button-row">
-              <Link className="button" to="/shop/products">
-                Browse All Products
-              </Link>
-            </div>
+            <p>The Y.D.S. dahlia shop is open to Y.D.S. Members only.</p>
             <div className="shop-index__button-row">
               <Link to="/membership" className="button">
-                Y.D.S. Membership
+                Become a Member
+              </Link>
+              <span style={{margin: '1rem'}}>or</span>
+              <Link to="/login" className="button">
+                Member Login
               </Link>
             </div>
           </div>
         </div>
-        <h3 style={{textAlign: 'center', marginTop: '2rem'}}>Top Products</h3>
-        <div className="product-grid">
-          {sortedProducts.map((product) => {
-            return (
-              <div key={product.id} className="product-grid__item">
-                <NewProductCard
-                  product={product}
-                  // linkCard={false}
-                  // showDetails={false}
-                />
-              </div>
-            );
-          })}
-        </div>
+        <ProductHighlightRow
+          title="Tubers"
+          collection="top-varieties"
+          indexPath="/shop/tubers"
+          indexTitle="Shop all Tubers"
+        />
+        <ProductHighlightRow
+          title="Tools & Supplies"
+          collection="top-supplies"
+          indexPath="/shop/supplies"
+          indexTitle="Shop all Tools & Supplies"
+        />
       </div>
+      <Bumper
+        text="Our sales are open to Y.D.S. members, but that's just the beginning of the membership benefits!"
+        buttonUrl="/membership"
+        buttonLabel="Find out more"
+      />
     </Layout>
   );
 };
 
 const QUERY = () => {
   return gql`
-    query CollectionDetails(
-      $handle: String!
-      $includeReferenceMetafieldDetails: Boolean = true
-      $numProductMetafields: Int = 0
-      $numProductVariants: Int = 250
-      $numProductMedia: Int = 6
-      $numProductVariantMetafields: Int = 0
-      $numProductVariantSellingPlanAllocations: Int = 0
-      $numProductSellingPlanGroups: Int = 0
-      $numProductSellingPlans: Int = 0
-    ) {
-      collection(handle: $handle) {
-        id
-        title
-        descriptionHtml
-
-        products(first: 3, sortKey: TITLE) {
+    query topVarieties {
+      collection(handle: "top-varieties") {
+        products(first: 3) {
           edges {
             cursor
             node {
+              handle
               vendor
               title
+              totalInventory
               tags
-              ...ProductProviderFragment
               hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
                 key
                 value
@@ -190,6 +139,40 @@ const QUERY = () => {
                 key
                 value
               }
+              media(first: 10) {
+                edges {
+                  node {
+                    ... on MediaImage {
+                      mediaContentType
+                      image {
+                        id
+                        url
+                        altText
+                        width
+                        height
+                      }
+                    }
+                  }
+                }
+              }
+              variants(first: 10) {
+                edges {
+                  node {
+                    id
+                    image {
+                      id
+                      url
+                      altText
+                      width
+                      height
+                    }
+                    selectedOptions {
+                      name
+                      value
+                    }
+                  }
+                }
+              }
             }
           }
           pageInfo {
@@ -199,9 +182,6 @@ const QUERY = () => {
         }
       }
     }
-
-    ${MediaFileFragment}
-    ${ProductProviderFragment}
   `;
 };
 

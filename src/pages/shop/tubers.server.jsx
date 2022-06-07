@@ -1,38 +1,23 @@
 import _ from 'lodash';
-import {
-  MediaFileFragment,
-  ProductProviderFragment,
-  useShopQuery,
-  flattenConnection,
-  Product,
-} from '@shopify/hydrogen';
+import {useShopQuery, flattenConnection} from '@shopify/hydrogen';
 import gql from 'graphql-tag';
-import {Link, useHistory, useLocation, useParams} from 'react-router-dom';
-// import {useEffect} from 'react';
+import {Link} from 'react-router-dom';
 
-import Layout from '../../../components/Layout.server';
-import NotFound from '../../../components/NotFound.client';
-import catalogData from '../../../catalogData.json';
-import ProductFilters from '../../../components/ProductFilters.client';
-import ProductFiltersMobile from '../../../components/ProductFiltersMobile.client';
-import AuthRequired from '../../../components/AuthRequired.client';
-import NewProductCard from '../../../components/NewProductCard';
-import ProductSort from '../../../components/ProductSort.client';
-import NewSeo from '../../../components/NewSeo.client';
-import pages from '../../../pages.json';
-
-const productTypesMap = {
-  'gift-cards': 'Gift Cards',
-  supplies: 'Supplies',
-  tubers: 'Tubers',
-};
+import Layout from '../../components/Layout.server';
+import NotFound from '../../components/NotFound.client';
+import catalogData from '../../catalogData.json';
+import ProductFilters from '../../components/ProductFilters.client';
+import ProductFiltersMobile from '../../components/ProductFiltersMobile.client';
+import NewProductCard from '../../components/NewProductCard';
+import ProductSort from '../../components/ProductSort.client';
+import NewSeo from '../../components/NewSeo.client';
+import pages from '../../pages.json';
 
 const ShopIndex = ({
   response,
   selectedOptions,
   productCount = 200,
   sortOption = 'titleAsc',
-  pending = false,
 }) => {
   response.cache({
     // Cache the page for one hour.
@@ -45,12 +30,7 @@ const ShopIndex = ({
     noStore: true,
   });
 
-  const productDisplayIncrement = 24;
-  // const {product_type} = useParams();
   const product_type = 'tubers';
-
-  const history = useHistory();
-  const {pathname} = useLocation();
 
   // Build query tags list
   var queryTagString = '';
@@ -97,7 +77,7 @@ const ShopIndex = ({
     <Layout>
       <NewSeo page={pages['all-products']} />
       <div className="product-detail__breadcrumb">
-        <Link to="/shop">Shop</Link> / <b>All Products</b>
+        <Link to="/shop">Shop</Link> / <b>Tubers</b>
       </div>
       <div className="product-listing">
         <div className="product-listing__sidebar">
