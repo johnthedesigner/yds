@@ -129,60 +129,88 @@ const ShopIndex = ({
 
 const QUERY = (productCount, queryTagString) => {
   return gql`
-  query CollectionDetails(
-    $includeReferenceMetafieldDetails: Boolean = true
-    $numProductMetafields: Int = 0
-    $numProductVariants: Int = 250
-    $numProductMedia: Int = 6
-    $numProductVariantMetafields: Int = 0
-    $numProductVariantSellingPlanAllocations: Int = 0
-    $numProductSellingPlanGroups: Int = 0
-    $numProductSellingPlans: Int = 0
-    ) {
-      products(first: ${productCount} query: "${queryTagString}") {
-        edges {
-          cursor
-          node {
-            vendor
-            title
-            totalInventory
-            tags
-            ...ProductProviderFragment
-            hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
-              key
-              value
-            }
-            country_of_origin: metafield(namespace: "my_fields", key: "country_of_origin") {
-              key
-              value
-            }
-            introduction_year: metafield(namespace: "my_fields", key: "introduction_year") {
-              key
-              value
-            }
-            asd_code: metafield(namespace: "my_fields", key: "ads_code") {
-              key
-              value
-            }
-            bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
-              key
-              value
-            }
-            height: metafield(namespace: "my_fields", key: "height") {
-              key
-              value
+query productListing {
+  products(first: ${productCount} query: "${queryTagString}") {
+    edges {
+      cursor
+      node {
+        handle
+        vendor
+        title
+        totalInventory
+        tags
+        hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
+          key
+          value
+        }
+        country_of_origin: metafield(
+          namespace: "my_fields"
+          key: "country_of_origin"
+        ) {
+          key
+          value
+        }
+        introduction_year: metafield(
+          namespace: "my_fields"
+          key: "introduction_year"
+        ) {
+          key
+          value
+        }
+        asd_code: metafield(namespace: "my_fields", key: "ads_code") {
+          key
+          value
+        }
+        bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
+          key
+          value
+        }
+        height: metafield(namespace: "my_fields", key: "height") {
+          key
+          value
+        }
+        media(first: 10) {
+          edges {
+            node {
+              ... on MediaImage {
+                mediaContentType
+                image {
+                  id
+                  url
+                  altText
+                  width
+                  height
+                }
+              }
             }
           }
         }
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
+        variants(first: 10) {
+          edges {
+            node {
+              id
+              image {
+                id
+                url
+                altText
+                width
+                height
+              }
+              selectedOptions {
+                name
+                value
+              }
+            }
+          }
         }
       }
     }
-
-  ${MediaFileFragment}
-  ${ProductProviderFragment}
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
 `;
 };
 

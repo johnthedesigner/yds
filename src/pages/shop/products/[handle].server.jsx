@@ -36,11 +36,7 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
   const {handle} = useParams();
 
   const {data} = useShopQuery({
-    query: QUERY,
-    variables: {
-      country: country.isoCode,
-      handle,
-    },
+    query: QUERY(handle),
   });
 
   if (!data.product) {
@@ -192,72 +188,93 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
   );
 };
 
-const QUERY = gql`
-  query product(
-    $country: CountryCode
-    $handle: String!
-    $includeReferenceMetafieldDetails: Boolean = true
-    $numProductMetafields: Int = 20
-    $numProductVariants: Int = 250
-    $numProductMedia: Int = 6
-    $numProductVariantMetafields: Int = 10
-    $numProductVariantSellingPlanAllocations: Int = 0
-    $numProductSellingPlanGroups: Int = 0
-    $numProductSellingPlans: Int = 0
-  ) @inContext(country: $country) {
-    product: product(handle: $handle) {
-      description
-      id
-      tags
-      totalInventory
-      totalInventory
-      tags
-      hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
-        key
-        value
-      }
-      country_of_origin: metafield(
-        namespace: "my_fields"
-        key: "country_of_origin"
-      ) {
-        key
-        value
-      }
-      introduction_year: metafield(
-        namespace: "my_fields"
-        key: "introduction_year"
-      ) {
-        key
-        value
-      }
-      asd_code: metafield(namespace: "my_fields", key: "ads_code") {
-        key
-        value
-      }
-      bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
-        key
-        value
-      }
-      height: metafield(namespace: "my_fields", key: "height") {
-        key
-        value
-      }
-      seo {
+const QUERY = (handle) => {
+  return gql`
+query productDetail {
+  product(handle: "${handle}") {
+        handle
+        vendor
         title
-        description
-      }
-      images(first: 1) {
-        edges {
-          node {
-            url
+        totalInventory
+        tags
+       seo {
+         title
+         description
+       }
+       images(first: 1) {
+         edges {
+           node {
+             url
+           }
+         }
+       }
+        hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
+          key
+          value
+        }
+        country_of_origin: metafield(
+          namespace: "my_fields"
+          key: "country_of_origin"
+        ) {
+          key
+          value
+        }
+        introduction_year: metafield(
+          namespace: "my_fields"
+          key: "introduction_year"
+        ) {
+          key
+          value
+        }
+        asd_code: metafield(namespace: "my_fields", key: "ads_code") {
+          key
+          value
+        }
+        bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
+          key
+          value
+        }
+        height: metafield(namespace: "my_fields", key: "height") {
+          key
+          value
+        }
+        media(first: 10) {
+          edges {
+            node {
+              ... on MediaImage {
+                mediaContentType
+                image {
+                  id
+                  url
+                  altText
+                  width
+                  height
+                }
+              }
+            }
           }
         }
-      }
-      ...ProductProviderFragment
-    }
+        variants(first: 10) {
+          edges {
+            node {
+              id
+              image {
+                id
+                url
+                altText
+                width
+                height
+              }
+              selectedOptions {
+                name
+                value
+              }
+            }
+          }
+        }
   }
-
-  ${ProductProviderFragment}
+}
 `;
+};
 
 export default ProductDetail;
