@@ -62,11 +62,7 @@ const ShopIndex = ({
 
   // Fetch products from shopify
   const {data} = useShopQuery({
-    query: QUERY(),
-    variables: {
-      handle: 'top-varieties',
-      country: 'US',
-    },
+    query: QUERY('top-varieties'),
   });
 
   // If there are no products available, show "not found"
@@ -134,75 +130,93 @@ const ShopIndex = ({
   );
 };
 
-const QUERY = () => {
+const QUERY = (handle) => {
   return gql`
-    query CollectionDetails(
-      $handle: String!
-      $includeReferenceMetafieldDetails: Boolean = true
-      $numProductMetafields: Int = 0
-      $numProductVariants: Int = 250
-      $numProductMedia: Int = 6
-      $numProductVariantMetafields: Int = 0
-      $numProductVariantSellingPlanAllocations: Int = 0
-      $numProductSellingPlanGroups: Int = 0
-      $numProductSellingPlans: Int = 0
-    ) {
-      collection(handle: $handle) {
-        id
+query CollectionDetails {
+  collection(handle: "${handle}") {
+  products(first: 3) {
+    edges {
+      cursor
+      node {
+        handle
+        vendor
         title
-        descriptionHtml
-
-        products(first: 3, sortKey: TITLE) {
+        totalInventory
+        tags
+        hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
+          key
+          value
+        }
+        country_of_origin: metafield(
+          namespace: "my_fields"
+          key: "country_of_origin"
+        ) {
+          key
+          value
+        }
+        introduction_year: metafield(
+          namespace: "my_fields"
+          key: "introduction_year"
+        ) {
+          key
+          value
+        }
+        asd_code: metafield(namespace: "my_fields", key: "ads_code") {
+          key
+          value
+        }
+        bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
+          key
+          value
+        }
+        height: metafield(namespace: "my_fields", key: "height") {
+          key
+          value
+        }
+        media(first: 10) {
           edges {
-            cursor
             node {
-              vendor
-              title
-              tags
-              ...ProductProviderFragment
-              hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
-                key
-                value
+              ... on MediaImage {
+                mediaContentType
+                image {
+                  id
+                  url
+                  altText
+                  width
+                  height
+                }
               }
-              country_of_origin: metafield(
-                namespace: "my_fields"
-                key: "country_of_origin"
-              ) {
-                key
-                value
+            }
+          }
+        }
+        variants(first: 10) {
+          edges {
+            node {
+              id
+              image {
+                id
+                url
+                altText
+                width
+                height
               }
-              introduction_year: metafield(
-                namespace: "my_fields"
-                key: "introduction_year"
-              ) {
-                key
-                value
-              }
-              asd_code: metafield(namespace: "my_fields", key: "ads_code") {
-                key
-                value
-              }
-              bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
-                key
-                value
-              }
-              height: metafield(namespace: "my_fields", key: "height") {
-                key
+              selectedOptions {
+                name
                 value
               }
             }
           }
-          pageInfo {
-            hasNextPage
-            hasPreviousPage
-          }
         }
       }
     }
-
-    ${MediaFileFragment}
-    ${ProductProviderFragment}
-  `;
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+}
+`;
 };
 
 export default ShopIndex;
