@@ -21,8 +21,8 @@ import {
 const ProductCard = ({product, linkCard = true, showDetails = true}) => {
   let initialVariant = flattenConnection(product.variants)[0];
 
-  const Price = ({amount, currencyNarrowSymbol}) => {
-    return `${currencyNarrowSymbol}${amount}`;
+  const Price = ({price}) => {
+    return `$${price}`;
   };
 
   const CountryFlag = ({product}) => {
@@ -40,6 +40,27 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
     }
   };
 
+  const ImageOverlay = ({inventory, country}) => {
+    // At which quantity should we stop highlighting inventory
+    const inventoryCutoff = 5;
+    if (inventory < inventoryCutoff || country) {
+      return (
+        <div className="product-grid__image-overlay">
+          <p className="product-grid__inventory">
+            {inventory < inventoryCutoff && (
+              <small>
+                <em>{inventory} left in stock.</em>
+              </small>
+            )}
+          </p>
+          <CountryFlag product={product} />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <Product product={product} initialVariantId={initialVariant.id}>
       <div className="product-grid__image">
@@ -49,19 +70,10 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
         >
           <Gallery />
         </Link>
-        {product.totalInventory < 5 ||
-          (product.country_of_origin && (
-            <div className="product-grid__image-overlay">
-              <p className="product-grid__inventory">
-                {product.totalInventory < 5 && (
-                  <small>
-                    <em>{product.totalInventory} left in stock.</em>
-                  </small>
-                )}
-              </p>
-              <CountryFlag product={product} />
-            </div>
-          ))}
+        <ImageOverlay
+          inventory={product.totalInventory}
+          country={product.country_of_origin}
+        />
       </div>
       {showDetails && (
         <div className="product-grid__product-info">
@@ -78,7 +90,7 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
                   className="product-grid__price"
                   as="p"
                 >
-                  <Price />
+                  <Price price={initialVariant.priceV2.amount} />
                 </Product.SelectedVariant.Price>
               </WithAnyAccess>
               <WithoutAccess>

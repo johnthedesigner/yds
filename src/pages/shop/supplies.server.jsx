@@ -73,6 +73,8 @@ const ShopIndex = ({
     ascDesc,
   );
 
+  console.log(sortedProducts[0].priceRange);
+
   return (
     <Layout>
       <NewSeo page={pages['all-products']} />
@@ -181,6 +183,14 @@ query productListing {
                 value
               }
             }
+          }
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+          }
+          maxVariantPrice {
+            amount
           }
         }
       }

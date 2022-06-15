@@ -77,7 +77,7 @@ const ShopIndex = ({
     <Layout>
       <NewSeo page={pages['all-products']} />
       <div className="product-detail__breadcrumb">
-        <Link to="/shop">Shop</Link> / <b>Tubers</b>
+        <Link to="/shop">Shop</Link> / <b>Dahlias</b>
       </div>
       <div className="product-listing">
         <div className="product-listing__sidebar">
@@ -169,6 +169,10 @@ query productListing {
           edges {
             node {
               id
+              priceV2 {
+                amount
+                currencyCode
+              }
               image {
                 id
                 url
@@ -181,6 +185,14 @@ query productListing {
                 value
               }
             }
+          }
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+          }
+          maxVariantPrice {
+            amount
           }
         }
       }

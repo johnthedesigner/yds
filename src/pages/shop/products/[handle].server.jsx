@@ -132,9 +132,8 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
       <NewSeo product={data.product} />
       <Product product={data.product} initialVariantId={initialVariant.id}>
         <div className="product-detail__breadcrumb">
-          <Link to="/shop">Shop</Link> /{' '}
-          <Link to="/shop/products">All Products</Link> /{' '}
-          <Product.Title as="b" className="product-detail__title" />
+          <Link to="/shop">Shop</Link> / <Link to="/shop/dahlias">Dahlias</Link>{' '}
+          / <Product.Title as="b" className="product-detail__title" />
         </div>
         <div className="product-detail">
           <div className="product-detail__gallery-container">
@@ -259,7 +258,12 @@ const QUERY = gql`
       variants(first: 10) {
         edges {
           node {
+            availableForSale
             id
+            priceV2 {
+              amount
+              currencyCode
+            }
             image {
               id
               url
@@ -272,6 +276,14 @@ const QUERY = gql`
               value
             }
           }
+        }
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+        }
+        maxVariantPrice {
+          amount
         }
       }
     }

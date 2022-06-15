@@ -119,6 +119,10 @@ const QUERY = (handle) => {
                 edges {
                   node {
                     id
+                    priceV2 {
+                      amount
+                      currencyCode
+                    }
                     image {
                       id
                       url
@@ -131,6 +135,14 @@ const QUERY = (handle) => {
                       value
                     }
                   }
+                }
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                }
+                maxVariantPrice {
+                  amount
                 }
               }
             }
