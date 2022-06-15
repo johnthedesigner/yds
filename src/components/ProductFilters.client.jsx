@@ -11,6 +11,7 @@ const ProductFilters = ({options}) => {
   const {pathname, search} = useLocation();
 
   const updateFilters = (options) => {
+    console.log(pathname);
     if (options.length === 0) {
       history.replace({
         pathname,

@@ -14,12 +14,12 @@ const ProductFiltersMobile = ({options}) => {
   const updateFilters = (options) => {
     if (options.length === 0) {
       history.replace({
-        pathname: '/shop/products',
+        pathname,
       });
     } else {
       let tagsConcatenated = _.concat(options);
       history.replace({
-        pathname: '/shop/products',
+        pathname,
         search: `?tags=${tagsConcatenated}`,
       });
     }
