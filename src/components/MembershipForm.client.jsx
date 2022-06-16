@@ -131,6 +131,8 @@ const MembershipForm = (props) => {
 
         <input type="hidden" name="no_shipping" value="1" />
 
+        <input type="hidden" name="tax" value="0" />
+
         <input type="hidden" name="item_name" value={getItemName()} />
 
         <input
