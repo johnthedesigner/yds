@@ -73,8 +73,6 @@ const ShopIndex = ({
     ascDesc,
   );
 
-  console.log(sortedProducts[0].priceRange);
-
   return (
     <Layout>
       <NewSeo page={pages['all-products']} />
@@ -171,6 +169,10 @@ query productListing {
           edges {
             node {
               id
+              priceV2 {
+                amount
+                currencyCode
+              }
               image {
                 id
                 url

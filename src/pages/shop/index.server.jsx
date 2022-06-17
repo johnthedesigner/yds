@@ -1,5 +1,3 @@
-import _, {has} from 'lodash';
-import gql from 'graphql-tag';
 import {Link} from 'react-router-dom';
 
 import Layout from '../../components/Layout.server';
@@ -9,7 +7,7 @@ import pages from '../../pages.json';
 import ProductHighlightRow from '../../components/ProductHighlightRow.server';
 
 // Should we show tools and supplies yet?
-const showSupplies = false;
+const showSupplies = true;
 
 const ShopIndex = ({response}) => {
   response.cache({

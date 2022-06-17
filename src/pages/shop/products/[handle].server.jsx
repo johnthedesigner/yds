@@ -152,12 +152,25 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
                   className="product-detail__price"
                   as="p"
                 />
+                {_.map(product.options, (option) => {
+                  return (
+                    <>
+                      <label>{option.name}</label>
+                      <select value="">
+                        <option value="">Select an option</option>
+                        {_.map(option.values, (value) => {
+                          return <option value={value}>{value}</option>;
+                        })}
+                      </select>
+                    </>
+                  );
+                })}
               </WithAnyAccess>
               <WithEarlyAccess>
                 <p>
                   {product.totalInventory < 5 && (
                     <small>
-                      <em>{data.product.totalInventory} left in stock.</em>
+                      <em>{initialVariant.quantityAvailable} left in stock.</em>
                     </small>
                   )}
                 </p>
@@ -194,6 +207,10 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
 const QUERY = gql`
   query product($handle: String!) {
     product: product(handle: $handle) {
+      options {
+        name
+        values
+      }
       vendor
       title
       totalInventory
@@ -260,6 +277,7 @@ const QUERY = gql`
           node {
             availableForSale
             id
+            quantityAvailable
             priceV2 {
               amount
               currencyCode
