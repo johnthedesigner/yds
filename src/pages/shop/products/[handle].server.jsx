@@ -157,7 +157,7 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
                 <p>
                   {product.totalInventory < 5 && (
                     <small>
-                      <em>{data.product.totalInventory} left in stock.</em>
+                      <em>{initialVariant.quantityAvailable} left in stock.</em>
                     </small>
                   )}
                 </p>
@@ -260,6 +260,7 @@ const QUERY = gql`
           node {
             availableForSale
             id
+            quantityAvailable
             priceV2 {
               amount
               currencyCode
