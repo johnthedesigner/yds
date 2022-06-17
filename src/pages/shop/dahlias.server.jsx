@@ -169,6 +169,7 @@ query productListing {
           edges {
             node {
               id
+              quantityAvailable
               priceV2 {
                 amount
                 currencyCode

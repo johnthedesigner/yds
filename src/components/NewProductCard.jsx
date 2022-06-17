@@ -71,7 +71,7 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
           <Gallery />
         </Link>
         <ImageOverlay
-          inventory={product.totalInventory}
+          inventory={initialVariant.quantityAvailable}
           country={product.country_of_origin}
         />
       </div>

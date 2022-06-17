@@ -119,9 +119,10 @@ const QUERY = (handle) => {
                 edges {
                   node {
                     id
+                    quantityAvailable
                     priceV2 {
-                      amount
-                      currencyCode
+                        amount
+                        currencyCode
                     }
                     image {
                       id
