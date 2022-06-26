@@ -1,5 +1,5 @@
-import _, {flatten} from 'lodash';
-import {useShopQuery, flattenConnection} from '@shopify/hydrogen';
+import _ from 'lodash';
+import {useShopQuery} from '@shopify/hydrogen';
 import gql from 'graphql-tag';
 
 import Layout from '../../components/Layout.server';
@@ -43,10 +43,7 @@ const Register = ({response}) => {
   }
 
   // If there are products, prepare product data
-  const product = data ? data.productByHandle : [];
-  const variants = product.variants ? flattenConnection(product.variants) : [];
-
-  console.log(product);
+  const membershipProduct = data ? data.productByHandle : [];
 
   return (
     <Layout
@@ -57,16 +54,10 @@ const Register = ({response}) => {
       <CompactTextWrapper>
         <CompactText>
           <h3>WE WANT YOU for Yankee Dahlia Society!</h3>
-          <p>
-            Sign up now and receive an extended membership for your first year.
-            Our membership year normally runs from August 1 through July 31.
-            Join anytime between now and August 1, and your membership will
-            remain valid through July 31, 2023. It’s a great time to join us as
-            the season is heating up!
-          </p>
+          <p>{membershipProduct.description}</p>
         </CompactText>
         <CompactText>
-          <MembershipForm />
+          <MembershipForm membershipProduct={membershipProduct} />
         </CompactText>
       </CompactTextWrapper>
     </Layout>
@@ -77,6 +68,7 @@ const QUERY = (membershipHandle) => {
   return gql`
     query currentMembership {
       productByHandle(handle: "${membershipHandle}") {
+            description
             handle
             vendor
             title
@@ -111,6 +103,10 @@ const QUERY = (membershipHandle) => {
             height: metafield(namespace: "my_fields", key: "height") {
               key
               value
+            }
+            options(first: 10) {
+                name
+                values
             }
             variants(first: 10) {
               edges {

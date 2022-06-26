@@ -1,9 +1,36 @@
-import {useState} from 'react';
+import {flattenConnection} from '@shopify/hydrogen';
+import _ from 'lodash';
+import {useEffect, useState} from 'react';
 
-const MembershipForm = (props) => {
+const MembershipForm = ({membershipProduct}) => {
+  // TODO: Remove paypal membership state
   const [membershipType, setMembershipType] = useState('individual');
   const [donation, setDonation] = useState(25);
   const [includeDonation, setIncludeDonation] = useState(false);
+
+  // New shopify membership product state
+  // TODO: Remove paypal membership state
+  const variants = flattenConnection(membershipProduct.variants);
+  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+  const [selectedOptions, setSelectedOptions] = useState(
+    variants[0].selectedOptions,
+  );
+
+  // Update selected variant
+  const selectVariant = () => {
+    let nextVariant;
+    _.map(variants, (variant) => {
+      if (_.isEqual(variant.selectedOptions, selectedOptions)) {
+        nextVariant = {...variant};
+      }
+    });
+    setSelectedVariant(nextVariant);
+  };
+
+  // When options are updated, pick a matching variant
+  useEffect(() => {
+    selectVariant();
+  }, [selectedOptions]);
 
   const baseRates = {
     business: 50,
@@ -27,7 +54,7 @@ const MembershipForm = (props) => {
     }
   };
 
-  const dollarize = (value) => `$${value}.00`;
+  const dollarize = (value) => `$${1 * value}.00`;
 
   const Tally = (props) => {
     return <div className="tally">{props.children}</div>;
@@ -57,53 +84,62 @@ const MembershipForm = (props) => {
     );
   };
 
-  return (
-    <>
+  // Change Option and trigger downstream updates
+  const changeOption = (e) => {
+    // Get the new option name and value
+    const {name, value} = e.target;
+
+    // // Build an up-to-date index of selected options
+    const optionIndex = {};
+    _.each(selectedOptions, (option) => {
+      optionIndex[option.name] = option.value;
+    });
+    optionIndex[name] = value;
+
+    let nextOptionArray = _.map(optionIndex, (value, name) => {
+      return {name, value};
+    });
+    console.log(nextOptionArray);
+  };
+
+  // Build membership form options as dropdowns
+  const FormOption = ({name, values, selectedOptions}) => {
+    const defaultValue = _.find(selectedOptions, {name});
+    const [currentValue, setCurrentValue] = useState(defaultValue);
+    // console.log(defaultValue);
+    return (
       <fieldset>
-        <label htmlFor="membership_type">Select Membership Type</label>
-        <select
-          id="membership_type"
-          name="membership_type"
-          onChange={(e) => {
-            setMembershipType(e.target.value);
-          }}
-        >
-          <option value="individual">Individual Membership – $35.00</option>
-          <option value="business">Business Membership – $50.00</option>
+        <label>{name}</label>
+        <select value={currentValue} onChange={changeOption}>
+          <option value="">Select One</option>
+          {_.map(values, (value) => {
+            return (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            );
+          })}
         </select>
       </fieldset>
-      <p>
-        Business memberships get extra club perks. We love promoting our
-        members’ businesses <em>(but it’s not required)</em>.
-      </p>
-      <hr className="form-divider" />
-      <fieldset>
-        <p>
-          Help us hit the ground running with an extra donation. We appreciate
-          anything else you can give. Founders Circle donations of $25 or more
-          will receive a special token of our appreciation.
-        </p>
-        <input
-          id="include_donation"
-          name="include_donation"
-          type="checkbox"
-          value={includeDonation}
-          onChange={() => setIncludeDonation(!includeDonation)}
-        />
-        <label className="inline-label" htmlFor="include_donation">
-          Include donation?
-        </label>
-        <label htmlFor="donation_amount">Donation Amount</label>
-        <input
-          id="donation_amount"
-          type="text"
-          value={donation}
-          onChange={(e) => setDonation(1 * e.target.value)}
-          disabled={!includeDonation}
-        />
-      </fieldset>
+    );
+  };
+
+  return (
+    <>
+      {_.map(membershipProduct.options, (option) => {
+        return (
+          <FormOption
+            name={option.name}
+            values={option.values}
+            selectedOptions={selectedOptions}
+          />
+        );
+      })}
       <Tally>
-        <TallyItem name="Base Rate" amount={dollarize(getBase())} />
+        <TallyItem
+          name="Base Rate"
+          amount={dollarize(selectedVariant.priceV2.amount)}
+        />
         <TallyItem
           name="Optional Donation"
           strikethrough={!includeDonation}
@@ -113,38 +149,6 @@ const MembershipForm = (props) => {
           amount={dollarize(includeDonation ? donation + getBase() : getBase())}
         />
       </Tally>
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-        <input type="hidden" name="cmd" value="_xclick" />
-        <input type="hidden" name="currency_code" value="USD" />
-        <input
-          type="hidden"
-          name="business"
-          value="info@yankeedahliasociety.com"
-        />
-
-        <input type="hidden" name="membership-type" value={membershipType} />
-        <input
-          type="hidden"
-          name="donation"
-          value={includeDonation ? donation : 0}
-        />
-
-        <input type="hidden" name="no_shipping" value="1" />
-
-        <input type="hidden" name="tax" value="0" />
-
-        <input type="hidden" name="item_name" value={getItemName()} />
-
-        <input
-          type="hidden"
-          name="amount"
-          value={includeDonation ? donation + getBase() : getBase()}
-        />
-
-        <button className="button" type="submit">
-          Purchase Membership
-        </button>
-      </form>
     </>
   );
 };
