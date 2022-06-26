@@ -21,6 +21,19 @@ import {
 const ProductCard = ({product, linkCard = true, showDetails = true}) => {
   let initialVariant = flattenConnection(product.variants)[0];
 
+  // TEMP: switch from first product to plant variant (where available)
+  let productVariants = flattenConnection(product.variants);
+  // Find out what value a given variant has for "Type" option
+  const getDahliaType = (variant) => {
+    let dahliaTypeOption = _.find(variant.selectedOptions, {name: 'Type'});
+    let dahliaTypeValue = dahliaTypeOption ? dahliaTypeOption.value : null;
+    return dahliaTypeValue;
+  };
+  // Get the variant of a product that is the Type: "Plant"
+  let plantVariant = _.find(productVariants, (variant) => {
+    return getDahliaType(variant) === 'Plant' ? true : false;
+  });
+
   const Price = ({price}) => {
     return `$${price}`;
   };
@@ -62,7 +75,12 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
   };
 
   return (
-    <Product product={product} initialVariantId={initialVariant.id}>
+    <Product
+      product={product}
+      initialVariantId={
+        plantVariant != null ? plantVariant.id : initialVariant.id
+      }
+    >
       <div className="product-grid__image">
         <Link
           className="product-grid__image-link"
@@ -71,7 +89,7 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
           <Gallery />
         </Link>
         <ImageOverlay
-          inventory={initialVariant.quantityAvailable}
+          inventory={plantVariant != null ? plantVariant.quantityAvailable : 0}
           country={product.country_of_origin}
         />
       </div>
@@ -84,13 +102,26 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
                 to={linkCard ? `/shop/products/${product.handle}` : null}
               >
                 <Product.Title as="h1" className="product-grid__title" />
+                <p>
+                  <em>
+                    <small>
+                      {plantVariant != null ? <>Plant</> : <>Tuber</>}
+                    </small>
+                  </em>
+                </p>
               </Link>
               <WithAnyAccess>
                 <Product.SelectedVariant.Price
                   className="product-grid__price"
                   as="p"
                 >
-                  <Price price={initialVariant.priceV2.amount} />
+                  <Price
+                    price={
+                      plantVariant != null
+                        ? plantVariant.priceV2.amount
+                        : initialVariant.priceV2.amount
+                    }
+                  />
                 </Product.SelectedVariant.Price>
               </WithAnyAccess>
               <WithoutAccess>

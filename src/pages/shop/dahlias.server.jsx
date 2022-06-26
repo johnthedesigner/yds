@@ -57,12 +57,33 @@ const ShopIndex = ({
     return <NotFound />;
   }
 
+  // TEMP: only show plants not tubers
+  // let productVariants = flattenConnection(product.variants);
+  // Find out what value a given variant has for "Type" option
+  const getDahliaType = (variant) => {
+    let dahliaTypeOption = _.find(variant.selectedOptions, {name: 'Type'});
+    let dahliaTypeValue = dahliaTypeOption ? dahliaTypeOption.value : null;
+    return dahliaTypeValue;
+  };
+
+  // Boolean check of a product for plant variants
+  const hasPlantVariant = (product) => {
+    let plantVariant = _.find(
+      flattenConnection(product.variants),
+      (variant) => {
+        return getDahliaType(variant) === 'Plant';
+      },
+    );
+    return plantVariant ? true : false;
+  };
+
   // If there are products, prepare product data
   const products = data ? flattenConnection(data.products) : [];
   // const sortedProducts = products;
+  var plantProducts = _.remove(products, hasPlantVariant);
   let ascDesc = _.includes(sortOption, 'Asc') ? 'asc' : 'desc';
   var sortedProducts = _.orderBy(
-    products,
+    plantProducts,
     (product) => {
       if (sortOption === 'titleAsc' || sortOption === 'titleDesc') {
         return product.title;

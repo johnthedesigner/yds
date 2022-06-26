@@ -50,6 +50,25 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
   const {product} = data ? data : {};
   const initialVariant = flattenConnection(product.variants)[0];
 
+  // TEMP: switch from first product to plant variant (where available)
+  let productVariants = flattenConnection(product.variants);
+  // Find out what value a given variant has for "Type" option
+  const getDahliaType = (variant) => {
+    let dahliaTypeOption = _.find(variant.selectedOptions, {name: 'Type'});
+    let dahliaTypeValue = dahliaTypeOption ? dahliaTypeOption.value : null;
+    return dahliaTypeValue;
+  };
+  // Get the variant of a product that is the Type: "Plant"
+  let plantVariant = _.find(productVariants, (variant) => {
+    return getDahliaType(variant) === 'Plant' ? true : false;
+  });
+  // Plant variant inventory quantity and price
+  let productInventory = plantVariant ? plantVariant.quantityAvailable : 0;
+  let productPrice =
+    plantVariant != null
+      ? plantVariant.priceV2.amount
+      : initialVariant.priceV2.amount;
+
   function AddToCartMarkup() {
     const {selectedVariant} = useProduct();
     const isOutOfStock = !selectedVariant.availableForSale;
@@ -130,7 +149,12 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
   return (
     <Layout>
       <NewSeo product={data.product} />
-      <Product product={data.product} initialVariantId={initialVariant.id}>
+      <Product
+        product={data.product}
+        initialVariantId={
+          plantVariant != null ? plantVariant.id : initialVariant.id
+        }
+      >
         <div className="product-detail__breadcrumb">
           <Link to="/shop">Shop</Link> / <Link to="/shop/dahlias">Dahlias</Link>{' '}
           / <Product.Title as="b" className="product-detail__title" />
@@ -142,6 +166,13 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
           <div className="product-detail__product-info">
             <div>
               <Product.Title as="h1" className="product-detail__title" />
+              <p>
+                <em>
+                  <small>
+                    {plantVariant != null ? <>Plant</> : <>Tuber</>}
+                  </small>
+                </em>
+              </p>
               <WithoutAccess>
                 <p style={{marginBottom: '2rem'}}>
                   <em>Log in for pricing</em>
@@ -155,9 +186,9 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
               </WithAnyAccess>
               <WithEarlyAccess>
                 <p>
-                  {product.totalInventory < 5 && (
+                  {productInventory < 5 && (
                     <small>
-                      <em>{initialVariant.quantityAvailable} left in stock.</em>
+                      <em>{productInventory} left in stock.</em>
                     </small>
                   )}
                 </p>
