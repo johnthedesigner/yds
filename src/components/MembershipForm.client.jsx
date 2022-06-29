@@ -1,4 +1,9 @@
-import {flattenConnection} from '@shopify/hydrogen';
+import {
+  AddToCartButton,
+  flattenConnection,
+  Product,
+  useCart,
+} from '@shopify/hydrogen/client';
 import _ from 'lodash';
 import {useEffect, useState} from 'react';
 
@@ -16,21 +21,25 @@ const MembershipForm = ({membershipProduct}) => {
     variants[0].selectedOptions,
   );
 
-  // Update selected variant
-  const selectVariant = () => {
-    let nextVariant;
-    _.map(variants, (variant) => {
-      if (_.isEqual(variant.selectedOptions, selectedOptions)) {
-        nextVariant = {...variant};
-      }
-    });
-    setSelectedVariant(nextVariant);
-  };
+  // Custom add to cart functionality
+  const {linesAdd} = useCart();
 
-  // When options are updated, pick a matching variant
-  useEffect(() => {
-    selectVariant();
-  }, [selectedOptions]);
+  const addToCart = async () => {
+    const cartUpdate = {
+      attributes: [
+        {
+          key: '',
+          value: '',
+        },
+      ],
+      merchandiseId: selectedVariant.id,
+      quantity: 1,
+    };
+
+    await linesAdd({
+      merchandiseId: selectedVariant.id,
+    });
+  };
 
   const baseRates = {
     business: 50,
@@ -89,28 +98,41 @@ const MembershipForm = ({membershipProduct}) => {
     // Get the new option name and value
     const {name, value} = e.target;
 
-    // // Build an up-to-date index of selected options
+    // Build an up-to-date index of selected options
     const optionIndex = {};
     _.each(selectedOptions, (option) => {
       optionIndex[option.name] = option.value;
     });
+    // Update the relevant option
     optionIndex[name] = value;
-
+    // Convert back to array of objects
     let nextOptionArray = _.map(optionIndex, (value, name) => {
       return {name, value};
     });
     console.log(nextOptionArray);
+
+    // Find the right variant to assign based on new options
+    let nextVariant;
+    _.each(variants, (variant) => {
+      if (_.isEqual(variant.selectedOptions, nextOptionArray)) {
+        nextVariant = {...variant};
+      }
+    });
+    setSelectedVariant(nextVariant);
+    setSelectedOptions(nextVariant.selectedOptions);
   };
 
   // Build membership form options as dropdowns
   const FormOption = ({name, values, selectedOptions}) => {
-    const defaultValue = _.find(selectedOptions, {name});
-    const [currentValue, setCurrentValue] = useState(defaultValue);
-    // console.log(defaultValue);
+    const selectedOption = _.find(selectedOptions, {name: name});
     return (
       <fieldset>
         <label>{name}</label>
-        <select value={currentValue} onChange={changeOption}>
+        <select
+          name={name}
+          value={selectedOption.value}
+          onChange={changeOption}
+        >
           <option value="">Select One</option>
           {_.map(values, (value) => {
             return (
@@ -129,6 +151,7 @@ const MembershipForm = ({membershipProduct}) => {
       {_.map(membershipProduct.options, (option) => {
         return (
           <FormOption
+            key={option.name}
             name={option.name}
             values={option.values}
             selectedOptions={selectedOptions}
@@ -146,9 +169,16 @@ const MembershipForm = ({membershipProduct}) => {
           amount={dollarize(donation)}
         />
         <TallyTotal
-          amount={dollarize(includeDonation ? donation + getBase() : getBase())}
+          amount={dollarize(
+            includeDonation
+              ? donation + selectedVariant.priceV2.amount
+              : selectedVariant.priceV2.amount,
+          )}
         />
       </Tally>
+      <button className="button" onClick={addToCart}>
+        Custom Add Button
+      </button>
     </>
   );
 };

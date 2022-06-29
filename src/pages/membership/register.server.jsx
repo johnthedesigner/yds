@@ -74,36 +74,6 @@ const QUERY = (membershipHandle) => {
             title
             totalInventory
             tags
-            hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
-              key
-              value
-            }
-            country_of_origin: metafield(
-              namespace: "my_fields"
-              key: "country_of_origin"
-            ) {
-              key
-              value
-            }
-            introduction_year: metafield(
-              namespace: "my_fields"
-              key: "introduction_year"
-            ) {
-              key
-              value
-            }
-            asd_code: metafield(namespace: "my_fields", key: "ads_code") {
-              key
-              value
-            }
-            bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
-              key
-              value
-            }
-            height: metafield(namespace: "my_fields", key: "height") {
-              key
-              value
-            }
             options(first: 10) {
                 name
                 values
