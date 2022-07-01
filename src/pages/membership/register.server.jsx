@@ -25,25 +25,29 @@ const Register = ({response}) => {
     noStore: true,
   });
 
-  // Current membership product handle
-  const membershipHandle = 'yds-annual-membership-2022-2023';
+  // Membership & donation product handles
+  const ydsMembershipHandle = 'yds-annual-membership-2022-2023';
+  const adsMembershipHandle = 'ads-annual-membership-2022';
+  const donationHandle = 'membership-donation';
 
-  // Fetch products from shopify
-  //   console.log(QUERY(membershipHandle));
-  const {data} = useShopQuery({
-    query: QUERY(membershipHandle),
-    variables: {
-      country: 'US',
-    },
-  });
+  // Fetch any product by handle
+  const getProductByHandle = (handle) => {
+    let productQuery = useShopQuery({
+      query: QUERY(handle),
+    });
+    let productData = productQuery.data;
+    return productData ? productData.productByHandle : [];
+  };
 
-  // If there are no products available, show "not found"
-  if (data?.productByHandle == null) {
+  // Fetch membership and donation products from shopify
+  let ydsMembershipProduct = getProductByHandle(ydsMembershipHandle);
+  let adsMembershipProduct = getProductByHandle(adsMembershipHandle);
+  let donationProduct = getProductByHandle(donationHandle);
+
+  // If there is no yds membership available, show "not found"
+  if (!ydsMembershipProduct) {
     return <NotFound />;
   }
-
-  // If there are products, prepare product data
-  const membershipProduct = data ? data.productByHandle : [];
 
   return (
     <Layout
@@ -54,20 +58,24 @@ const Register = ({response}) => {
       <CompactTextWrapper>
         <CompactText>
           <h3>WE WANT YOU for Yankee Dahlia Society!</h3>
-          <p>{membershipProduct.description}</p>
+          <p>{ydsMembershipProduct.description}</p>
         </CompactText>
         <CompactText>
-          <MembershipForm membershipProduct={membershipProduct} />
+          <MembershipForm
+            ydsMembershipProduct={ydsMembershipProduct}
+            adsMembershipProduct={adsMembershipProduct}
+            donationProduct={donationProduct}
+          />
         </CompactText>
       </CompactTextWrapper>
     </Layout>
   );
 };
 
-const QUERY = (membershipHandle) => {
+const QUERY = (productHandle) => {
   return gql`
     query currentMembership {
-      productByHandle(handle: "${membershipHandle}") {
+      productByHandle(handle: "${productHandle}") {
             description
             handle
             vendor

@@ -217,6 +217,11 @@ button[type='submit'] {
   background: #ddd;
 }
 
+.member-info-field.member-info-field--invalid {
+  box-shadow: 0 1px 5px inset rgba(63, 79, 99, 0.4), 0 0 0 1px rgb(198, 90, 96);
+  background: rgba(198, 90, 96, 0.2);
+}
+
 /* Page Styles */
 
 .page {
