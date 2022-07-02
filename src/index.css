@@ -183,9 +183,10 @@ input[type='radio'] {
   vertical-align: text-bottom;
 }
 
-input[disabled] {
-  background: #eee;
-  color: #999;
+input[disabled],
+select[disabled] {
+  background: #ddd;
+  color: #666;
 }
 
 textarea {
@@ -205,6 +206,24 @@ button[type='submit'] {
   margin-top: 2rem;
 }
 
+.button__product-option {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  margin: 0;
+  border-color: #ddd;
+  border-width: 1px;
+  border-radius: 0.5rem;
+  text-align: left;
+  color: #999;
+}
+
+.button__product-option.button__product-option--active {
+  border-color: #506f98;
+  color: #3d4549;
+  box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.2);
+}
+
 .required-mark {
   color: #c65a60;
 }
@@ -222,6 +241,32 @@ button[type='submit'] {
 .member-info-field.member-info-field--invalid {
   box-shadow: 0 1px 5px inset rgba(63, 79, 99, 0.4), 0 0 0 1px rgb(198, 90, 96);
   background: rgba(198, 90, 96, 0.2);
+}
+
+.form-block__small {
+  grid-column: span 1;
+}
+
+.form-block__medium {
+  grid-column: span 2;
+}
+
+.form-block__large {
+  grid-column: span 4;
+}
+
+@media screen and (max-width: 800px) {
+  .form-block__small {
+    grid-column: span 4;
+  }
+
+  .form-block__medium {
+    grid-column: span 4;
+  }
+
+  .form-block__large {
+    grid-column: span 4;
+  }
 }
 
 /* Page Styles */

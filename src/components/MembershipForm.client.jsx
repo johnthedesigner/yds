@@ -41,7 +41,10 @@ const MembershipForm = ({
 
   // Member Info Data state
   const [memberInfo, setMemberInfo] = useState({
+    firstName: '',
+    lastName: '',
     fullName: '',
+    phone: '',
     email: '',
     address: '',
     city: '',
@@ -51,7 +54,10 @@ const MembershipForm = ({
 
   // Member Info Validation state
   const [memberInfoValidation, setMemberInfoValidation] = useState({
+    firstName: true,
+    lastName: true,
     fullName: true,
+    phone: true,
     email: true,
     address: true,
     city: true,
@@ -61,7 +67,10 @@ const MembershipForm = ({
 
   // Member Info Field Refs
   const memberInfoRefs = {
+    firstName: useRef(null),
+    lastName: useRef(null),
     fullName: useRef(null),
+    phone: useRef(null),
     email: useRef(null),
     address: useRef(null),
     city: useRef(null),
@@ -71,7 +80,16 @@ const MembershipForm = ({
 
   // Member Info Validation
   const memberInfoValidators = {
+    firstName: (value) => {
+      return value != '';
+    },
+    firstName: (value) => {
+      return value != '';
+    },
     fullName: (value) => {
+      return value != '';
+    },
+    phone: (value) => {
       return value != '';
     },
     email: (value) => {
@@ -221,9 +239,8 @@ const MembershipForm = ({
   };
 
   // Change Membership Option and trigger downstream updates
-  const changeMembershipOption = (e) => {
+  const changeMembershipOption = (name, value) => {
     // Get the new option name and value
-    const {name, value} = e.target;
 
     let nextVariant = getNextVariant(
       ydsMembershipVariants,
@@ -236,10 +253,26 @@ const MembershipForm = ({
     setYdsMembershipOptions(nextVariant.selectedOptions);
   };
 
+  // Change Membership Option and trigger downstream updates
+  const changeAdsMembershipOption = (e) => {
+    // Get the new option name and value
+    let {name, value} = e.target;
+
+    let nextVariant = getNextVariant(
+      adsMembershipVariants,
+      adsMembershipVariant,
+      name,
+      value,
+    );
+
+    setAdsMembershipVariant(nextVariant);
+    setAdsMembershipOptions(nextVariant.selectedOptions);
+  };
+
   // Change Dontion Option and trigger downstream updates
   const changeDonationOption = (e) => {
     // Get the new option name and value
-    const {name, value} = e.target;
+    let {name, value} = e.target;
 
     let nextVariant = getNextVariant(
       donationVariants,
@@ -255,8 +288,21 @@ const MembershipForm = ({
   // Build membership form options as dropdowns
   const MembershipOption = ({name, values}) => {
     let selectedOption = _.find(ydsMembershipOptions, {name: name});
+    let [ydsSelectedValue, setYdsSelectedValue] = useState(
+      selectedOption.value,
+    );
+    useEffect(() => {
+      setYdsSelectedValue(selectedOption.value);
+    }, [ydsMembershipOptions, ydsMembershipVariant]);
+
+    let description = {
+      Business:
+        'Business memberships get extra club perks. We love promoting our members’ businesses (but it’s not required).',
+      Individual:
+        'For a single individual that is not in the dahlia or floral industry.',
+    };
     return (
-      <fieldset style={{marginBottom: '1rem'}}>
+      <fieldset style={{margin: '1rem 0'}}>
         <label>{name}</label>
         {_.map(values, (value, index) => {
           let idString =
@@ -264,6 +310,66 @@ const MembershipForm = ({
           let candidateVariant = getNextVariant(
             ydsMembershipVariants,
             ydsMembershipVariant,
+            name,
+            value,
+          );
+          let buttonClass = `button__product-option ${
+            ydsSelectedValue === value ? 'button__product-option--active' : null
+          }`;
+          return (
+            <fieldset key={index}>
+              <button
+                className={buttonClass}
+                name={name}
+                value={value}
+                onClick={() => {
+                  changeMembershipOption(name, value);
+                }}
+              >
+                <div>
+                  {value} – {dollarize(candidateVariant.priceV2.amount)}
+                </div>
+                <div>{description[value]}</div>
+              </button>
+            </fieldset>
+          );
+        })}
+      </fieldset>
+    );
+  };
+
+  // Build membership form options as dropdowns
+  const AdsMembershipOption = ({name, values}) => {
+    let selectedOption = _.find(adsMembershipOptions, {name: name});
+    let [adsSelectedValue, setAdsSelectedValue] = useState(
+      selectedOption.value,
+    );
+    useEffect(() => {
+      setAdsSelectedValue(selectedOption.value);
+    }, [adsMembershipOptions, adsMembershipVariant, includeAdsMembership]);
+    return (
+      <fieldset style={{marginBottom: '1rem'}}>
+        <label>
+          <input
+            type="checkbox"
+            checked={includeAdsMembership}
+            onChange={(e) => {
+              setIncludeAdsMembership(!includeAdsMembership);
+            }}
+          />
+          Include ADS Membership
+        </label>
+        <p style={{margin: '1rem .5rem', fontSize: '1.25rem'}}>
+          Individual memberships are for a single person. Family memberships are
+          for two people in the same household and will receive two copies each
+          of the ADS Classification Handbook and the ADS Bulletin.
+        </p>
+        {_.map(values, (value, index) => {
+          let idString =
+            name.replace(/\W/g, '_') + '_' + value.replace(/\W/g, '_');
+          let candidateVariant = getNextVariant(
+            adsMembershipVariants,
+            adsMembershipVariant,
             name,
             value,
           );
@@ -276,8 +382,9 @@ const MembershipForm = ({
                   key={value}
                   name={name}
                   value={value}
-                  checked={selectedOption.value === value}
-                  onChange={changeMembershipOption}
+                  checked={adsSelectedValue === value}
+                  onChange={changeAdsMembershipOption}
+                  disabled={!includeAdsMembership}
                 />
                 {value} – {dollarize(candidateVariant.priceV2.amount)}
               </label>
@@ -303,6 +410,11 @@ const MembershipForm = ({
           />
           Include Donation
         </label>
+        <p style={{margin: '1rem .5rem', fontSize: '1.25rem'}}>
+          Help us hit the ground running with an extra donation. We appreciate
+          anything else you can give. Founders Circle donations of $25 or more
+          will receive a special token of our appreciation.
+        </p>
         <select
           name={name}
           value={selectedOption.value}
@@ -332,11 +444,7 @@ const MembershipForm = ({
         gridAutoRows: 'minmax(3rem, auto',
       }}
     >
-      <div
-        style={{
-          gridColumn: '1 / 5',
-        }}
-      >
+      <div className="form-block__large">
         {_.map(ydsMembershipProduct.options, (option) => {
           return (
             <MembershipOption
@@ -347,34 +455,45 @@ const MembershipForm = ({
           );
         })}
       </div>
-      <fieldset
-        style={{
-          gridColumn: '1 / 3',
-        }}
-      >
-        <label htmlFor="fullName">
-          Full Name <RequiredMark />
+      <fieldset className="form-block__medium">
+        <label htmlFor="firstName">
+          First Name <RequiredMark />
         </label>
         <input
           className={
-            memberInfoValidation.fullName
+            memberInfoValidation.firstName
               ? 'member-info-field'
               : 'member-info-field member-info-field--invalid'
           }
           type="text"
-          name="fullName"
-          value={memberInfo.fullName}
-          ref={memberInfoRefs.fullname}
+          name="firstName"
+          value={memberInfo.firstName}
+          ref={memberInfoRefs.firstName}
           onChange={(e) => {
-            updateMemberInfo('fullName', e.target.value);
+            updateMemberInfo('firstName', e.target.value);
           }}
         />
       </fieldset>
-      <fieldset
-        style={{
-          gridColumn: '3 / 5',
-        }}
-      >
+      <fieldset className="form-block__medium">
+        <label htmlFor="lastName">
+          Last Name <RequiredMark />
+        </label>
+        <input
+          className={
+            memberInfoValidation.lastName
+              ? 'member-info-field'
+              : 'member-info-field member-info-field--invalid'
+          }
+          type="text"
+          name="lastName"
+          value={memberInfo.lastName}
+          ref={memberInfoRefs.lastName}
+          onChange={(e) => {
+            updateMemberInfo('lastName', e.target.value);
+          }}
+        />
+      </fieldset>
+      <fieldset className="form-block__medium">
         <label>
           Email Address <RequiredMark />
         </label>
@@ -393,11 +512,26 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <fieldset
-        style={{
-          gridColumn: '1 / 5',
-        }}
-      >
+      <fieldset className="form-block__medium">
+        <label>
+          Phone Number <RequiredMark />
+        </label>
+        <input
+          className={
+            memberInfoValidation.phone
+              ? 'member-info-field'
+              : 'member-info-field member-info-field--invalid'
+          }
+          type="text"
+          name="phone"
+          value={memberInfo.phone}
+          ref={memberInfoRefs.phone}
+          onChange={(e) => {
+            updateMemberInfo('phone', e.target.value);
+          }}
+        />
+      </fieldset>
+      <fieldset className="form-block__large">
         <label>
           Mailing Address <RequiredMark />
         </label>
@@ -416,11 +550,7 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <fieldset
-        style={{
-          gridColumn: '1 / 3',
-        }}
-      >
+      <fieldset className="form-block__medium">
         <label>
           City <RequiredMark />
         </label>
@@ -439,11 +569,7 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <fieldset
-        style={{
-          gridColumn: '3 / 4',
-        }}
-      >
+      <fieldset className="form-block__small">
         <label>
           State <RequiredMark />
         </label>
@@ -462,11 +588,7 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <fieldset
-        style={{
-          gridColumn: '4 / 5',
-        }}
-      >
+      <fieldset className="form-block__small">
         <label>
           Zip Code <RequiredMark />
         </label>
@@ -485,23 +607,18 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <fieldset style={{gridColumn: '1 / 3'}}>
-        <label>
-          <input
-            type="checkbox"
-            checked={includeAdsMembership}
-            onChange={(e) => {
-              setIncludeAdsMembership(!includeAdsMembership);
-            }}
-          />
-          Include ADS Membership
-        </label>
-      </fieldset>
-      <div
-        style={{
-          gridColumn: '1 / 3',
-        }}
-      >
+      <div className="form-block__large">
+        {_.map(adsMembershipProduct.options, (option) => {
+          return (
+            <AdsMembershipOption
+              key={option.name}
+              name={option.name}
+              values={option.values}
+            />
+          );
+        })}
+      </div>
+      <div className="form-block__large">
         {_.map(donationProduct.options, (option) => {
           return (
             <DonationOption
@@ -512,7 +629,7 @@ const MembershipForm = ({
           );
         })}
       </div>
-      <div style={{gridColumn: '1 / 5'}}>
+      <div className="form-block__large">
         <Tally
           amounts={[
             {
