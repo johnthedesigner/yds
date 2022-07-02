@@ -141,8 +141,8 @@ a.button {
 
 label {
   display: block;
-  margin: 1rem;
-  font-size: 1.25rem;
+  margin: 0.5rem;
+  font-size: 1rem;
   color: #657177;
 }
 
@@ -174,11 +174,13 @@ select {
   box-shadow: 0 1px 10px rgba(63, 79, 99, 0.4);
 }
 
-input[type='checkbox'] {
+input[type='checkbox'],
+input[type='radio'] {
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
-  vertical-align: center;
+  margin-right: 1rem;
+  vertical-align: text-bottom;
 }
 
 input[disabled] {

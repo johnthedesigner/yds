@@ -8,21 +8,32 @@ const MembershipForm = ({
   donationProduct,
 }) => {
   // YDS membership product state
-  const variants = flattenConnection(ydsMembershipProduct.variants);
-  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
-  const [selectedOptions, setSelectedOptions] = useState(
-    variants[0].selectedOptions,
+  const ydsMembershipVariants = flattenConnection(
+    ydsMembershipProduct.variants,
+  );
+  const [ydsMembershipVariant, setYdsMembershipVariant] = useState(
+    ydsMembershipVariants[0],
+  );
+  const [ydsMembershipOptions, setYdsMembershipOptions] = useState(
+    ydsMembershipVariants[0].selectedOptions,
   );
 
   // // ADS Membership product state
   const [includeAdsMembership, setIncludeAdsMembership] = useState(false);
-  const adsMembershipVariant = flattenConnection(
+  const adsMembershipVariants = flattenConnection(
     adsMembershipProduct.variants,
-  )[0];
+  );
+  const [adsMembershipVariant, setAdsMembershipVariant] = useState(
+    adsMembershipVariants[0],
+  );
+  const [adsMembershipOptions, setAdsMembershipOptions] = useState(
+    adsMembershipVariants[0].selectedOptions,
+  );
 
   // Included donation state
   const [includeDonation, setIncludeDonation] = useState(false);
   const donationVariants = flattenConnection(donationProduct.variants);
+  // Start with second option by default ($25)
   const [donationVariant, setDonationVariant] = useState(donationVariants[2]);
   const [donationOptions, setDonationOptions] = useState(
     donationVariant.selectedOptions,
@@ -84,19 +95,14 @@ const MembershipForm = ({
   // Update individual member info fields
   const updateMemberInfo = (name, value) => {
     let newMemberInfo = {...memberInfo};
-    console.log(value);
     newMemberInfo[name] = value;
     setMemberInfo(newMemberInfo);
   };
-  // Run member info field validation
-  useEffect(() => {
-    console.log(memberInfo);
-  }, [memberInfo]);
 
   // Total cost tally state
   const [tallyTotal, setTallyTotal] = useState(0);
   useEffect(() => {
-    let ydsAmount = 1 * selectedVariant.priceV2.amount;
+    let ydsAmount = 1 * ydsMembershipVariant.priceV2.amount;
     let donationAmount = includeDonation
       ? 1 * donationVariant.priceV2.amount
       : 0;
@@ -105,7 +111,12 @@ const MembershipForm = ({
       : 0;
     let total = ydsAmount + donationAmount + adsAmount;
     setTallyTotal(total);
-  }, [selectedOptions, includeDonation, donationOptions, includeAdsMembership]);
+  }, [
+    ydsMembershipOptions,
+    includeDonation,
+    donationOptions,
+    includeAdsMembership,
+  ]);
 
   // Custom add to cart functionality
   const {linesAdd} = useCart();
@@ -137,7 +148,7 @@ const MembershipForm = ({
       });
       let newLines = [
         {
-          merchandiseId: selectedVariant.id,
+          merchandiseId: ydsMembershipVariant.id,
           attributes,
         },
       ];
@@ -214,10 +225,15 @@ const MembershipForm = ({
     // Get the new option name and value
     const {name, value} = e.target;
 
-    let nextVariant = getNextVariant(variants, selectedVariant, name, value);
+    let nextVariant = getNextVariant(
+      ydsMembershipVariants,
+      ydsMembershipVariant,
+      name,
+      value,
+    );
 
-    setSelectedVariant(nextVariant);
-    setSelectedOptions(nextVariant.selectedOptions);
+    setYdsMembershipVariant(nextVariant);
+    setYdsMembershipOptions(nextVariant.selectedOptions);
   };
 
   // Change Dontion Option and trigger downstream updates
@@ -237,32 +253,35 @@ const MembershipForm = ({
   };
 
   // Build membership form options as dropdowns
-  const MembershipOption = ({name, values, selectedOptions}) => {
-    let selectedOption = _.find(selectedOptions, {name: name});
+  const MembershipOption = ({name, values}) => {
+    let selectedOption = _.find(ydsMembershipOptions, {name: name});
     return (
-      <fieldset>
+      <fieldset style={{marginBottom: '1rem'}}>
         <label>{name}</label>
         {_.map(values, (value, index) => {
+          let idString =
+            name.replace(/\W/g, '_') + '_' + value.replace(/\W/g, '_');
           let candidateVariant = getNextVariant(
-            variants,
-            selectedVariant,
+            ydsMembershipVariants,
+            ydsMembershipVariant,
             name,
             value,
           );
           return (
-            <>
-              <input
-                type="radio"
-                key={value}
-                name={name}
-                value={value}
-                checked={selectedOption.value === value}
-                onChange={changeMembershipOption}
-              />
-              <label>
+            <fieldset key={index}>
+              <label htmlFor={`radio_${idString}`} className="inline-label">
+                <input
+                  id={`radio_${idString}`}
+                  type="radio"
+                  key={value}
+                  name={name}
+                  value={value}
+                  checked={selectedOption.value === value}
+                  onChange={changeMembershipOption}
+                />
                 {value} – {dollarize(candidateVariant.priceV2.amount)}
               </label>
-            </>
+            </fieldset>
           );
         })}
       </fieldset>
@@ -270,10 +289,10 @@ const MembershipForm = ({
   };
 
   // Build membership form options as dropdowns
-  const DonationOption = ({name, values, selectedOptions}) => {
-    let selectedOption = _.find(selectedOptions, {name: name});
+  const DonationOption = ({name, values}) => {
+    let selectedOption = _.find(donationOptions, {name: name});
     return (
-      <fieldset>
+      <fieldset style={{marginBottom: '2rem'}}>
         <label>
           <input
             type="checkbox"
@@ -305,19 +324,35 @@ const MembershipForm = ({
   const RequiredMark = () => <span style={{color: '#c65a60'}}>*</span>;
 
   return (
-    <>
-      {_.map(ydsMembershipProduct.options, (option) => {
-        return (
-          <MembershipOption
-            key={option.name}
-            name={option.name}
-            values={option.values}
-            selectedOptions={selectedOptions}
-          />
-        );
-      })}
-      <fieldset>
-        <label>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '1rem',
+        gridAutoRows: 'minmax(3rem, auto',
+      }}
+    >
+      <div
+        style={{
+          gridColumn: '1 / 5',
+        }}
+      >
+        {_.map(ydsMembershipProduct.options, (option) => {
+          return (
+            <MembershipOption
+              key={option.name}
+              name={option.name}
+              values={option.values}
+            />
+          );
+        })}
+      </div>
+      <fieldset
+        style={{
+          gridColumn: '1 / 3',
+        }}
+      >
+        <label htmlFor="fullName">
           Full Name <RequiredMark />
         </label>
         <input
@@ -335,7 +370,11 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <fieldset>
+      <fieldset
+        style={{
+          gridColumn: '3 / 5',
+        }}
+      >
         <label>
           Email Address <RequiredMark />
         </label>
@@ -354,7 +393,11 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <fieldset>
+      <fieldset
+        style={{
+          gridColumn: '1 / 5',
+        }}
+      >
         <label>
           Mailing Address <RequiredMark />
         </label>
@@ -373,7 +416,11 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <fieldset>
+      <fieldset
+        style={{
+          gridColumn: '1 / 3',
+        }}
+      >
         <label>
           City <RequiredMark />
         </label>
@@ -392,7 +439,11 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <fieldset>
+      <fieldset
+        style={{
+          gridColumn: '3 / 4',
+        }}
+      >
         <label>
           State <RequiredMark />
         </label>
@@ -411,7 +462,11 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <fieldset>
+      <fieldset
+        style={{
+          gridColumn: '4 / 5',
+        }}
+      >
         <label>
           Zip Code <RequiredMark />
         </label>
@@ -430,52 +485,61 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      {_.map(donationProduct.options, (option) => {
-        return (
-          <DonationOption
-            key={option.name}
-            name={option.name}
-            values={option.values}
-            selectedOptions={donationOptions}
+      <fieldset style={{gridColumn: '1 / 3'}}>
+        <label>
+          <input
+            type="checkbox"
+            checked={includeAdsMembership}
+            onChange={(e) => {
+              setIncludeAdsMembership(!includeAdsMembership);
+            }}
           />
-        );
-      })}
-      <label>
-        <input
-          type="checkbox"
-          checked={includeAdsMembership}
-          onChange={(e) => {
-            setIncludeAdsMembership(!includeAdsMembership);
-          }}
-        />
-        Include ADS Membership
-      </label>
-      <Tally
-        amounts={[
-          {
-            label: 'YDS Membership',
-            include: true,
-            price: selectedVariant.priceV2.amount,
-          },
-          {
-            label: 'Optional Donation',
-            include: includeDonation,
-            price: donationVariant.priceV2.amount,
-          },
-          {
-            label: 'ADS Membership',
-            include: includeAdsMembership,
-            price: adsMembershipVariant.priceV2.amount,
-          },
-        ]}
-      />
-      <button className="button" onClick={addToCart}>
-        Checkout
-      </button>
-      <div style={{color: '#c65a60', marginTop: '2rem'}}>
-        <em>* Required Field</em>
+          Include ADS Membership
+        </label>
+      </fieldset>
+      <div
+        style={{
+          gridColumn: '1 / 3',
+        }}
+      >
+        {_.map(donationProduct.options, (option) => {
+          return (
+            <DonationOption
+              key={option.name}
+              name={option.name}
+              values={option.values}
+            />
+          );
+        })}
       </div>
-    </>
+      <div style={{gridColumn: '1 / 5'}}>
+        <Tally
+          amounts={[
+            {
+              label: 'YDS Membership',
+              include: true,
+              price: ydsMembershipVariant.priceV2.amount,
+            },
+            {
+              label: 'ADS Membership',
+              include: includeAdsMembership,
+              price: adsMembershipVariant.priceV2.amount,
+            },
+            {
+              label: 'Optional Donation',
+              include: includeDonation,
+              price: donationVariant.priceV2.amount,
+            },
+          ]}
+        />
+        <button className="button" onClick={addToCart}>
+          Add to Cart
+        </button>
+        <div style={{color: '#c65a60', marginTop: '2rem'}}>
+          <em>* Required Field</em>
+        </div>
+      </div>
+    </div>
   );
 };
 

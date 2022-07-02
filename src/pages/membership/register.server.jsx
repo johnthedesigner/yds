@@ -59,8 +59,6 @@ const Register = ({response}) => {
         <CompactText>
           <h3>WE WANT YOU for Yankee Dahlia Society!</h3>
           <p>{ydsMembershipProduct.description}</p>
-        </CompactText>
-        <CompactText>
           <MembershipForm
             ydsMembershipProduct={ydsMembershipProduct}
             adsMembershipProduct={adsMembershipProduct}
