@@ -43,7 +43,6 @@ const MembershipForm = ({
   const [memberInfo, setMemberInfo] = useState({
     firstName: '',
     lastName: '',
-    fullName: '',
     phone: '',
     email: '',
     address: '',
@@ -56,7 +55,6 @@ const MembershipForm = ({
   const [memberInfoValidation, setMemberInfoValidation] = useState({
     firstName: true,
     lastName: true,
-    fullName: true,
     phone: true,
     email: true,
     address: true,
@@ -69,7 +67,6 @@ const MembershipForm = ({
   const memberInfoRefs = {
     firstName: useRef(null),
     lastName: useRef(null),
-    fullName: useRef(null),
     phone: useRef(null),
     email: useRef(null),
     address: useRef(null),
@@ -83,10 +80,7 @@ const MembershipForm = ({
     firstName: (value) => {
       return value != '';
     },
-    firstName: (value) => {
-      return value != '';
-    },
-    fullName: (value) => {
+    lastName: (value) => {
       return value != '';
     },
     phone: (value) => {
@@ -137,9 +131,30 @@ const MembershipForm = ({
   ]);
 
   // Custom add to cart functionality
-  const {linesAdd} = useCart();
+  const cart = useCart();
+  const {cartCreate, checkoutUrl, lines, linesAdd} = cart;
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [readyForCheckout, setReadyForCheckout] = useState(false);
+
+  // Setup Checkout Redirect
+  useEffect(() => {
+    const goToCheckout = () => {
+      if (readyForCheckout) {
+        console.log(checkoutUrl);
+        // window.location.href = checkoutUrl ? checkoutUrl : window.location.href;
+      } else {
+        console.log('wait for new checkout');
+        setTimeout(goToCheckout, 50);
+      }
+    };
+    if (addingToCart) goToCheckout();
+  }, [checkoutUrl]);
 
   const addToCart = async () => {
+    // Indicate items are being added to cart
+    console.log('setAddingToCart(true);');
+    setAddingToCart(true);
+
     // Start with true validation status
     let valid = true;
     let nextValidationState = {
@@ -180,7 +195,14 @@ const MembershipForm = ({
           merchandiseId: donationVariant.id,
         });
       }
-      await linesAdd(newLines);
+      if (cart && cart.id) {
+        console.log('cart exists, add lines');
+        await linesAdd(newLines);
+      } else {
+        console.log('no cart, create a new one');
+        await cartCreate({lines: newLines});
+      }
+      await setReadyForCheckout(true);
     }
   };
 
@@ -327,7 +349,9 @@ const MembershipForm = ({
                 }}
               >
                 <div>
-                  {value} – {dollarize(candidateVariant.priceV2.amount)}
+                  <b>
+                    {value} – {dollarize(candidateVariant.priceV2.amount)}
+                  </b>
                 </div>
                 <div>{description[value]}</div>
               </button>
@@ -649,7 +673,7 @@ const MembershipForm = ({
             },
           ]}
         />
-        <button className="button" onClick={addToCart}>
+        <button className="button" onClick={addToCart} disabled={addingToCart}>
           Add to Cart
         </button>
         <div style={{color: '#c65a60', marginTop: '2rem'}}>
