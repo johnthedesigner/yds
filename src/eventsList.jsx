@@ -951,7 +951,7 @@ export const events = [
     ],
   },
   {
-    date: '2022-07-23',
+    date: '2022-07-16',
     time: 'TBD',
     name: 'Previewing the dahlia garden and Lily garden tour with Y.D.S member Roy Christoph',
     label: eventTypes.meeting,
@@ -962,30 +962,40 @@ export const events = [
           return (
             <>
               <p>
-                Our next meeting will be via Zoom, and we are thrilled to
-                announce that our very special guest will be Dr. Hanu Pappu,
-                professor in the Department of Plant Pathology at Washington
-                State University, Pullman WA, and world renowned expert in
-                dahlia viruses.
+                Join us for our first member garden tour of 2022 at the garden
+                of YDS member Roy Christoph. Roy is a long-time gardener and is
+                certified in Organic Land Care (Soil) through Northeast Organic
+                Farming Association (NOFA). Roy grew dahlias for the first time
+                last year and this year he has a collection of over 275 dahlias
+                in his garden, with a goal in mind of winning a dahlia show this
+                fall. Prior to growing dahlias, Roy has been growing and showing
+                lilies of all types since 1991. His garden showcases 1500 lily
+                plants in 250 varieties in addition to the dahlias. Roy is Past
+                President of the New England Lily Society and has won the
+                regional lily show five times, and the national lily show once.
               </p>
               <p>
-                Join us and learn what a dahlia virus is, how a virus can affect
-                dahlias, why you should care about them in your garden and what
-                to do if you think you have a virused plant. The work Dr. Hanu
-                Pappu and his team are doing is ongoing with new and interesting
-                developments. We look forward to the presentation with Dr. Pappu
-                as we learn about dahlia virus, current research and their
-                latest findings.
+                With July being the peak blooming season for lilies, we will be
+                treated to a truly amazing display of Roy’s extensive collection
+                of lily plants in full bloom. During our visit we will see early
+                dahlia growth and get to discuss pinching and topping dahlias,
+                along with disbudding, methods of staking dahlias and
+                fertilization. You will not want to miss this unique opportunity
+                to tour Roy’s large and beautiful garden. Bring chairs and a
+                picnic lunch to enjoy.
               </p>
+            </>
+          );
+        },
+      },
+      {
+        name: 'Rain Date',
+        content: () => {
+          return (
+            <>
               <p>
-                Did you know that the American Dahlia Society supports the WSU
-                Virus Project and the research of Dr. Hanu Pappu? The Clean
-                Stock Initiative is an ADS program that offers reduced cost
-                testing for virus in dahlias to dahlia clubs, individuals and
-                commercial dahlia growers subsidized through the Scheetz-Chuey
-                Foundation. Yankee Dahlia Society participated in and supports
-                the Clean Stock Initiative as it is an excellent way to help
-                maintain a healthy garden and dahlia stock.
+                We will cross our fingers for good weather, but if needed our
+                Rain Date will be Sunday, July 17th.
               </p>
             </>
           );
