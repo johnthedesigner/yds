@@ -1006,7 +1006,7 @@ export const events = [
   {
     date: '2022-08-11',
     time: '7:00pm - 9:00pm',
-    name: 'Zoom Meeting - With a special guest presenter',
+    name: 'Zoom Meeting - Introduction to Showing & Judging Dahlias with Special Guests Kathleen Burke & Jim Teeple from Mid Island Dahlia Society',
     label: eventTypes.meeting,
   },
 ];
