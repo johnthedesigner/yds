@@ -952,7 +952,7 @@ export const events = [
   },
   {
     date: '2022-07-16',
-    time: 'TBD',
+    time: '10:00am - 1:30pm',
     name: 'Previewing the dahlia garden and Lily garden tour with Y.D.S member Roy Christoph',
     label: eventTypes.meeting,
     showMore: [
@@ -1005,7 +1005,7 @@ export const events = [
   },
   {
     date: '2022-08-11',
-    time: 'TBD',
+    time: '7:00pm - 9:00pm',
     name: 'Zoom Meeting - With a special guest presenter',
     label: eventTypes.meeting,
   },
