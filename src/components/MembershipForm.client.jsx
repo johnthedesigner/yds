@@ -137,18 +137,18 @@ const MembershipForm = ({
   const [readyForCheckout, setReadyForCheckout] = useState(false);
 
   // Setup Checkout Redirect
-  useEffect(() => {
-    const goToCheckout = () => {
-      if (readyForCheckout) {
-        console.log(checkoutUrl);
-        // window.location.href = checkoutUrl ? checkoutUrl : window.location.href;
-      } else {
-        console.log('wait for new checkout');
-        setTimeout(goToCheckout, 50);
-      }
-    };
-    if (addingToCart) goToCheckout();
-  }, [checkoutUrl]);
+  // useEffect(() => {
+  //   const goToCheckout = () => {
+  //     if (readyForCheckout) {
+  //       console.log(checkoutUrl);
+  //       // window.location.href = checkoutUrl ? checkoutUrl : window.location.href;
+  //     } else {
+  //       console.log('wait for new checkout');
+  //       setTimeout(goToCheckout, 50);
+  //     }
+  //   };
+  //   if (addingToCart) goToCheckout();
+  // }, [checkoutUrl]);
 
   const addToCart = async () => {
     // Indicate items are being added to cart
