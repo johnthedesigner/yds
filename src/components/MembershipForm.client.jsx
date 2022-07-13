@@ -381,7 +381,7 @@ const MembershipForm = ({
               setIncludeAdsMembership(!includeAdsMembership);
             }}
           />
-          Include ADS Membership
+          Include Membership to American Dahlia Society
         </label>
         <p style={{margin: '1rem .5rem', fontSize: '1.25rem'}}>
           Individual memberships are for a single person. Family memberships are
@@ -432,7 +432,7 @@ const MembershipForm = ({
               setIncludeDonation(!includeDonation);
             }}
           />
-          Include Donation
+          Include Donation to Yankee Dahlia Society
         </label>
         <p style={{margin: '1rem .5rem', fontSize: '1.25rem'}}>
           Help us hit the ground running with an extra donation. We appreciate
@@ -631,10 +631,10 @@ const MembershipForm = ({
           }}
         />
       </fieldset>
-      <div className="form-block__large">
-        {_.map(adsMembershipProduct.options, (option) => {
+      <div className="form-block__large" style={{marginTop: '2rem'}}>
+        {_.map(donationProduct.options, (option) => {
           return (
-            <AdsMembershipOption
+            <DonationOption
               key={option.name}
               name={option.name}
               values={option.values}
@@ -642,10 +642,10 @@ const MembershipForm = ({
           );
         })}
       </div>
-      <div className="form-block__large">
-        {_.map(donationProduct.options, (option) => {
+      <div className="form-block__large" style={{marginTop: '1rem'}}>
+        {_.map(adsMembershipProduct.options, (option) => {
           return (
-            <DonationOption
+            <AdsMembershipOption
               key={option.name}
               name={option.name}
               values={option.values}
@@ -662,20 +662,26 @@ const MembershipForm = ({
               price: ydsMembershipVariant.priceV2.amount,
             },
             {
-              label: 'ADS Membership',
-              include: includeAdsMembership,
-              price: adsMembershipVariant.priceV2.amount,
-            },
-            {
               label: 'Optional Donation',
               include: includeDonation,
               price: donationVariant.priceV2.amount,
             },
+            {
+              label: 'ADS Membership',
+              include: includeAdsMembership,
+              price: adsMembershipVariant.priceV2.amount,
+            },
           ]}
         />
-        <button className="button" onClick={addToCart} disabled={addingToCart}>
-          Add to Cart
-        </button>
+        <div style={{textAlign: 'right'}}>
+          <button
+            className="button"
+            onClick={addToCart}
+            disabled={addingToCart}
+          >
+            Add to Cart
+          </button>
+        </div>
         <div style={{color: '#c65a60', marginTop: '2rem'}}>
           <em>* Required Field</em>
         </div>
