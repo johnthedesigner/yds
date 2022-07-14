@@ -363,6 +363,8 @@ const MembershipForm = ({
   };
 
   // Build membership form options as dropdowns
+  // TEMPORARILY REMOVING THIS SECTION
+  // TODO: Figure out how or if to add this back in separately
   const AdsMembershipOption = ({name, values}) => {
     let selectedOption = _.find(adsMembershipOptions, {name: name});
     let [adsSelectedValue, setAdsSelectedValue] = useState(
@@ -642,17 +644,6 @@ const MembershipForm = ({
           );
         })}
       </div>
-      <div className="form-block__large" style={{marginTop: '1rem'}}>
-        {_.map(adsMembershipProduct.options, (option) => {
-          return (
-            <AdsMembershipOption
-              key={option.name}
-              name={option.name}
-              values={option.values}
-            />
-          );
-        })}
-      </div>
       <div className="form-block__large">
         <Tally
           amounts={[
@@ -665,11 +656,6 @@ const MembershipForm = ({
               label: 'Optional Donation',
               include: includeDonation,
               price: donationVariant.priceV2.amount,
-            },
-            {
-              label: 'ADS Membership',
-              include: includeAdsMembership,
-              price: adsMembershipVariant.priceV2.amount,
             },
           ]}
         />
