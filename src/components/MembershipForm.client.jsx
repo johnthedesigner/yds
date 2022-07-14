@@ -319,9 +319,8 @@ const MembershipForm = ({
 
     let description = {
       Business:
-        'Business memberships get extra club perks. We love promoting our members’ businesses (but it’s not required).',
-      Individual:
-        'For a single individual that is not in the dahlia or floral industry.',
+        'An individual member with a businesses can choose option (but it’s not required). We love promoting our members’ businesses',
+      Individual: 'For a single individual dahlia enthusiast.',
     };
     return (
       <fieldset style={{margin: '1rem 0'}}>
@@ -426,7 +425,7 @@ const MembershipForm = ({
     let selectedOption = _.find(donationOptions, {name: name});
     return (
       <fieldset style={{marginBottom: '2rem'}}>
-        <label>
+        <label style={{fontSize: '150%'}}>
           <input
             type="checkbox"
             checked={includeDonation}
@@ -437,9 +436,11 @@ const MembershipForm = ({
           Include Donation to Yankee Dahlia Society
         </label>
         <p style={{margin: '1rem .5rem', fontSize: '1.25rem'}}>
-          Help us hit the ground running with an extra donation. We appreciate
-          anything else you can give. Founders Circle donations of $25 or more
-          will receive a special token of our appreciation.
+          Please consider including an extra donation to Yankee Dahlia Society.
+          Every contribution helps fund our club programming. We appreciate your
+          support and are grateful for whatever you can give. Yankee Dahlia
+          Society Inc. is a federally registered 501(c)(3) non profit
+          organization, and your donation is tax deductible.
         </p>
         <select
           name={name}
