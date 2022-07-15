@@ -17,6 +17,9 @@ const MembershipForm = ({
   const [ydsMembershipOptions, setYdsMembershipOptions] = useState(
     ydsMembershipVariants[0].selectedOptions,
   );
+  const ydsMembershipType = _.find(ydsMembershipVariant.selectedOptions, {
+    name: 'Membership Type',
+  }).value;
 
   // // ADS Membership product state
   const [includeAdsMembership, setIncludeAdsMembership] = useState(false);
@@ -41,6 +44,7 @@ const MembershipForm = ({
 
   // Member Info Data state
   const [memberInfo, setMemberInfo] = useState({
+    businessName: '',
     firstName: '',
     lastName: '',
     phone: '',
@@ -53,6 +57,7 @@ const MembershipForm = ({
 
   // Member Info Validation state
   const [memberInfoValidation, setMemberInfoValidation] = useState({
+    businessName: true,
     firstName: true,
     lastName: true,
     phone: true,
@@ -62,9 +67,11 @@ const MembershipForm = ({
     state: true,
     zip: true,
   });
+  const [memberInfoDirty, setMemberInfoDirty] = useState(false);
 
   // Member Info Field Refs
   const memberInfoRefs = {
+    businessName: useRef(null),
     firstName: useRef(null),
     lastName: useRef(null),
     phone: useRef(null),
@@ -77,6 +84,13 @@ const MembershipForm = ({
 
   // Member Info Validation
   const memberInfoValidators = {
+    businessName: (value) => {
+      if (ydsMembershipType === 'Business') {
+        return value != '';
+      } else {
+        return true;
+      }
+    },
     firstName: (value) => {
       return value != '';
     },
@@ -132,29 +146,9 @@ const MembershipForm = ({
 
   // Custom add to cart functionality
   const cart = useCart();
-  const {cartCreate, checkoutUrl, lines, linesAdd} = cart;
-  const [addingToCart, setAddingToCart] = useState(false);
-  const [readyForCheckout, setReadyForCheckout] = useState(false);
-
-  // Setup Checkout Redirect
-  // useEffect(() => {
-  //   const goToCheckout = () => {
-  //     if (readyForCheckout) {
-  //       console.log(checkoutUrl);
-  //       // window.location.href = checkoutUrl ? checkoutUrl : window.location.href;
-  //     } else {
-  //       console.log('wait for new checkout');
-  //       setTimeout(goToCheckout, 50);
-  //     }
-  //   };
-  //   if (addingToCart) goToCheckout();
-  // }, [checkoutUrl]);
+  const {cartCreate, linesAdd} = cart;
 
   const addToCart = async () => {
-    // Indicate items are being added to cart
-    console.log('setAddingToCart(true);');
-    setAddingToCart(true);
-
     // Start with true validation status
     let valid = true;
     let nextValidationState = {
@@ -165,44 +159,56 @@ const MembershipForm = ({
     let fieldNames = _.keys(memberInfo);
 
     // Check validation rules for each field and mark dirty fields
-    await _.each(fieldNames, (name) => {
+    await _.each(fieldNames, async (name) => {
       if (!memberInfoValidators[name](memberInfo[name])) {
+        // Track dirty input for error message
+        await setMemberInfoDirty(true);
         // Prevent submission
         valid = false;
         // Mark individual field
         nextValidationState[name] = false;
       }
     });
-    setMemberInfoValidation(nextValidationState);
+    await setMemberInfoValidation(nextValidationState);
 
     if (valid) {
+      // Track dirty input for error message
+      await setMemberInfoDirty(false);
+
       let attributes = _.map(memberInfo, (value, key) => {
-        return {key, value};
+        // Check if this is a biz membership, if not omit business name
+        if (ydsMembershipType === 'Business') {
+          return {key, value};
+        } else {
+          if (key === 'businessName') {
+            // return nothing
+          } else {
+            return {key, value};
+          }
+        }
       });
+
       let newLines = [
         {
           merchandiseId: ydsMembershipVariant.id,
           attributes,
         },
       ];
-      if (includeAdsMembership) {
-        newLines.push({
-          merchandiseId: adsMembershipVariant.id,
-        });
-      }
+      // if (includeAdsMembership) {
+      //   newLines.push({
+      //     merchandiseId: adsMembershipVariant.id,
+      //   });
+      // }
       if (includeDonation) {
-        newLines.push({
+        await newLines.push({
           merchandiseId: donationVariant.id,
         });
       }
       if (cart && cart.id) {
-        console.log('cart exists, add lines');
         await linesAdd(newLines);
       } else {
-        console.log('no cart, create a new one');
         await cartCreate({lines: newLines});
       }
-      await setReadyForCheckout(true);
     }
   };
 
@@ -309,7 +315,7 @@ const MembershipForm = ({
 
   // Build membership form options as dropdowns
   const MembershipOption = ({name, values}) => {
-    let selectedOption = _.find(ydsMembershipOptions, {name: name});
+    let selectedOption = _.find(ydsMembershipOptions, {name});
     let [ydsSelectedValue, setYdsSelectedValue] = useState(
       selectedOption.value,
     );
@@ -319,8 +325,8 @@ const MembershipForm = ({
 
     let description = {
       Business:
-        'An individual member with a businesses can choose option (but it’s not required). We love promoting our members’ businesses',
-      Individual: 'For a single individual dahlia enthusiast.',
+        'An individual person with a business can choose this option for membership (but it’s not required).  We love promoting our members’ businesses.',
+      Individual: 'For one individual dahlia enthusiast.',
     };
     return (
       <fieldset style={{margin: '1rem 0'}}>
@@ -365,7 +371,7 @@ const MembershipForm = ({
   // TEMPORARILY REMOVING THIS SECTION
   // TODO: Figure out how or if to add this back in separately
   const AdsMembershipOption = ({name, values}) => {
-    let selectedOption = _.find(adsMembershipOptions, {name: name});
+    let selectedOption = _.find(adsMembershipOptions, {name});
     let [adsSelectedValue, setAdsSelectedValue] = useState(
       selectedOption.value,
     );
@@ -378,7 +384,7 @@ const MembershipForm = ({
           <input
             type="checkbox"
             checked={includeAdsMembership}
-            onChange={(e) => {
+            onChange={() => {
               setIncludeAdsMembership(!includeAdsMembership);
             }}
           />
@@ -422,25 +428,25 @@ const MembershipForm = ({
 
   // Build membership form options as dropdowns
   const DonationOption = ({name, values}) => {
-    let selectedOption = _.find(donationOptions, {name: name});
+    let selectedOption = _.find(donationOptions, {name});
     return (
       <fieldset style={{marginBottom: '2rem'}}>
         <label style={{fontSize: '150%'}}>
           <input
             type="checkbox"
             checked={includeDonation}
-            onChange={(e) => {
+            onChange={() => {
               setIncludeDonation(!includeDonation);
             }}
           />
           Include Donation to Yankee Dahlia Society
         </label>
         <p style={{margin: '1rem .5rem', fontSize: '1.25rem'}}>
-          Please consider including an extra donation to Yankee Dahlia Society.
-          Every contribution helps fund our club programming. We appreciate your
-          support and are grateful for whatever you can give. Yankee Dahlia
-          Society Inc. is a federally registered 501(c)(3) non profit
-          organization, and your donation is tax deductible.
+          Please consider including a donation to Yankee Dahlia Society. Every
+          contribution helps fund our club programming and activities. We
+          appreciate your support and are grateful for whatever you can give.
+          Yankee Dahlia Society Inc. is a federally registered 501(c)(3) non
+          profit organization, and your donation is tax deductible.
         </p>
         <select
           name={name}
@@ -482,6 +488,27 @@ const MembershipForm = ({
           );
         })}
       </div>
+      {ydsMembershipType === 'Business' && (
+        <fieldset className="form-block__large">
+          <label htmlFor="busineeName">
+            Business Name <RequiredMark />
+          </label>
+          <input
+            className={
+              memberInfoValidation.businessName
+                ? 'member-info-field'
+                : 'member-info-field member-info-field--invalid'
+            }
+            type="text"
+            name="businessName"
+            value={memberInfo.businessName}
+            ref={memberInfoRefs.businessName}
+            onChange={(e) => {
+              updateMemberInfo('businessName', e.target.value);
+            }}
+          />
+        </fieldset>
+      )}
       <fieldset className="form-block__medium">
         <label htmlFor="firstName">
           First Name <RequiredMark />
@@ -521,7 +548,7 @@ const MembershipForm = ({
         />
       </fieldset>
       <fieldset className="form-block__medium">
-        <label>
+        <label htmlFor="email">
           Email Address <RequiredMark />
         </label>
         <input
@@ -540,7 +567,7 @@ const MembershipForm = ({
         />
       </fieldset>
       <fieldset className="form-block__medium">
-        <label>
+        <label htmlFor="phone">
           Phone Number <RequiredMark />
         </label>
         <input
@@ -559,7 +586,7 @@ const MembershipForm = ({
         />
       </fieldset>
       <fieldset className="form-block__large">
-        <label>
+        <label htmlFor="address">
           Mailing Address <RequiredMark />
         </label>
         <input
@@ -578,7 +605,7 @@ const MembershipForm = ({
         />
       </fieldset>
       <fieldset className="form-block__medium">
-        <label>
+        <label htmlFor="city">
           City <RequiredMark />
         </label>
         <input
@@ -597,7 +624,7 @@ const MembershipForm = ({
         />
       </fieldset>
       <fieldset className="form-block__small">
-        <label>
+        <label htmlFor="state">
           State <RequiredMark />
         </label>
         <input
@@ -616,7 +643,7 @@ const MembershipForm = ({
         />
       </fieldset>
       <fieldset className="form-block__small">
-        <label>
+        <label htmlFor="zip">
           Zip Code <RequiredMark />
         </label>
         <input
@@ -661,11 +688,15 @@ const MembershipForm = ({
           ]}
         />
         <div style={{textAlign: 'right'}}>
-          <button
-            className="button"
-            onClick={addToCart}
-            disabled={addingToCart}
-          >
+          {memberInfoDirty && (
+            <p style={{color: '#c65a60'}}>
+              <em>
+                Please check your member info above, you may be missing some
+                required fields.
+              </em>
+            </p>
+          )}
+          <button className="button" onClick={addToCart}>
             Add to Cart
           </button>
         </div>
