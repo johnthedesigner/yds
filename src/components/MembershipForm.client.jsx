@@ -332,8 +332,6 @@ const MembershipForm = ({
       <fieldset style={{margin: '1rem 0'}}>
         <label>{name}</label>
         {_.map(values, (value, index) => {
-          let idString =
-            name.replace(/\W/g, '_') + '_' + value.replace(/\W/g, '_');
           let candidateVariant = getNextVariant(
             ydsMembershipVariants,
             ydsMembershipVariant,
