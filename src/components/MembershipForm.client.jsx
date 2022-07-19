@@ -1,151 +1,708 @@
-import {useState} from 'react';
+import {flattenConnection, useCart} from '@shopify/hydrogen/client';
+import _ from 'lodash';
+import {useEffect, useRef, useState} from 'react';
 
-const MembershipForm = (props) => {
-  const [membershipType, setMembershipType] = useState('individual');
-  const [donation, setDonation] = useState(25);
+const MembershipForm = ({
+  ydsMembershipProduct,
+  adsMembershipProduct,
+  donationProduct,
+}) => {
+  // YDS membership product state
+  const ydsMembershipVariants = flattenConnection(
+    ydsMembershipProduct.variants,
+  );
+  const [ydsMembershipVariant, setYdsMembershipVariant] = useState(
+    ydsMembershipVariants[0],
+  );
+  const [ydsMembershipOptions, setYdsMembershipOptions] = useState(
+    ydsMembershipVariants[0].selectedOptions,
+  );
+  const ydsMembershipType = _.find(ydsMembershipVariant.selectedOptions, {
+    name: 'Membership Type',
+  }).value;
+
+  // // ADS Membership product state
+  const [includeAdsMembership, setIncludeAdsMembership] = useState(false);
+  const adsMembershipVariants = flattenConnection(
+    adsMembershipProduct.variants,
+  );
+  const [adsMembershipVariant, setAdsMembershipVariant] = useState(
+    adsMembershipVariants[0],
+  );
+  const [adsMembershipOptions, setAdsMembershipOptions] = useState(
+    adsMembershipVariants[0].selectedOptions,
+  );
+
+  // Included donation state
   const [includeDonation, setIncludeDonation] = useState(false);
+  const donationVariants = flattenConnection(donationProduct.variants);
+  // Start with second option by default ($25)
+  const [donationVariant, setDonationVariant] = useState(donationVariants[2]);
+  const [donationOptions, setDonationOptions] = useState(
+    donationVariant.selectedOptions,
+  );
 
-  const baseRates = {
-    business: 50,
-    individual: 35,
+  // Member Info Data state
+  const [memberInfo, setMemberInfo] = useState({
+    businessName: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
+  });
+
+  // Member Info Validation state
+  const [memberInfoValidation, setMemberInfoValidation] = useState({
+    businessName: true,
+    firstName: true,
+    lastName: true,
+    phone: true,
+    email: true,
+    address: true,
+    city: true,
+    state: true,
+    zip: true,
+  });
+  const [memberInfoDirty, setMemberInfoDirty] = useState(false);
+
+  // Member Info Field Refs
+  const memberInfoRefs = {
+    businessName: useRef(null),
+    firstName: useRef(null),
+    lastName: useRef(null),
+    phone: useRef(null),
+    email: useRef(null),
+    address: useRef(null),
+    city: useRef(null),
+    state: useRef(null),
+    zip: useRef(null),
   };
-  const getBase = () => {
-    return baseRates[membershipType];
+
+  // Member Info Validation
+  const memberInfoValidators = {
+    businessName: (value) => {
+      if (ydsMembershipType === 'Business') {
+        return value != '';
+      } else {
+        return true;
+      }
+    },
+    firstName: (value) => {
+      return value != '';
+    },
+    lastName: (value) => {
+      return value != '';
+    },
+    phone: (value) => {
+      return value != '';
+    },
+    email: (value) => {
+      let emailCheck =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      return value.match(emailCheck);
+    },
+    address: (value) => {
+      return value != '';
+    },
+    city: (value) => {
+      return value != '';
+    },
+    state: (value) => {
+      return value != '';
+    },
+    zip: (value) => {
+      return value != '';
+    },
+  };
+  // Update individual member info fields
+  const updateMemberInfo = (name, value) => {
+    let newMemberInfo = {...memberInfo};
+    newMemberInfo[name] = value;
+    setMemberInfo(newMemberInfo);
   };
 
-  const getItemName = () => {
-    let itemName = `Membership Type: ${membershipType}, Donation Included: ${includeDonation}`;
-    if (includeDonation) {
-      itemName += `, Donation Amount: ${donation}`;
-    }
-    return itemName;
-  };
+  // Total cost tally state
+  const [tallyTotal, setTallyTotal] = useState(0);
+  useEffect(() => {
+    let ydsAmount = 1 * ydsMembershipVariant.priceV2.amount;
+    let donationAmount = includeDonation
+      ? 1 * donationVariant.priceV2.amount
+      : 0;
+    let adsAmount = includeAdsMembership
+      ? 1 * adsMembershipVariant.priceV2.amount
+      : 0;
+    let total = ydsAmount + donationAmount + adsAmount;
+    setTallyTotal(total);
+  }, [
+    ydsMembershipOptions,
+    includeDonation,
+    donationOptions,
+    includeAdsMembership,
+  ]);
 
-  const getMembershipText = () => {
-    if (membershipType == 'individual') {
-      return <p>If</p>;
-    }
-  };
+  // Custom add to cart functionality
+  const cart = useCart();
+  const {cartCreate, linesAdd} = cart;
 
-  const dollarize = (value) => `$${value}.00`;
-
-  const Tally = (props) => {
-    return <div className="tally">{props.children}</div>;
-  };
-
-  const TallyItem = (props) => {
-    let figureStyles = {
-      textDecoration: props.strikethrough ? 'line-through' : 'none',
-      opacity: props.strikethrough ? 0.5 : 1,
+  const addToCart = async () => {
+    // Start with true validation status
+    let valid = true;
+    let nextValidationState = {
+      ...memberInfoValidation,
     };
 
+    // Get the names of all our fields
+    let fieldNames = _.keys(memberInfo);
+
+    // Check validation rules for each field and mark dirty fields
+    await _.each(fieldNames, async (name) => {
+      if (!memberInfoValidators[name](memberInfo[name])) {
+        // Track dirty input for error message
+        await setMemberInfoDirty(true);
+        // Prevent submission
+        valid = false;
+        // Mark individual field
+        nextValidationState[name] = false;
+      }
+    });
+    await setMemberInfoValidation(nextValidationState);
+
+    if (valid) {
+      // Track dirty input for error message
+      await setMemberInfoDirty(false);
+
+      let attributes = _.map(memberInfo, (value, key) => {
+        // Check if this is a biz membership, if not omit business name
+        if (ydsMembershipType === 'Business') {
+          return {key, value};
+        } else {
+          if (key === 'businessName') {
+            // return nothing
+          } else {
+            return {key, value};
+          }
+        }
+      });
+
+      let newLines = [
+        {
+          merchandiseId: ydsMembershipVariant.id,
+          attributes,
+        },
+      ];
+      // if (includeAdsMembership) {
+      //   newLines.push({
+      //     merchandiseId: adsMembershipVariant.id,
+      //   });
+      // }
+      if (includeDonation) {
+        await newLines.push({
+          merchandiseId: donationVariant.id,
+        });
+      }
+      if (cart && cart.id) {
+        await linesAdd(newLines);
+      } else {
+        await cartCreate({lines: newLines});
+      }
+    }
+  };
+
+  const dollarize = (value) => `$${(1 * value).toFixed(2)}`;
+
+  const Tally = ({amounts}) => {
     return (
-      <p className="tally__item">
-        {props.name}:{' '}
-        <span className="tally__figure" style={figureStyles}>
-          {props.amount}
-        </span>
-      </p>
+      <>
+        {_.map(amounts, (item, index) => {
+          return (
+            <p key={index} className="tally__item">
+              {item.label}:{' '}
+              <span
+                className="tally__figure"
+                style={{
+                  textDecoration: !item.include ? 'line-through' : 'none',
+                  opacity: !item.include ? 0.5 : 1,
+                }}
+              >
+                {dollarize(1 * item.price)}
+              </span>
+            </p>
+          );
+        })}
+        <p className="tally__total">
+          Total: <span className="tally__figure">{dollarize(tallyTotal)}</span>
+        </p>
+      </>
     );
   };
 
-  const TallyTotal = (props) => {
+  const getNextVariant = (variants, selectedVariant, name, value) => {
+    // Build an up-to-date index of selected options
+    const optionIndex = {};
+    _.each(selectedVariant.selectedOptions, (option) => {
+      optionIndex[option.name] = option.value;
+    });
+
+    // Update the relevant option
+    optionIndex[name] = value;
+
+    // Convert back to array of objects
+    let nextOptionArray = _.map(optionIndex, (value, name) => {
+      return {name, value};
+    });
+
+    // Find the right variant to assign based on new options
+    let nextVariant;
+    _.each(variants, (variant) => {
+      if (_.isEqual(variant.selectedOptions, nextOptionArray)) {
+        nextVariant = {...variant};
+      }
+    });
+
+    return nextVariant;
+  };
+
+  // Change Membership Option and trigger downstream updates
+  const changeMembershipOption = (name, value) => {
+    // Get the new option name and value
+
+    let nextVariant = getNextVariant(
+      ydsMembershipVariants,
+      ydsMembershipVariant,
+      name,
+      value,
+    );
+
+    setYdsMembershipVariant(nextVariant);
+    setYdsMembershipOptions(nextVariant.selectedOptions);
+  };
+
+  // Change Membership Option and trigger downstream updates
+  const changeAdsMembershipOption = (e) => {
+    // Get the new option name and value
+    let {name, value} = e.target;
+
+    let nextVariant = getNextVariant(
+      adsMembershipVariants,
+      adsMembershipVariant,
+      name,
+      value,
+    );
+
+    setAdsMembershipVariant(nextVariant);
+    setAdsMembershipOptions(nextVariant.selectedOptions);
+  };
+
+  // Change Dontion Option and trigger downstream updates
+  const changeDonationOption = (e) => {
+    // Get the new option name and value
+    let {name, value} = e.target;
+
+    let nextVariant = getNextVariant(
+      donationVariants,
+      donationVariant,
+      name,
+      value,
+    );
+
+    setDonationVariant(nextVariant);
+    setDonationOptions(nextVariant.selectedOptions);
+  };
+
+  // Build membership form options as dropdowns
+  const MembershipOption = ({name, values}) => {
+    let selectedOption = _.find(ydsMembershipOptions, {name});
+    let [ydsSelectedValue, setYdsSelectedValue] = useState(
+      selectedOption.value,
+    );
+    useEffect(() => {
+      setYdsSelectedValue(selectedOption.value);
+    }, [ydsMembershipOptions, ydsMembershipVariant]);
+
+    let description = {
+      Business:
+        'An individual person with a business can choose this option for membership (but it’s not required).  We love promoting our members’ businesses.',
+      Individual: 'For one individual dahlia enthusiast.',
+    };
     return (
-      <p className="tally__total">
-        Total: <span className="tally__figure">{props.amount}</span>
-      </p>
+      <fieldset style={{margin: '1rem 0'}}>
+        <label>{name}</label>
+        {_.map(values, (value, index) => {
+          let candidateVariant = getNextVariant(
+            ydsMembershipVariants,
+            ydsMembershipVariant,
+            name,
+            value,
+          );
+          let buttonClass = `button__product-option ${
+            ydsSelectedValue === value ? 'button__product-option--active' : null
+          }`;
+          return (
+            <fieldset key={index}>
+              <button
+                className={buttonClass}
+                name={name}
+                value={value}
+                onClick={() => {
+                  changeMembershipOption(name, value);
+                }}
+              >
+                <div>
+                  <b>
+                    {value} – {dollarize(candidateVariant.priceV2.amount)}
+                  </b>
+                </div>
+                <div>{description[value]}</div>
+              </button>
+            </fieldset>
+          );
+        })}
+      </fieldset>
     );
   };
 
-  return (
-    <>
-      <fieldset>
-        <label htmlFor="membership_type">Select Membership Type</label>
+  // Build membership form options as dropdowns
+  // TEMPORARILY REMOVING THIS SECTION
+  // TODO: Figure out how or if to add this back in separately
+  const AdsMembershipOption = ({name, values}) => {
+    let selectedOption = _.find(adsMembershipOptions, {name});
+    let [adsSelectedValue, setAdsSelectedValue] = useState(
+      selectedOption.value,
+    );
+    useEffect(() => {
+      setAdsSelectedValue(selectedOption.value);
+    }, [adsMembershipOptions, adsMembershipVariant, includeAdsMembership]);
+    return (
+      <fieldset style={{marginBottom: '1rem'}}>
+        <label>
+          <input
+            type="checkbox"
+            checked={includeAdsMembership}
+            onChange={() => {
+              setIncludeAdsMembership(!includeAdsMembership);
+            }}
+          />
+          Include Membership to American Dahlia Society
+        </label>
+        <p style={{margin: '1rem .5rem', fontSize: '1.25rem'}}>
+          Individual memberships are for a single person. Family memberships are
+          for two people in the same household and will receive two copies each
+          of the ADS Classification Handbook and the ADS Bulletin.
+        </p>
+        {_.map(values, (value, index) => {
+          let idString =
+            name.replace(/\W/g, '_') + '_' + value.replace(/\W/g, '_');
+          let candidateVariant = getNextVariant(
+            adsMembershipVariants,
+            adsMembershipVariant,
+            name,
+            value,
+          );
+          return (
+            <fieldset key={index}>
+              <label htmlFor={`radio_${idString}`} className="inline-label">
+                <input
+                  id={`radio_${idString}`}
+                  type="radio"
+                  key={value}
+                  name={name}
+                  value={value}
+                  checked={adsSelectedValue === value}
+                  onChange={changeAdsMembershipOption}
+                  disabled={!includeAdsMembership}
+                />
+                {value} – {dollarize(candidateVariant.priceV2.amount)}
+              </label>
+            </fieldset>
+          );
+        })}
+      </fieldset>
+    );
+  };
+
+  // Build membership form options as dropdowns
+  const DonationOption = ({name, values}) => {
+    let selectedOption = _.find(donationOptions, {name});
+    return (
+      <fieldset style={{marginBottom: '2rem'}}>
+        <label style={{fontSize: '150%'}}>
+          <input
+            type="checkbox"
+            checked={includeDonation}
+            onChange={() => {
+              setIncludeDonation(!includeDonation);
+            }}
+          />
+          Include Donation to Yankee Dahlia Society
+        </label>
+        <p style={{margin: '1rem .5rem', fontSize: '1.25rem'}}>
+          Please consider including a donation to Yankee Dahlia Society. Every
+          contribution helps fund our club programming and activities. We
+          appreciate your support and are grateful for whatever you can give.
+          Yankee Dahlia Society Inc. is a federally registered 501(c)(3) non
+          profit organization, and your donation is tax deductible.
+        </p>
         <select
-          id="membership_type"
-          name="membership_type"
-          onChange={(e) => {
-            setMembershipType(e.target.value);
-          }}
+          name={name}
+          value={selectedOption.value}
+          onChange={changeDonationOption}
+          disabled={!includeDonation}
         >
-          <option value="individual">Individual Membership – $35.00</option>
-          <option value="business">Business Membership – $50.00</option>
+          {_.map(values, (value) => {
+            return (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            );
+          })}
         </select>
       </fieldset>
-      <p>
-        Business memberships get extra club perks. We love promoting our
-        members’ businesses <em>(but it’s not required)</em>.
-      </p>
-      <hr className="form-divider" />
-      <fieldset>
-        <p>
-          Help us hit the ground running with an extra donation. We appreciate
-          anything else you can give. Founders Circle donations of $25 or more
-          will receive a special token of our appreciation.
-        </p>
-        <input
-          id="include_donation"
-          name="include_donation"
-          type="checkbox"
-          value={includeDonation}
-          onChange={() => setIncludeDonation(!includeDonation)}
-        />
-        <label className="inline-label" htmlFor="include_donation">
-          Include donation?
+    );
+  };
+
+  const RequiredMark = () => <span style={{color: '#c65a60'}}>*</span>;
+
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '1rem',
+        gridAutoRows: 'minmax(3rem, auto',
+      }}
+    >
+      <div className="form-block__large">
+        {_.map(ydsMembershipProduct.options, (option) => {
+          return (
+            <MembershipOption
+              key={option.name}
+              name={option.name}
+              values={option.values}
+            />
+          );
+        })}
+      </div>
+      {ydsMembershipType === 'Business' && (
+        <fieldset className="form-block__large">
+          <label htmlFor="busineeName">
+            Business Name <RequiredMark />
+          </label>
+          <input
+            className={
+              memberInfoValidation.businessName
+                ? 'member-info-field'
+                : 'member-info-field member-info-field--invalid'
+            }
+            type="text"
+            name="businessName"
+            value={memberInfo.businessName}
+            ref={memberInfoRefs.businessName}
+            onChange={(e) => {
+              updateMemberInfo('businessName', e.target.value);
+            }}
+          />
+        </fieldset>
+      )}
+      <fieldset className="form-block__medium">
+        <label htmlFor="firstName">
+          First Name <RequiredMark />
         </label>
-        <label htmlFor="donation_amount">Donation Amount</label>
         <input
-          id="donation_amount"
+          className={
+            memberInfoValidation.firstName
+              ? 'member-info-field'
+              : 'member-info-field member-info-field--invalid'
+          }
           type="text"
-          value={donation}
-          onChange={(e) => setDonation(1 * e.target.value)}
-          disabled={!includeDonation}
+          name="firstName"
+          value={memberInfo.firstName}
+          ref={memberInfoRefs.firstName}
+          onChange={(e) => {
+            updateMemberInfo('firstName', e.target.value);
+          }}
         />
       </fieldset>
-      <Tally>
-        <TallyItem name="Base Rate" amount={dollarize(getBase())} />
-        <TallyItem
-          name="Optional Donation"
-          strikethrough={!includeDonation}
-          amount={dollarize(donation)}
-        />
-        <TallyTotal
-          amount={dollarize(includeDonation ? donation + getBase() : getBase())}
-        />
-      </Tally>
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-        <input type="hidden" name="cmd" value="_xclick" />
-        <input type="hidden" name="currency_code" value="USD" />
+      <fieldset className="form-block__medium">
+        <label htmlFor="lastName">
+          Last Name <RequiredMark />
+        </label>
         <input
-          type="hidden"
-          name="business"
-          value="info@yankeedahliasociety.com"
+          className={
+            memberInfoValidation.lastName
+              ? 'member-info-field'
+              : 'member-info-field member-info-field--invalid'
+          }
+          type="text"
+          name="lastName"
+          value={memberInfo.lastName}
+          ref={memberInfoRefs.lastName}
+          onChange={(e) => {
+            updateMemberInfo('lastName', e.target.value);
+          }}
         />
-
-        <input type="hidden" name="membership-type" value={membershipType} />
+      </fieldset>
+      <fieldset className="form-block__medium">
+        <label htmlFor="email">
+          Email Address <RequiredMark />
+        </label>
         <input
-          type="hidden"
-          name="donation"
-          value={includeDonation ? donation : 0}
+          className={
+            memberInfoValidation.email
+              ? 'member-info-field'
+              : 'member-info-field member-info-field--invalid'
+          }
+          type="text"
+          name="email"
+          value={memberInfo.email}
+          ref={memberInfoRefs.email}
+          onChange={(e) => {
+            updateMemberInfo('email', e.target.value);
+          }}
         />
-
-        <input type="hidden" name="no_shipping" value="1" />
-
-        <input type="hidden" name="tax" value="0" />
-
-        <input type="hidden" name="item_name" value={getItemName()} />
-
+      </fieldset>
+      <fieldset className="form-block__medium">
+        <label htmlFor="phone">
+          Phone Number <RequiredMark />
+        </label>
         <input
-          type="hidden"
-          name="amount"
-          value={includeDonation ? donation + getBase() : getBase()}
+          className={
+            memberInfoValidation.phone
+              ? 'member-info-field'
+              : 'member-info-field member-info-field--invalid'
+          }
+          type="text"
+          name="phone"
+          value={memberInfo.phone}
+          ref={memberInfoRefs.phone}
+          onChange={(e) => {
+            updateMemberInfo('phone', e.target.value);
+          }}
         />
-
-        <button className="button" type="submit">
-          Purchase Membership
-        </button>
-      </form>
-    </>
+      </fieldset>
+      <fieldset className="form-block__large">
+        <label htmlFor="address">
+          Mailing Address <RequiredMark />
+        </label>
+        <input
+          className={
+            memberInfoValidation.address
+              ? 'member-info-field'
+              : 'member-info-field member-info-field--invalid'
+          }
+          type="text"
+          name="address"
+          value={memberInfo.address}
+          ref={memberInfoRefs.address}
+          onChange={(e) => {
+            updateMemberInfo('address', e.target.value);
+          }}
+        />
+      </fieldset>
+      <fieldset className="form-block__medium">
+        <label htmlFor="city">
+          City <RequiredMark />
+        </label>
+        <input
+          className={
+            memberInfoValidation.city
+              ? 'member-info-field'
+              : 'member-info-field member-info-field--invalid'
+          }
+          type="text"
+          name="city"
+          value={memberInfo.city}
+          ref={memberInfoRefs.city}
+          onChange={(e) => {
+            updateMemberInfo('city', e.target.value);
+          }}
+        />
+      </fieldset>
+      <fieldset className="form-block__small">
+        <label htmlFor="state">
+          State <RequiredMark />
+        </label>
+        <input
+          className={
+            memberInfoValidation.state
+              ? 'member-info-field'
+              : 'member-info-field member-info-field--invalid'
+          }
+          type="text"
+          name="state"
+          value={memberInfo.state}
+          ref={memberInfoRefs.state}
+          onChange={(e) => {
+            updateMemberInfo('state', e.target.value);
+          }}
+        />
+      </fieldset>
+      <fieldset className="form-block__small">
+        <label htmlFor="zip">
+          Zip Code <RequiredMark />
+        </label>
+        <input
+          className={
+            memberInfoValidation.zip
+              ? 'member-info-field'
+              : 'member-info-field member-info-field--invalid'
+          }
+          type="text"
+          name="zip"
+          value={memberInfo.zip}
+          ref={memberInfoRefs.zip}
+          onChange={(e) => {
+            updateMemberInfo('zip', e.target.value);
+          }}
+        />
+      </fieldset>
+      <div className="form-block__large" style={{marginTop: '2rem'}}>
+        {_.map(donationProduct.options, (option) => {
+          return (
+            <DonationOption
+              key={option.name}
+              name={option.name}
+              values={option.values}
+            />
+          );
+        })}
+      </div>
+      <div className="form-block__large">
+        <Tally
+          amounts={[
+            {
+              label: 'YDS Membership',
+              include: true,
+              price: ydsMembershipVariant.priceV2.amount,
+            },
+            {
+              label: 'Optional Donation',
+              include: includeDonation,
+              price: donationVariant.priceV2.amount,
+            },
+          ]}
+        />
+        <div style={{textAlign: 'right'}}>
+          {memberInfoDirty && (
+            <p style={{color: '#c65a60'}}>
+              <em>
+                Please check your member info above, you may be missing some
+                required fields.
+              </em>
+            </p>
+          )}
+          <button className="button" onClick={addToCart}>
+            Add to Cart
+          </button>
+        </div>
+        <div style={{color: '#c65a60', marginTop: '2rem'}}>
+          <em>* Required Field</em>
+        </div>
+      </div>
+    </div>
   );
 };
 

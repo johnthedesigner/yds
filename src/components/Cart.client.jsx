@@ -4,7 +4,6 @@ import {
   Link,
   CartLines,
   CartLine,
-  CartShopPayButton,
   CartEstimatedCost,
 } from '@shopify/hydrogen/client';
 import {Dialog} from '@headlessui/react';
