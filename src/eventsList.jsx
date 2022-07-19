@@ -1008,5 +1008,31 @@ export const events = [
     time: '7:00pm - 9:00pm',
     name: 'Zoom Meeting - Introduction to Showing & Judging Dahlias with Special Guests Kathleen Burke & Jim Teeple from Mid Island Dahlia Society',
     label: eventTypes.meeting,
+    showMore: [
+      {
+        name: 'Details',
+        content: () => {
+          return (
+            <>
+              <p>
+                The end of August and the month of September are dahlia show
+                season. Have you ever been to a local or national dahlia show?
+                Dahlia shows are not just for those who show or judge dahlias.
+                Attending a dahlia show is a wonderful way to enrich your dahlia
+                knowledge. We are excited to have guest presenters Jim Teeple
+                and Kathy Burke from Mid Island Dahlia Society share their
+                expertise in dahlia shows and what it means to judge and or show
+                dahlias. Knowing more about the dahlia judging process enhances
+                your appreciation for dahlia blooms and will give you a better
+                understanding of growing dahlias. We hope that this introduction
+                by Jim and Kathy may also inspire YDS members to attend and
+                maybe participate in a local show, or even take a trip with
+                Carol and Misty to the National Dahlia Show.
+              </p>
+            </>
+          );
+        },
+      },
+    ],
   },
 ];
