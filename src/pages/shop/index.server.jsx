@@ -9,7 +9,7 @@ import pages from '../../pages.json';
 import ProductHighlightRow from '../../components/ProductHighlightRow.server';
 
 // Should we show tools and supplies yet?
-const showSupplies = false;
+const showSupplies = true;
 
 const ShopIndex = ({response}) => {
   response.cache({

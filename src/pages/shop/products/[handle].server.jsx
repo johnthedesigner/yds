@@ -132,7 +132,10 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
       <NewSeo product={data.product} />
       <Product product={data.product} initialVariantId={initialVariant.id}>
         <div className="product-detail__breadcrumb">
-          <Link to="/shop">Shop</Link> / <Link to="/shop/dahlias">Dahlias</Link>{' '}
+          <Link to="/shop">Shop</Link> /{' '}
+          <Link to={`/shop/${_.toLower(data.product.productType)}`}>
+            {data.product.productType}
+          </Link>{' '}
           / <Product.Title as="b" className="product-detail__title" />
         </div>
         <div className="product-detail">
@@ -194,6 +197,7 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
 const QUERY = gql`
   query product($handle: String!) {
     product: product(handle: $handle) {
+      productType
       vendor
       title
       totalInventory

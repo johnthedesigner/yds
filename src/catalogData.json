@@ -1,11 +1,13 @@
 {
   "category": {
-    "supplies": {
+    "Supplies": {
       "type": {
-        "Tools": "Tools"
+        "Tools": "Tools",
+        "Books": "Books",
+        "Merchandise": "Merchandise"
       }
     },
-    "tubers": {
+    "Dahlias": {
       "color": {
         "BI": "Bicolor",
         "BR": "Bronze",

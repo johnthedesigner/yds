@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import {useShopQuery, flattenConnection} from '@shopify/hydrogen';
-import gql from 'graphql-tag';
+import {flattenConnection} from '@shopify/hydrogen';
 import {Link} from 'react-router-dom';
 
 import Layout from '../../components/Layout.server';
@@ -12,13 +11,9 @@ import NewProductCard from '../../components/NewProductCard';
 import ProductSort from '../../components/ProductSort.client';
 import NewSeo from '../../components/NewSeo.client';
 import pages from '../../pages.json';
+import {getProductListing} from '../../productUtils';
 
-const ShopIndex = ({
-  response,
-  selectedOptions,
-  productCount = 200,
-  sortOption = 'titleAsc',
-}) => {
+const ShopIndex = ({response, selectedOptions, sortOption = 'titleAsc'}) => {
   response.cache({
     // Cache the page for one hour.
     // maxAge: 60 * 60,
@@ -30,27 +25,9 @@ const ShopIndex = ({
     noStore: true,
   });
 
-  const product_type = 'tubers';
+  const productType = 'Dahlias';
 
-  // Build query tags list
-  var queryTagString = '';
-  _.each(selectedOptions, (tag, index) => {
-    if (index === 0) {
-      queryTagString += `tag:${tag}`;
-    } else {
-      queryTagString += ` OR tag:${tag}`;
-    }
-  });
-  queryTagString = `(tag:${product_type}) AND (${queryTagString})`;
-
-  // Fetch products from shopify
-  const {data} = useShopQuery({
-    query: QUERY(productCount, queryTagString),
-    variables: {
-      country: 'US',
-      numProducts: productCount,
-    },
-  });
+  const data = getProductListing(productType, selectedOptions);
 
   // If there are no products available, show "not found"
   if (data?.products == null) {
@@ -82,7 +59,7 @@ const ShopIndex = ({
       <div className="product-listing">
         <div className="product-listing__sidebar">
           <ProductFilters
-            options={catalogData.category[product_type]}
+            options={catalogData.category[productType]}
             selected={selectedOptions}
           />
         </div>
@@ -99,112 +76,12 @@ const ShopIndex = ({
           </div>
         </div>
         <ProductFiltersMobile
-          options={catalogData.category[product_type]}
+          options={catalogData.category[productType]}
           selected={selectedOptions}
         />
       </div>
     </Layout>
   );
-};
-
-const QUERY = (productCount, queryTagString) => {
-  return gql`
-query productListing {
-  products(first: ${productCount} query: "${queryTagString}") {
-    edges {
-      cursor
-      node {
-        handle
-        vendor
-        title
-        totalInventory
-        tags
-        hybridizer: metafield(namespace: "my_fields", key: "hybridizer") {
-          key
-          value
-        }
-        country_of_origin: metafield(
-          namespace: "my_fields"
-          key: "country_of_origin"
-        ) {
-          key
-          value
-        }
-        introduction_year: metafield(
-          namespace: "my_fields"
-          key: "introduction_year"
-        ) {
-          key
-          value
-        }
-        asd_code: metafield(namespace: "my_fields", key: "ads_code") {
-          key
-          value
-        }
-        bloom_size: metafield(namespace: "my_fields", key: "bloom_size") {
-          key
-          value
-        }
-        height: metafield(namespace: "my_fields", key: "height") {
-          key
-          value
-        }
-        media(first: 10) {
-          edges {
-            node {
-              ... on MediaImage {
-                mediaContentType
-                image {
-                  id
-                  url
-                  altText
-                  width
-                  height
-                }
-              }
-            }
-          }
-        }
-        variants(first: 10) {
-          edges {
-            node {
-              id
-              quantityAvailable
-              priceV2 {
-                amount
-                currencyCode
-              }
-              image {
-                id
-                url
-                altText
-                width
-                height
-              }
-              selectedOptions {
-                name
-                value
-              }
-            }
-          }
-        }
-        priceRange {
-          minVariantPrice {
-            amount
-          }
-          maxVariantPrice {
-            amount
-          }
-        }
-      }
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-    }
-  }
-}
-`;
 };
 
 export default ShopIndex;
