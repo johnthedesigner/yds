@@ -908,7 +908,7 @@ button[type='submit'].donation-form__submit-button {
 
 .product-grid__image {
   position: relative;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .product-grid__image-overlay {
@@ -1129,6 +1129,7 @@ button[type='submit'].donation-form__submit-button {
 .gallery__image {
   width: 100%;
   height: auto;
+  background: rgba(0, 0, 0, 0.05);
 }
 
 /* Login Button */

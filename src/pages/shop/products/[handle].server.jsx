@@ -140,7 +140,7 @@ const ProductDetail = ({response, country = {isoCode: 'US'}}) => {
         </div>
         <div className="product-detail">
           <div className="product-detail__gallery-container">
-            <Gallery />
+            <Gallery product={data.product} />
           </div>
           <div className="product-detail__product-info">
             <div>

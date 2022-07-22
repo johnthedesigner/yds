@@ -1,25 +1,16 @@
 // import locale from 'locale-codes';
-import {
-  MediaFileFragment,
-  ProductProviderFragment,
-  useShopQuery,
-  flattenConnection,
-  Product,
-} from '@shopify/hydrogen';
-import _ from 'lodash';
+import {flattenConnection, Product, Image} from '@shopify/hydrogen';
 import {Link} from 'react-router-dom';
 
-import Gallery from './Gallery.client';
 import TagDescriptor from './TagDescriptor';
 import HybridizerDescriptor from './HybridizerDescriptor';
-import {
-  WithAnyAccess,
-  WithEarlyAccess,
-  WithoutAccess,
-} from './AccessControl.client';
+import {WithAnyAccess, WithoutAccess} from './AccessControl.client';
 
 const ProductCard = ({product, linkCard = true, showDetails = true}) => {
   let initialVariant = flattenConnection(product.variants)[0];
+
+  let productMedia = flattenConnection(product.media)[0];
+  let productImage = productMedia ? productMedia.image.url : null;
 
   const Price = ({price}) => {
     return `$${price}`;
@@ -29,10 +20,12 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
     if (product.country_of_origin) {
       let countryString = product.country_of_origin.value.toLowerCase();
       return (
-        <img
+        <Image
           className="product-grid__image-flag"
           src={`/flags/1x1/${countryString}.svg`}
           title={`Country of Origin: ${product.country_of_origin.value}`}
+          width={1}
+          height={1}
         />
       );
     } else {
@@ -68,7 +61,12 @@ const ProductCard = ({product, linkCard = true, showDetails = true}) => {
           className="product-grid__image-link"
           to={linkCard ? `/shop/products/${product.handle}` : null}
         >
-          <Gallery />
+          <Image
+            src={productImage ? productImage : '/no-image.svg'}
+            width={2000}
+            height={2000}
+            style={{width: '100%', aspectRatio: 1, objectFit: 'contain'}}
+          />
         </Link>
         <ImageOverlay
           inventory={initialVariant.quantityAvailable}
