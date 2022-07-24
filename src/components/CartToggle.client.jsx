@@ -1,7 +1,7 @@
 import {useCartUI} from './CartUIProvider.client';
 import CartIconWithItems from './CartIconWithItems.client';
 
-export default function CartToggle({handleClick}) {
+export default function CartToggle() {
   const cartUI = useCartUI();
 
   if (cartUI == null) {
@@ -17,7 +17,6 @@ export default function CartToggle({handleClick}) {
       aria-controls="cart"
       onClick={() => {
         toggleCart();
-        handleClick();
       }}
     >
       <CartIconWithItems />
