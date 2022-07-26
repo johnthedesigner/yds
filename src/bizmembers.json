@@ -234,7 +234,7 @@
     "ig handle": "gardenandroads",
     "business url": "https://www.gardenandroads.com/",
     "facebook url": "https://www.facebook.com/gardenandroads/",
-    "business name": "Gardens and Roads"
+    "business name": "Garden and Roads"
   },
   {
     "city": "Gloucester",
@@ -246,13 +246,15 @@
     "business name": "Generous Gardeners"
   },
   {
+    "city": "New Milford",
+    "state": "CT",
     "member since": "04/01/22",
     "ig handle": "goldenhourdahlias",
     "business name": "Golden Hour Dahlias"
   },
   {
-    "city": "Medford",
-    "state": "MA",
+    "city": "Hampton",
+    "state": "CT",
     "member since": "01/01/22",
     "ig handle": "justin_reis",
     "business url": "https://www.justinreisceramics.com/",
@@ -267,6 +269,8 @@
     "business name": "Simply Heaven Scent Farm"
   },
   {
+    "city": "Brewster",
+    "state": "MA",
     "member since": "04/01/22",
     "business name": "Quivett Creek Flowers",
     "ig handle": "quivettcreekflowers",
@@ -287,5 +291,14 @@
     "facebook url": "https://www.facebook.com/bottlebranch",
     "business url": "https://bottlebranch.com",
     "business name": "Bottle Branch"
+  },
+  {
+    "city": "Wellesley",
+    "state": "MA",
+    "member since": "07/01/22",
+    "ig handle": "masshort",
+    "facebook url": "https://www.facebook.com/MassHort",
+    "business url": "https://www.masshort.org",
+    "business name": "Massachusetts Horticultural Society"
   }
 ]
