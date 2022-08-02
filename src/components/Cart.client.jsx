@@ -42,6 +42,9 @@ function CartHeader() {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottom: '1px solid #DDD',
+    background: 'white',
+    position: 'sticky',
+    top: 0,
   };
 
   return (
@@ -200,7 +203,7 @@ const CartItems = () => {
     display: 'block',
     width: 'calc(100% - 1rem)',
     background: hovered ? '#DE7278' : '#C65A60',
-    margin: '.5rem',
+    margin: '0 0.5rem',
     padding: '0.5rem',
     borderRadius: '.25rem',
     color: 'white',
@@ -219,29 +222,38 @@ const CartItems = () => {
           {_.map(lines, (line) => {
             return <CartItem key={line.id} line={line} />;
           })}
-          <div
-            style={{
-              padding: '1rem',
-              borderTop: '1px solid #DDD',
-              fontSize: '1.25rem',
-              fontWeight: 'bold',
-            }}
-          >
-            Total:
-          </div>
-          <div
-            style={{
-              textAlign: 'right',
-              padding: '1rem',
-              borderTop: '1px solid #DDD',
-              fontWeight: 'bold',
-            }}
-          >
-            {renderPrice(cartTotal, 1)}
-          </div>
-          <div style={{borderTop: '1px solid #DDD'}} />
         </div>
-        <div>
+        <div
+          style={{
+            position: 'sticky',
+            bottom: 0,
+            background: 'white',
+            paddingBottom: '0.5rem',
+          }}
+        >
+          <div style={{display: 'flex', width: '100%', flexDirection: 'row'}}>
+            <div
+              style={{
+                flex: 1,
+                padding: '1rem',
+                borderTop: '1px solid #DDD',
+                fontSize: '1.25rem',
+                fontWeight: 'bold',
+              }}
+            >
+              Total:
+            </div>
+            <div
+              style={{
+                textAlign: 'right',
+                padding: '1rem',
+                borderTop: '1px solid #DDD',
+                fontWeight: 'bold',
+              }}
+            >
+              {renderPrice(cartTotal, 1)}
+            </div>
+          </div>
           <button
             style={checkoutButtonStyles}
             onClick={() => {
