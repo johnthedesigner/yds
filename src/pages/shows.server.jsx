@@ -1,6 +1,11 @@
+import {useQuery} from '@shopify/hydrogen';
+import _ from 'lodash';
+import contentful from 'contentful';
+import moment from 'moment';
+
+import shopifyConfig from '../../shopify.config';
 import Layout from '../components/Layout.server';
 import Hero from '../components/Hero.server';
-import ShowList from '../components/ShowList.client';
 import NewSeo from '../components/NewSeo.client';
 import pages from '../pages.json';
 import Bumper from '../components/Bumper.server';
@@ -17,6 +22,92 @@ const Shows = ({response}) => {
     noStore: true,
   });
 
+  // const [shows, setShows] = useState(null);
+
+  const {contentSpaceId, contentToken} = shopifyConfig;
+
+  // Configure contentful client and fetch shows
+  var client = contentful.createClient({
+    space: contentSpaceId,
+    accessToken: contentToken,
+  });
+  const {data} = useQuery('getShows', async () => {
+    return await client
+      .getEntries({content_type: 'shows'})
+      .then(function (response) {
+        return response.items;
+      });
+  });
+  const shows = _.orderBy(data, (show) => {
+    return show.fields.startDate;
+  });
+
+  const formatDate = (date) => {
+    return moment(date).format('dddd, MMMM D, YYYY');
+  };
+
+  const Date = (props) => {
+    if (props.startDate && props.endDate) {
+      return (
+        <h4 className="event__date">
+          {formatDate(props.startDate)} – {formatDate(props.endDate)}
+        </h4>
+      );
+    } else if (props.startDate) {
+      return <h4 className="event__date">{formatDate(props.startDate)}</h4>;
+    } else {
+      return null;
+    }
+  };
+
+  const File = (props) => {
+    if (props.file) {
+      return (
+        <div className="event__link">
+          <a href={props.file} target="_blank" rel="noreferrer">
+            Download PDF Brochure
+          </a>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  const Show = ({show}) => {
+    let {
+      name,
+      startDate,
+      endDate,
+      organization,
+      location,
+      linkUrl,
+      linkText,
+      file,
+    } = show.fields;
+
+    return (
+      <div className="event">
+        <Date startDate={startDate} endDate={endDate} />
+        <h3 className="event__name">{name}</h3>
+        {organization && (
+          <div className="event__location">Organization: {organization}</div>
+        )}
+        {location && (
+          <div className="event__location">Location: {location}</div>
+        )}
+        {linkUrl && (
+          <div className="event__link">
+            <a href={linkUrl} target="_blank" rel="noreferrer">
+              {linkText ? linkText : linkUrl}
+            </a>
+          </div>
+        )}
+        {file && <File file={file.fields.file.url} />}
+      </div>
+    );
+  };
+
   return (
     <Layout
       hero={<Hero title="Dahlia Shows" image="/purple-flowers.jpg" />}
@@ -24,7 +115,9 @@ const Shows = ({response}) => {
     >
       <NewSeo page={pages.shows} />
       <Bumper text="Show dates, locations and info will be updated as they are announced by their respective clubs." />
-      <ShowList />
+      {_.map(shows, (show) => {
+        return <Show key={show.sys.id} show={show} />;
+      })}
     </Layout>
   );
 };
