@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import moment from 'moment';
 import _ from 'lodash';
-import {Link} from '@shopify/hydrogen/client';
 
 import shows from '../showsList';
 
@@ -27,7 +26,7 @@ const File = (props) => {
   if (props.file) {
     return (
       <div className="event__link">
-        <a href={props.file} target="_blank">
+        <a href={props.file} target="_blank" rel="noreferrer">
           Download PDF Brochure
         </a>
       </div>
@@ -38,9 +37,6 @@ const File = (props) => {
 };
 
 const Show = (props) => {
-  const Description = props.description;
-  const Location = props.location;
-
   return (
     <div className="event">
       <Date startDate={props.startDate} endDate={props.endDate} />
@@ -48,7 +44,7 @@ const Show = (props) => {
       <div className="event__location">Organization: {props.org}</div>
       <div className="event__location">Location: {props.location}</div>
       <div className="event__link">
-        <a href={props.link} target="_blank">
+        <a href={props.link} target="_blank" rel="noreferrer">
           {props.link}
         </a>
       </div>
