@@ -8,7 +8,11 @@ export default function CartIconWithItems() {
   const QuantityBadge = ({itemCount}) => {
     if (itemCount > 0) {
       return (
-        <div className="cart-icon__quantity" aria-hidden>
+        <div
+          style={{color: 'white'}}
+          className="cart-icon__quantity"
+          aria-hidden
+        >
           {itemCount}
         </div>
       );
