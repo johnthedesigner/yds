@@ -1,6 +1,6 @@
-import {Link} from '@shopify/hydrogen/client';
 import _ from 'lodash';
 import moment from 'moment';
+import {Image, useQuery} from '@shopify/hydrogen';
 
 import Layout from '../components/Layout.server';
 import Hero from '../components/Hero.server';
@@ -9,9 +9,9 @@ import {
   CompactText,
   CompactTextWrapper,
 } from '../components/CompactText.server';
-import bizmembers from '../bizmembers';
 import NewSeo from '../components/NewSeo.client';
 import pages from '../pages.json';
+import getContent from '../contentful';
 
 const BusinessMembers = ({response}) => {
   response.cache({
@@ -25,34 +25,37 @@ const BusinessMembers = ({response}) => {
     noStore: true,
   });
 
-  const sortedBizMembers = _.orderBy(bizmembers, 'business name');
+  // Get data from contentful
+  const {data} = useQuery('getBusinessMembers', async () => {
+    return await getContent('businessMembers');
+  });
 
-  const memberBlockStyles = {
-    marginBottom: '1rem',
-  };
+  const sortedBizMembers = _.orderBy(data, (member) => {
+    return member.fields.name;
+  });
 
   const memberDetailsStyles = {
     margin: '0.5rem',
     fontSize: '1.25rem',
   };
 
-  const Location = (props) => {
-    if (props.city && props.state) {
+  const Location = ({city, state}) => {
+    if (city && state) {
       return (
         <p style={memberDetailsStyles}>
-          {props.city}, {props.state}
+          {city}, {state}
         </p>
       );
-    } else if (!props.city && props.state) {
-      return <p style={memberDetailsStyles}>{props.state}</p>;
+    } else if (!city && state) {
+      return <p style={memberDetailsStyles}>{state}</p>;
     } else {
       return null;
     }
   };
 
-  const MemberSince = (props) => {
-    let membershipDate = moment(props.date);
-    if (props.date) {
+  const MemberSince = ({date}) => {
+    let membershipDate = moment(date);
+    if (date) {
       return (
         <p style={memberDetailsStyles}>
           Member since {membershipDate.format('MMMM YYYY')}
@@ -63,12 +66,12 @@ const BusinessMembers = ({response}) => {
     }
   };
 
-  const WebsiteLink = (props) => {
-    if (props.link) {
+  const WebsiteLink = ({url}) => {
+    if (url) {
       return (
         <span>
-          <a href={props.link} target="_blank">
-            <img src="/website.svg" />
+          <a href={url} target="_blank" rel="noreferrer">
+            <Image src="/website.svg" width={24} height={24} />
           </a>
         </span>
       );
@@ -77,12 +80,12 @@ const BusinessMembers = ({response}) => {
     }
   };
 
-  const FacebookLink = (props) => {
-    if (props.link) {
+  const FacebookLink = ({url}) => {
+    if (url) {
       return (
         <span>
-          <a href={props.link} target="_blank">
-            <img src="/fb.svg" />
+          <a href={url} target="_blank" rel="noreferrer">
+            <Image src="/fb.svg" width={24} height={24} />
           </a>
         </span>
       );
@@ -91,12 +94,12 @@ const BusinessMembers = ({response}) => {
     }
   };
 
-  const InstagramLink = (props) => {
-    if (props.handle) {
+  const InstagramLink = (url) => {
+    if (url) {
       return (
         <span>
-          <a href={`http://instagram.com/${props.handle}`} target="_blank">
-            <img src="/ig.svg" />
+          <a href={url} target="_blank" rel="noreferrer">
+            <Image src="/ig.svg" width={24} height={24} />
           </a>
         </span>
       );
@@ -112,22 +115,32 @@ const BusinessMembers = ({response}) => {
     >
       <NewSeo page={pages.businessMembers} />
       <CompactTextWrapper>
-        {_.map(sortedBizMembers, (member, index) => {
+        {_.map(sortedBizMembers, (member) => {
+          let {
+            name,
+            city,
+            state,
+            startDate,
+            websiteUrl,
+            facebookUrl,
+            instagramUrl,
+          } = member.fields;
+          let {id} = member.sys;
           return (
-            <CompactText key={index}>
+            <CompactText key={id}>
               <div
                 style={{
                   textAlign: 'center',
                   marginBottom: '2rem',
                 }}
               >
-                <h3 style={{margin: '0.5rem 0'}}>{member['business name']}</h3>
-                <Location city={member.city} state={member.state} />
-                <MemberSince date={member['member since']} />
+                <h3 style={{margin: '0.5rem 0'}}>{name}</h3>
+                <Location city={city} state={state} />
+                <MemberSince date={startDate} />
                 <p style={memberDetailsStyles}>
-                  <WebsiteLink link={member['business url']} />
-                  <FacebookLink link={member['facebook url']} />
-                  <InstagramLink handle={member['ig handle']} />
+                  <WebsiteLink link={websiteUrl} />
+                  <FacebookLink link={facebookUrl} />
+                  <InstagramLink handle={instagramUrl} />
                 </p>
               </div>
             </CompactText>

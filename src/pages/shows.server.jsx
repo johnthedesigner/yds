@@ -1,14 +1,13 @@
 import {useQuery} from '@shopify/hydrogen';
 import _ from 'lodash';
-import contentful from 'contentful';
 import moment from 'moment';
 
-import shopifyConfig from '../../shopify.config';
 import Layout from '../components/Layout.server';
 import Hero from '../components/Hero.server';
 import NewSeo from '../components/NewSeo.client';
 import pages from '../pages.json';
 import Bumper from '../components/Bumper.server';
+import getContent from '../contentful';
 
 const Shows = ({response}) => {
   response.cache({
@@ -22,22 +21,10 @@ const Shows = ({response}) => {
     noStore: true,
   });
 
-  // const [shows, setShows] = useState(null);
-
-  const {contentSpaceId, contentToken} = shopifyConfig;
-
-  // Configure contentful client and fetch shows
-  var client = contentful.createClient({
-    space: contentSpaceId,
-    accessToken: contentToken,
-  });
   const {data} = useQuery('getShows', async () => {
-    return await client
-      .getEntries({content_type: 'shows'})
-      .then(function (response) {
-        return response.items;
-      });
+    return await getContent('shows');
   });
+
   const shows = _.orderBy(data, (show) => {
     return show.fields.startDate;
   });
