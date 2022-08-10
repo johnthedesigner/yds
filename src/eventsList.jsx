@@ -1035,4 +1035,16 @@ export const events = [
       },
     ],
   },
+  {
+    date: '2022-09-18',
+    time: 'TBD',
+    name: 'Dahlia Garden Tour and Dahlia Study Program',
+    label: eventTypes.meeting,
+  },
+  {
+    date: '2022-10-06',
+    time: '7:00pm - 9:00pm',
+    name: 'Zoom Meeting - Very special Guest Floral Design Presentation',
+    label: eventTypes.meeting,
+  },
 ];
