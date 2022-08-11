@@ -94,7 +94,7 @@ const BusinessMembers = ({response}) => {
     }
   };
 
-  const InstagramLink = (url) => {
+  const InstagramLink = ({url}) => {
     if (url) {
       return (
         <span>
@@ -126,6 +126,7 @@ const BusinessMembers = ({response}) => {
             instagramUrl,
           } = member.fields;
           let {id} = member.sys;
+
           return (
             <CompactText key={id}>
               <div
@@ -138,9 +139,9 @@ const BusinessMembers = ({response}) => {
                 <Location city={city} state={state} />
                 <MemberSince date={startDate} />
                 <p style={memberDetailsStyles}>
-                  <WebsiteLink link={websiteUrl} />
-                  <FacebookLink link={facebookUrl} />
-                  <InstagramLink handle={instagramUrl} />
+                  <WebsiteLink url={websiteUrl} />
+                  <FacebookLink url={facebookUrl} />
+                  <InstagramLink url={instagramUrl} />
                 </p>
               </div>
             </CompactText>
