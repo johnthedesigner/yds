@@ -7,7 +7,7 @@ import Hero from '../components/Hero.server';
 import NewSeo from '../components/NewSeo.client';
 import pages from '../pages.json';
 import Bumper from '../components/Bumper.server';
-import getContent from '../contentful';
+import {getCollection} from '../strapi';
 
 const Shows = ({response}) => {
   response.cache({
@@ -21,37 +21,40 @@ const Shows = ({response}) => {
     noStore: true,
   });
 
-  const {data} = useQuery('getShows', async () => {
-    return await getContent('shows');
+  // Get data from strapi
+  const {data} = useQuery('getShows', () => {
+    return getCollection('shows');
   });
 
+  // Sort chronologically by start date
   const shows = _.orderBy(data, (show) => {
-    return show.fields.startDate;
+    return show.attributes.startDate;
   });
 
   const formatDate = (date) => {
     return moment(date).format('dddd, MMMM D, YYYY');
   };
 
-  const Date = (props) => {
-    if (props.startDate && props.endDate) {
+  const Date = ({startDate, endDate}) => {
+    if (startDate && endDate) {
       return (
         <h4 className="event__date">
-          {formatDate(props.startDate)} – {formatDate(props.endDate)}
+          {formatDate(startDate)} – {formatDate(endDate)}
         </h4>
       );
-    } else if (props.startDate) {
-      return <h4 className="event__date">{formatDate(props.startDate)}</h4>;
+    } else if (startDate) {
+      return <h4 className="event__date">{formatDate(startDate)}</h4>;
     } else {
       return null;
     }
   };
 
-  const File = (props) => {
-    if (props.file) {
+  const File = ({file}) => {
+    console.log(file);
+    if (file) {
       return (
         <div className="event__link">
-          <a href={props.file} target="_blank" rel="noreferrer">
+          <a href={file} target="_blank" rel="noreferrer">
             Download PDF Brochure
           </a>
         </div>
@@ -71,7 +74,7 @@ const Shows = ({response}) => {
       linkUrl,
       linkText,
       file,
-    } = show.fields;
+    } = show.attributes;
 
     return (
       <div className="event">
@@ -103,7 +106,7 @@ const Shows = ({response}) => {
       <NewSeo page={pages.shows} />
       <Bumper text="Show dates, locations and info will be updated as they are announced by their respective clubs." />
       {_.map(shows, (show) => {
-        return <Show key={show.sys.id} show={show} />;
+        return <Show key={show.id} show={show} />;
       })}
     </Layout>
   );
