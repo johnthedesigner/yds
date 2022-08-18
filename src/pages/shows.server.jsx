@@ -50,11 +50,14 @@ const Shows = ({response}) => {
   };
 
   const File = ({file}) => {
-    console.log(file);
     if (file) {
       return (
         <div className="event__link">
-          <a href={file} target="_blank" rel="noreferrer">
+          <a
+            href={file.data[0].attributes.name}
+            target="_blank"
+            rel="noreferrer"
+          >
             Download PDF Brochure
           </a>
         </div>
@@ -93,7 +96,7 @@ const Shows = ({response}) => {
             </a>
           </div>
         )}
-        {file && <File file={file.fields.file.url} />}
+        {file && <File file={file} />}
       </div>
     );
   };
