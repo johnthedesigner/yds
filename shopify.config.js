@@ -5,6 +5,8 @@ var auth0ClientId = '';
 var siteDomain = '';
 var contentSpaceId = '';
 var contentToken = '';
+var strapiApi = '';
+var strapiToken = '';
 
 if (import.meta && import.meta.env) {
   // Found import.meta
@@ -15,6 +17,8 @@ if (import.meta && import.meta.env) {
   siteDomain = import.meta.env.VITE_SITE_DOMAIN;
   contentSpaceId = import.meta.env.VITE_CONTENT_SPACE_ID;
   contentToken = import.meta.env.VITE_CONTENT_TOKEN;
+  strapiApi = import.meta.env.VITE_STRAPI_API;
+  strapiToken = import.meta.env.VITE_STRAPI_TOKEN;
 } else {
   // Found process.env
   storeDomain = process.env.VITE_SHOPIFY_DOMAIN;
@@ -24,6 +28,8 @@ if (import.meta && import.meta.env) {
   siteDomain = process.env.VITE_SITE_DOMAIN;
   contentSpaceId = process.env.VITE_CONTENT_SPACE_ID;
   contentToken = process.env.VITE_CONTENT_TOKEN;
+  strapiApi = process.env.VITE_STRAPI_API;
+  strapiToken = process.env.VITE_STRAPI_TOKEN;
 }
 
 export default {
@@ -36,4 +42,6 @@ export default {
   siteDomain,
   contentSpaceId,
   contentToken,
+  strapiApi,
+  strapiToken,
 };

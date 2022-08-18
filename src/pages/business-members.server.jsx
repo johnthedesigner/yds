@@ -11,7 +11,7 @@ import {
 } from '../components/CompactText.server';
 import NewSeo from '../components/NewSeo.client';
 import pages from '../pages.json';
-import getContent from '../contentful';
+import {getCollection} from '../strapi';
 
 const BusinessMembers = ({response}) => {
   response.cache({
@@ -25,13 +25,14 @@ const BusinessMembers = ({response}) => {
     noStore: true,
   });
 
-  // Get data from contentful
-  const {data} = useQuery('getBusinessMembers', async () => {
-    return await getContent('businessMembers');
+  // Get data from strapi
+  const {data} = useQuery('getBusinessMembers', () => {
+    return getCollection('business-members');
   });
 
+  // Sort alphabetically by business name
   const sortedBizMembers = _.orderBy(data, (member) => {
-    return member.fields.name;
+    return member.attributes.name;
   });
 
   const memberDetailsStyles = {
@@ -124,8 +125,8 @@ const BusinessMembers = ({response}) => {
             websiteUrl,
             facebookUrl,
             instagramUrl,
-          } = member.fields;
-          let {id} = member.sys;
+          } = member.attributes;
+          let {id} = member;
 
           return (
             <CompactText key={id}>
