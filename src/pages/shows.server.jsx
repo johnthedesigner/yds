@@ -50,7 +50,7 @@ const Shows = ({response}) => {
   };
 
   const File = ({file}) => {
-    if (file) {
+    if (file && file.data) {
       return (
         <div className="event__link">
           <a
