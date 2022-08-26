@@ -1,0 +1,69 @@
+{
+  "category": {
+    "supplies": {
+      "type": {
+        "Tools": "Tools"
+      }
+    },
+    "tubers": {
+      "color": {
+        "BI": "Bicolor",
+        "BR": "Bronze",
+        "DB": "Dark Blend",
+        "DP": "Dark Pink",
+        "DR": "Dark Red",
+        "FL": "Flame Blend",
+        "L": "Lavender",
+        "LB": "Light Blend",
+        "OR": "Orange",
+        "PK": "Pink",
+        "PR": "Purple",
+        "R": "Red",
+        "V": "Variegated",
+        "W": "White",
+        "Y": "Yellow"
+      },
+      "size": {
+        "AA": "Giant",
+        "A": "Large",
+        "B": "Medium",
+        "BB": "Small",
+        "M": "Miniature",
+        "BA": "Ball",
+        "MB": "MB",
+        "P": "Pompon",
+        "MS": "Mignon Single",
+        "S": "Single"
+      },
+      "form": {
+        "AN": "Anemone",
+        "BA": "Ball",
+        "C": "Straight Cactus",
+        "CO": "Collarette",
+        "FD": "Formal Decorative",
+        "IC": "Incurved Cactus",
+        "LC": "Laciniated",
+        "MAN": "Micro Anemone",
+        "MCO": "Micro Collarette",
+        "MNO": "Micro Novelty Fully Double",
+        "MNX": "Micro Novelty Open",
+        "MO": "Micro Orchid",
+        "MPE": "Micro Peony",
+        "MST": "Micro Stellar",
+        "MWL": "Micro Water lily",
+        "MB": "Miniature Ball",
+        "MS": "Mignon Single",
+        "NO": "Novelty Open",
+        "NX": "Novelty Fully Double",
+        "O": "Orchid",
+        "OT": "Orchette",
+        "P": "Pompon",
+        "PE": "Peony",
+        "S": "Single",
+        "SC": "Semi-Cactus",
+        "ST": "Stellar",
+        "WL": "Water Lily"
+      }
+    }
+  }
+}

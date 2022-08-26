@@ -1,0 +1,85 @@
+import _ from "lodash";
+
+import { getSitemapProducts } from "../utils/shopify";
+import { flattenConnection } from "../utils/shopify";
+import pages from "../utils/pages";
+
+const getDate = new Date().toISOString();
+
+const Sitemap = () => {
+  //   response.headers.set("content-type", "application/xml");
+  //   return shopSitemap(products, siteDomain);
+  return null;
+};
+
+const shopSitemap = (products, siteDomain) => {
+  const staticPages = _.map(pages, (page) => {
+    if (page.inSitemap) {
+      return `
+            <url>
+              <loc>${siteDomain}${page.path}</loc>
+              <lastmod>${getDate}</lastmod>
+            </url>
+          `;
+    } else {
+      return null;
+    }
+  }).join("");
+
+  const imageInfo = (product) => {
+    let image = product.images.edges[0];
+    if (image) {
+      return `
+          <image:image>
+          <image:loc>
+            ${image.node.url}
+          </image:loc>
+          <image:title>
+            ${image.node.altText ?? ""}
+          </image:title>
+          <image:caption />
+        </image:image>
+      `;
+    } else return "";
+  };
+
+  return `
+    <urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+    >
+      ${staticPages}
+      ${flattenConnection(products)
+        .map((product) => {
+          return `
+          <url>
+            <loc>
+            ${siteDomain}/shop/products/${product.handle}
+            </loc>
+            <lastmod>${product.updatedAt}</lastmod>
+            <changefreq>daily</changefreq>
+            ${imageInfo(product)}
+          </url>
+        `;
+        })
+        .join("")}
+    </urlset>`;
+};
+
+export const getServerSideProps = async ({ res }) => {
+  const { DOMAIN } = process.env;
+  // Fetch products
+  let products = await getSitemapProducts();
+
+  let sitemap = shopSitemap(products, DOMAIN);
+
+  res.setHeader("Content-Type", "text/xml");
+  res.write(sitemap);
+  res.end();
+
+  return {
+    props: {},
+  };
+};
+
+export default Sitemap;
