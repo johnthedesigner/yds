@@ -1,9 +1,12 @@
 import _ from "lodash";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useHistory, useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 // import shopifyConfig from "../../shopify.config";
 const siteDomain = process.env.SITE_DOMAIN;
+import NewLoginButton from "./NewLoginButton";
 
 export const shopRoute = "/shop";
 export const productsRoute = "/shop/products";
@@ -26,8 +29,11 @@ const AuthMenu = () => {
   const { loginWithRedirect, logout, user, isAuthenticated, isLoading } =
     useAuth0();
 
+  let { asPath, basePath } = useRouter();
+
   // Strapi Auth
-  // const [session, loading] = useSession();
+  const { data } = useSession();
+  const { accessToken } = data ? data : { accessToken: null };
 
   const shopUrl = siteDomain + shopRoute;
 
@@ -55,18 +61,7 @@ const AuthMenu = () => {
 
   return (
     <div className="auth-menu">
-      {!false && (
-        <>
-          Not signed in <br />
-          <button onClick={() => signIn()}>Sign in</button>
-        </>
-      )}
-      {false && (
-        <>
-          Signed in as {session.user.email} <br />
-          <button onClick={() => signOut()}>Sign out</button>
-        </>
-      )}
+      <NewLoginButton currentPath={asPath} />
       {!isLoading && isAuthenticated ? (
         <>
           <img

@@ -29,7 +29,7 @@ const ProductDetail = ({ product }) => {
   const { pathname, query } = router;
 
   if (!product) {
-    return <NotFound />;
+    return null;
   }
 
   const productImage = flattenConnection(product.media)[0].image;
@@ -54,7 +54,9 @@ const ProductDetail = ({ product }) => {
 
   const ConditionalDescription = () => {
     if (product.description) {
-      return <Product.Description className="product-detail__description" />;
+      return (
+        <div className="product-detail__description">{product.description}</div>
+      );
     } else {
       return null;
     }
