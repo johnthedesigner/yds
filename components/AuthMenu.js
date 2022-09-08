@@ -1,81 +1,60 @@
 import _ from "lodash";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useHistory, useLocation } from "react-router-dom";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 
-// import shopifyConfig from "../../shopify.config";
-const siteDomain = process.env.SITE_DOMAIN;
-import NewLoginButton from "./NewLoginButton";
-
-export const shopRoute = "/shop";
-export const productsRoute = "/shop/products";
-
-export const isShopHomepage = () => {
-  let { pathname } = useLocation();
-  return pathname === shopRoute;
+// Styles for email initial avatar
+const initialStyles = {
+  display: "inline-block",
+  fontSize: "1.5rem",
+  lineHeight: "2rem",
+  textAlign: "center",
+  aspectRatio: 1,
+  background: "rgb(198, 90, 96)",
+  color: "maroon",
+  width: "2rem",
+  height: "2rem",
+  verticalAlign: "middle",
+  borderRadius: "50%",
+  marginRight: ".5rem",
 };
 
-export const isShopPage = () => {
-  let { pathname } = useLocation();
-  return _.includes(pathname, shopRoute);
-};
-
-export const Loading = () => {
-  return <h1>Loading...</h1>;
+const LoginButton = ({ currentPath, session }) => {
+  // If we're logged in show the user info and "Sign Out" button
+  if (session) {
+    let initial = session.user.email.slice(0, 1).toUpperCase();
+    console.log(initial);
+    return (
+      <>
+        <span style={initialStyles}>
+          <span>{initial}</span>
+        </span>
+        {session.user.email} |{" "}
+        <button className="text-button" onClick={() => signOut()}>
+          Sign Out
+        </button>
+      </>
+    );
+  }
+  // Or else, show the "Sign In" button
+  return (
+    <>
+      <button
+        className="auth-menu__log-in-button"
+        onClick={() => signIn("Credentials", { callbackUrl: currentPath })}>
+        Sign In
+      </button>
+    </>
+  );
 };
 
 const AuthMenu = () => {
-  const { loginWithRedirect, logout, user, isAuthenticated, isLoading } =
-    useAuth0();
-
-  let { asPath, basePath } = useRouter();
-
-  // Strapi Auth
-  const { data } = useSession();
-  const { accessToken } = data ? data : { accessToken: null };
-
-  const shopUrl = siteDomain + shopRoute;
-
-  const LoginButton = () => {
-    return (
-      <button
-        className="auth-menu__log-in-button"
-        onClick={() =>
-          loginWithRedirect({ redirectUri: `${siteDomain}/shop` })
-        }>
-        Member Login
-      </button>
-    );
-  };
-
-  const LogoutButton = () => {
-    return (
-      <button
-        className="auth-menu__log-out-button"
-        onClick={() => logout({ returnTo: shopUrl })}>
-        Log Out
-      </button>
-    );
-  };
+  let { asPath } = useRouter();
+  const { data: session } = useSession();
+  const { accessToken } = session ? session : { accessToken: null };
 
   return (
     <div className="auth-menu">
-      <NewLoginButton currentPath={asPath} />
-      {!isLoading && isAuthenticated ? (
-        <>
-          <img
-            className="auth-menu__avatar"
-            src={user.picture}
-            width="24"
-            height="24"
-          />
-          <span className="auth-menu__username">{user.name}</span>
-          <LogoutButton />
-        </>
-      ) : (
-        <LoginButton />
-      )}
+      <LoginButton currentPath={asPath} session={session} />
     </div>
   );
 };
