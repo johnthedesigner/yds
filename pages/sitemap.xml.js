@@ -1,14 +1,13 @@
 import _ from "lodash";
+import axios from "axios";
 
-import { getSitemapProducts } from "../utils/shopify";
+// import { getSitemapProducts } from "../utils/shopify";
 import { flattenConnection } from "../utils/shopify";
 import pages from "../utils/pages";
 
 const getDate = new Date().toISOString();
 
 const Sitemap = () => {
-  //   response.headers.set("content-type", "application/xml");
-  //   return shopSitemap(products, siteDomain);
   return null;
 };
 
@@ -49,7 +48,7 @@ const shopSitemap = (products, siteDomain) => {
       xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
     >
       ${staticPages}
-      ${flattenConnection(products)
+      ${products
         .map((product) => {
           return `
           <url>
@@ -69,7 +68,24 @@ const shopSitemap = (products, siteDomain) => {
 export const getServerSideProps = async ({ res }) => {
   const { DOMAIN } = process.env;
   // Fetch products
-  let products = await getSitemapProducts();
+  let products = [];
+
+  await axios({
+    method: "get",
+    url: `http://${DOMAIN}/api/get-sitemap-products`,
+    headers: { "content-type": "application/json" },
+  }).then((response) => {
+    let { data } = response;
+    console.log(data);
+    if (data.errors) {
+      // TODO: handle these errors
+    } else {
+      // Get cart from response and update in-app
+      products = flattenConnection(data);
+    }
+  });
+
+  console.log(products);
 
   let sitemap = shopSitemap(products, DOMAIN);
 

@@ -1,9 +1,11 @@
 import _ from "lodash";
+import axios from "axios";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 
 import { flattenConnection } from "../../../utils/shopify";
+import { useContext } from "react";
 
 // import NotFound from '../../../components/NotFound.client';
 import Layout from "../../../components/Layout";
@@ -22,9 +24,12 @@ import {
 import LoginButton from "../../../components/LoginButton";
 import NewSeo from "../../../components/NewSeo";
 import { getProductByHandle } from "../../../utils/shopify";
+import { CartContext } from "../../_app";
+// import { addToCart } from "../../../utils/useApi";
 
 const ProductDetail = ({ product }) => {
-  //   const {handle} = useParams();
+  // const { addToCart } = useApi();
+  const { addToCart } = useContext(CartContext);
   const router = useRouter();
   const { pathname, query } = router;
 
@@ -32,23 +37,32 @@ const ProductDetail = ({ product }) => {
     return null;
   }
 
-  const productImage = flattenConnection(product.media)[0].image;
+  const productImages = flattenConnection(product.media);
+  const productImage =
+    productImages.length > 0
+      ? flattenConnection(product.media)[0].image.url
+      : "/no-image.svg";
 
   const initialVariant = flattenConnection(product.variants)[0];
 
-  function AddToCartMarkup() {
-    const { selectedVariant } = useProduct();
-    const isOutOfStock = !selectedVariant.availableForSale;
+  // Use add to cart functionality
+  const handleAddToCart = () => {
+    let newLines = [
+      {
+        merchandiseId: initialVariant.id,
+        quantity: 1,
+      },
+    ];
+    addToCart(newLines);
+  };
 
+  function AddToCartMarkup() {
     return (
-      <>
-        {/* <Product.SelectedVariant.AddToCartButton
-        className="product-detail__button"
-        disabled={isOutOfStock}>
-        {isOutOfStock ? "Out of stock" : "Add to bag"}
-      </Product.SelectedVariant.AddToCartButton> */}
-        Add to Cart
-      </>
+      <div style={{ margin: "2rem 0" }}>
+        <button className="button" onClick={handleAddToCart}>
+          Add to Cart
+        </button>
+      </div>
     );
   }
 
@@ -117,6 +131,10 @@ const ProductDetail = ({ product }) => {
     );
   };
 
+  const ProductPrice = ({ price }) => {
+    return <>{`$${(1 * price).toFixed(2)}`}</>;
+  };
+
   return (
     <Layout>
       <NewSeo product={product} />
@@ -133,13 +151,13 @@ const ProductDetail = ({ product }) => {
       <div className="product-detail">
         <div className="product-detail__gallery-container">
           <Image
-            src={productImage.url}
+            src={productImage}
             layout="responsive"
             width="1fr"
             height="1fr"
             className="gallery__image"
-            style={{ aspectRatio: 1, objectFit: "cover" }}
             alt={`Product image - ${product.title}`}
+            priority={true}
           />
         </div>
         <div className="product-detail__product-info">
@@ -152,18 +170,16 @@ const ProductDetail = ({ product }) => {
             </WithoutAccess>
             <WithAnyAccess>
               <p className="product-detail__price">
-                {initialVariant.priceV2.amount}
+                <ProductPrice price={initialVariant.priceV2.amount} />
               </p>
             </WithAnyAccess>
-            <WithEarlyAccess>
-              <p>
-                {product.totalInventory < 5 && (
-                  <small>
-                    <em>{initialVariant.quantityAvailable} left in stock.</em>
-                  </small>
-                )}
-              </p>
-            </WithEarlyAccess>
+            <p>
+              {product.totalInventory < 15 && (
+                <small>
+                  <em>{initialVariant.quantityAvailable} left in stock.</em>
+                </small>
+              )}
+            </p>
           </div>
           <ConditionalDescription />
           <HybridizerDescriptor

@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
+import CartToggle from "./CartToggle";
 
 // Styles for email initial avatar
 const initialStyles = {
@@ -22,7 +23,6 @@ const LoginButton = ({ currentPath, session }) => {
   // If we're logged in show the user info and "Sign Out" button
   if (session) {
     let initial = session.user.email.slice(0, 1).toUpperCase();
-    console.log(initial);
     return (
       <>
         <span style={initialStyles}>
@@ -38,10 +38,11 @@ const LoginButton = ({ currentPath, session }) => {
   // Or else, show the "Sign In" button
   return (
     <>
+      <span style={{ marginRight: "1rem" }}>Log in to shop our store</span>
       <button
         className="auth-menu__log-in-button"
         onClick={() => signIn("Credentials", { callbackUrl: currentPath })}>
-        Sign In
+        Member Login
       </button>
     </>
   );
@@ -55,6 +56,7 @@ const AuthMenu = () => {
   return (
     <div className="auth-menu">
       <LoginButton currentPath={asPath} session={session} />
+      <CartToggle type="mobile" />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import pages from "../utils/pages.json";
+import CartToggle from "./CartToggle";
 
 export const linkClass = (currentPath, linkedPage) => {
   let { pathname } = useRouter();
@@ -33,6 +34,9 @@ export default function Navigation({ collections }) {
             </Link>
           </li>
         ))}
+        <li className="navbar__item">
+          <CartToggle />
+        </li>
       </ul>
     </nav>
   );

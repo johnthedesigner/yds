@@ -4,6 +4,17 @@
 
 /* TODO: Replace above tailwind styles with CSS */
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
 /* Fix images as block elements */
 img {
   display: inline;
@@ -147,6 +158,12 @@ a.button {
   color: #c65a60;
   font-family: inherit;
   text-decoration: underline;
+  cursor: pointer;
+  transition: all linear 0.1s;
+}
+
+.text-button:hover {
+  color: rgb(228, 120, 126);
 }
 
 label {
@@ -224,6 +241,7 @@ button[type="submit"] {
   border-color: #ddd;
   border-width: 1px;
   border-radius: 0.5rem;
+  background: none;
   text-align: left;
   color: #999;
 }
@@ -307,6 +325,7 @@ button[type="submit"] {
   background: #fffbf1;
   display: flex;
   flex-direction: column;
+  max-width: 100vw;
 }
 
 .footer__body {
@@ -392,6 +411,12 @@ button[type="submit"].donation-form__submit-button {
   height: 8rem;
 }
 
+@media screen and (max-width: 800px) {
+  .header-spacer {
+    display: none;
+  }
+}
+
 .logo-link--mobile {
   background: #fffbf1;
   position: absolute;
@@ -444,6 +469,12 @@ button[type="submit"].donation-form__submit-button {
   box-shadow: 0 0.25rem 0.5rem rgba(80, 111, 152, 0.3);
 }
 
+@media screen and (max-width: 960px) {
+  .navbar--desktop {
+    font-size: 1rem;
+  }
+}
+
 .navbar__main-menu--desktop {
   flex: 1;
 }
@@ -479,7 +510,7 @@ button[type="submit"].donation-form__submit-button {
   padding: 0;
   list-style: none;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -498,6 +529,13 @@ button[type="submit"].donation-form__submit-button {
   color: #3d4549;
   transition: color linear 0.1s;
 }
+
+@media screen and (max-width: 960px) {
+  .navbar__link {
+    padding: 0 0.5rem !important;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .navbar__link {
     color: white;
@@ -566,6 +604,13 @@ button[type="submit"].donation-form__submit-button {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  padding-right: 2rem;
+}
+
+@media screen and (max-width: 800px) {
+  .user-menu-bar {
+    padding-right: 0;
+  }
 }
 
 .user-menu-bar__item {
@@ -581,7 +626,8 @@ button[type="submit"].donation-form__submit-button {
   border-radius: 0.125rem;
   background: #506f98;
   color: white;
-  font-size: 0.75rem;
+  font-family: "Newsreader", serif;
+  font-size: 1rem;
 }
 
 .auth-menu__username {
@@ -592,6 +638,75 @@ button[type="submit"].donation-form__submit-button {
 .auth-menu__avatar {
   margin-right: 0.25rem;
   border-radius: 50%;
+}
+
+.cart {
+  background: white;
+  position: fixed;
+  width: 24rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+  top: 1rem;
+  right: 1rem;
+  bottom: auto;
+  left: auto;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.cart__overlay {
+  position: fixed;
+  background: rgba(255, 0, 0, 0);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+@media screen and (max-width: 800px) {
+  .cart {
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+@media screen and (min-width: 801px) {
+  .navbar--mobile {
+    display: none;
+  }
+}
+
+.cart__button {
+  border: none;
+  background: none;
+  color: #3d4549;
+  cursor: pointer;
+  margin-right: 1.5rem;
+}
+
+.cart__button--mobile {
+  margin: 0;
+  color: white;
+  background: none;
+  border: none;
+  transform: scale(75%);
+  vertical-align: middle;
+}
+
+@media screen and (min-width: 801px) {
+  .cart__button--mobile {
+    display: none;
+  }
+}
+
+.cart__close-button {
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 .cart-icon {
@@ -610,6 +725,11 @@ button[type="submit"].donation-form__submit-button {
   width: 1.25rem;
   height: 1.25rem;
   line-height: 1.5rem;
+}
+
+.cart__body--empty {
+  margin: 2rem;
+  text-align: center;
 }
 
 .hero {
@@ -908,6 +1028,7 @@ button[type="submit"].donation-form__submit-button {
 .product-grid__title {
   flex: 1;
   font-size: 1.5rem;
+  margin: 0.25rem 0;
 }
 
 .product-grid__title-link {
@@ -919,6 +1040,7 @@ button[type="submit"].donation-form__submit-button {
 .product-grid__price {
   font-size: 1.25rem;
   font-weight: 700;
+  margin: 0.25rem 0;
 }
 
 .product-grid__image {
@@ -942,6 +1064,7 @@ button[type="submit"].donation-form__submit-button {
 .product-grid__inventory {
   flex: 1;
   height: 1.75rem;
+  margin: 0;
 }
 
 .product-grid__image-flag {
@@ -979,6 +1102,14 @@ button[type="submit"].donation-form__submit-button {
   .product-filters--mobile {
     display: none;
   }
+}
+
+.product-filters__mobile-close-button {
+  border: none;
+  background: none;
+  font-family: "Newsreader", serif;
+  color: rgb(198, 90, 96);
+  font-size: 1.25rem;
 }
 
 /* Product Sort */
@@ -1052,6 +1183,7 @@ button[type="submit"].donation-form__submit-button {
 
 .product-filters__mobile-title {
   flex: 1;
+  margin: 0;
 }
 
 /* Product Detail */
@@ -1142,6 +1274,9 @@ button[type="submit"].donation-form__submit-button {
 
 /* Gallery */
 .gallery__image {
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
   width: 100%;
   height: auto;
 }

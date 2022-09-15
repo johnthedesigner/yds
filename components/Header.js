@@ -12,9 +12,6 @@ const UserMenuBar = () => {
       <div className="user-menu-bar__item">
         <AuthMenu />
       </div>
-      <div className="user-menu-bar__item">
-        <CartToggle />
-      </div>
     </div>
   );
 };

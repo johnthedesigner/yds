@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import _ from "lodash";
 import { DateTime } from "luxon";
+import { useSession } from "next-auth/react";
 
 export const WithEarlyAccess = ({ children }) => {
   const { user, pending } = useAuth0();
@@ -17,13 +18,18 @@ export const WithEarlyAccess = ({ children }) => {
 };
 
 export const WithRegularAccess = ({ children }) => {
-  const { isAuthenticated, user, pending } = useAuth0();
-  const roles = user ? user["https:yankeedahliasociety.com/roles"] : [];
-  const hasEarlyAccess = _.includes(roles, "Early Access");
-  if (pending) {
+  const { status } = useSession();
+
+  // TODO: Commented out code gives early access too, need to reimplement
+
+  // const { isAuthenticated, user, pending } = useAuth0();
+  // const roles = user ? user["https:yankeedahliasociety.com/roles"] : [];
+  // const hasEarlyAccess = _.includes(roles, "Early Access");
+
+  if (status === "loading") {
     return <p>Loading...</p>;
   }
-  if (isAuthenticated && !hasEarlyAccess) {
+  if (status === "authenticated") {
     return <>{children}</>;
   } else {
     return null;
@@ -31,8 +37,11 @@ export const WithRegularAccess = ({ children }) => {
 };
 
 export const WithAnyAccess = ({ children }) => {
-  const { isAuthenticated, pending } = useAuth0();
-  if (isAuthenticated) {
+  const { status } = useSession();
+
+  // const { isAuthenticated, pending } = useAuth0();
+
+  if (status === "authenticated") {
     return <>{children}</>;
   } else {
     return null;
@@ -40,8 +49,11 @@ export const WithAnyAccess = ({ children }) => {
 };
 
 export const WithoutAccess = ({ children }) => {
-  const { pending, isAuthenticated } = useAuth0();
-  if (!pending && !isAuthenticated) {
+  const { status } = useSession();
+
+  // const { pending, isAuthenticated } = useAuth0();
+
+  if (status === "unauthenticated") {
     return <>{children}</>;
   } else {
     return null;

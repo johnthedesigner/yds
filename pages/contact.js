@@ -85,7 +85,12 @@ const Contact = () => {
               className="footer__social-icon"
               title="Yankee Dahlia Society on Instagram"
               target="_blank">
-              <Image src="/ig.svg" alt="Instagram Icon" />
+              <Image
+                src="/ig.svg"
+                alt="Instagram Icon"
+                width="24"
+                height="24"
+              />
             </a>
           </Link>
           <Link href="http://facebook.com/yankeedahliasociety">
@@ -93,7 +98,12 @@ const Contact = () => {
               className="footer__social-icon"
               title="Yankee Dahlia Society on Facebook"
               target="_blank">
-              <Image src="/fb.svg" alt="Instagram Icon" />
+              <Image
+                src="/fb.svg"
+                alt="Instagram Icon"
+                width="24"
+                height="24"
+              />
             </a>
           </Link>
         </CompactText>

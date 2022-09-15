@@ -1,10 +1,13 @@
 // import { flattenConnection, useCart } from "@shopify/hydrogen/client";
 import _ from "lodash";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { flattenConnection } from "../utils/shopify";
+import { CartContext } from "../pages/_app";
 
 const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
+  const { addToCart } = useContext(CartContext);
+
   // YDS membership product state
   const ydsMembershipVariants = flattenConnection(
     ydsMembershipProduct.variants
@@ -134,72 +137,67 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
   //   const cart = useCart();
   //   const { cartCreate, linesAdd } = cart;
 
-  const addToCart = async () => {
-    console.log("ADDED TO CART");
-
+  const addMembershipToCart = async () => {
     // TODO: ADD BACK IN SHOPPING CART HANDLING
-
-    // // Start with true validation status
-    // let valid = true;
-    // let nextValidationState = {
-    //   ...memberInfoValidation,
-    // };
-
-    // // Get the names of all our fields
-    // let fieldNames = _.keys(memberInfo);
-
-    // // Check validation rules for each field and mark dirty fields
-    // await _.each(fieldNames, async (name) => {
-    //   if (!memberInfoValidators[name](memberInfo[name])) {
-    //     // Track dirty input for error message
-    //     await setMemberInfoDirty(true);
-    //     // Prevent submission
-    //     valid = false;
-    //     // Mark individual field
-    //     nextValidationState[name] = false;
-    //   }
-    // });
-    // await setMemberInfoValidation(nextValidationState);
-
-    // if (valid) {
-    //   // Track dirty input for error message
-    //   await setMemberInfoDirty(false);
-
-    //   let attributes = _.map(memberInfo, (value, key) => {
-    //     // Check if this is a biz membership, if not omit business name
-    //     if (ydsMembershipType === "Business") {
-    //       return { key, value };
-    //     } else {
-    //       if (key === "businessName") {
-    //         // return nothing
-    //       } else {
-    //         return { key, value };
-    //       }
-    //     }
-    //   });
-
-    //   let newLines = [
-    //     {
-    //       merchandiseId: ydsMembershipVariant.id,
-    //       attributes,
-    //     },
-    //   ];
-    //   // if (includeAdsMembership) {
-    //   //   newLines.push({
-    //   //     merchandiseId: adsMembershipVariant.id,
-    //   //   });
-    //   // }
-    //   if (includeDonation) {
-    //     await newLines.push({
-    //       merchandiseId: donationVariant.id,
-    //     });
-    //   }
-    //   if (cart && cart.id) {
-    //     await linesAdd(newLines);
-    //   } else {
-    //     await cartCreate({ lines: newLines });
-    //   }
-    // }
+    // Start with true validation status
+    let valid = true;
+    let nextValidationState = {
+      ...memberInfoValidation,
+    };
+    // Get the names of all our fields
+    let fieldNames = _.keys(memberInfo);
+    // Check validation rules for each field and mark dirty fields
+    await _.each(fieldNames, async (name) => {
+      if (!memberInfoValidators[name](memberInfo[name])) {
+        // Track dirty input for error message
+        await setMemberInfoDirty(true);
+        // Prevent submission
+        valid = false;
+        // Mark individual field
+        nextValidationState[name] = false;
+      }
+    });
+    await setMemberInfoValidation(nextValidationState);
+    if (valid) {
+      // Track dirty input for error message
+      await setMemberInfoDirty(false);
+      let attributes = _.map(memberInfo, (value, key) => {
+        // Check if this is a biz membership, if not omit business name
+        if (ydsMembershipType === "Business") {
+          return { key, value };
+        } else {
+          if (key === "businessName") {
+            // return nothing
+          } else {
+            return { key, value };
+          }
+        }
+      });
+      let newLines = [
+        {
+          merchandiseId: ydsMembershipVariant.id,
+          attributes,
+          quantity: 1,
+        },
+      ];
+      // if (includeAdsMembership) {
+      //   newLines.push({
+      //     merchandiseId: adsMembershipVariant.id,
+      //   });
+      // }
+      if (includeDonation) {
+        await newLines.push({
+          merchandiseId: donationVariant.id,
+          quantity: 1,
+        });
+      }
+      addToCart(newLines);
+      // if (cart && cart.id) {
+      //   await linesAdd(newLines);
+      // } else {
+      //   await cartCreate({ lines: newLines });
+      // }
+    }
   };
 
   const dollarize = (value) => `$${(1 * value).toFixed(2)}`;
@@ -605,7 +603,7 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
               </em>
             </p>
           )}
-          <button className="button" onClick={addToCart}>
+          <button className="button" onClick={addMembershipToCart}>
             Add to Cart
           </button>
         </div>

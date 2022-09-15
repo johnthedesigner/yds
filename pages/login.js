@@ -28,7 +28,7 @@ const Login = ({ callbackUrl }) => {
       } else {
         // Otherwise, reset the error and complete login
         setError(null);
-        setSuccess("Success! you&apos;re signed in.");
+        setSuccess("Success! you're signed in.");
         router.push(callbackUrl);
       }
     });

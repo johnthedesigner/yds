@@ -111,10 +111,7 @@ export const events = [
               </p>
               <p>
                 Email
-                <a
-                  href="mailto:info@yankeedahliasociety.com"
-                  target="_blank"
-                  rel="noreferrer">
+                <a href="mailto:info@yankeedahliasociety.com" target="_blank">
                   info@yankeedahliasociety.com
                 </a>
                 <br />
@@ -249,10 +246,7 @@ export const events = [
               <p>
                 Coffee, Scones, Garden Tour & Floral Arrangement Demonstration
                 hosted by Robin Sears of{" "}
-                <a
-                  href="https://www.robinsears.com/"
-                  target="_blank"
-                  rel="noreferrer">
+                <a href="https://www.robinsears.com/" target="_blank">
                   Robin’s Nest Designs
                 </a>
                 . Remember to bring your folding chair and a few blooms in a bud
@@ -348,18 +342,18 @@ export const events = [
               </span>
               <p>
                 Not required. It would be wonderful to know if you are able to
-                join us as we would like to make sure to have enough coffee
-                &amp; cider donuts. Please sign up through the email Sign-Up
-                Genius Link emailed to members.
+                join us as we would like to make sure to have enough coffee &
+                cider donuts. Please sign up through the email Sign-Up Genius
+                Link emailed to members.
               </p>
               <span>
                 <b>Guests:</b>
               </span>
               <p>
-                We&rsquo;re still fortunate to have blooms in October, so
-                it&rsquo;s still the perfect time to tell your friends about
-                Y.D.S. We welcome guests and simply ask if they can R.S.V.P so
-                we know they are coming.
+                We're still fortunate to have blooms in October, so it's still
+                the perfect time to tell your friends about Y.D.S. We welcome
+                guests and simply ask if they can R.S.V.P so we know they are
+                coming.
               </p>
             </span>
           );
@@ -834,18 +828,14 @@ export const events = [
                 bring.
               </p>
               <p>
-                <a
-                  href="https://www.cloverhome.nl/"
-                  target="_blank"
-                  rel="noreferrer">
+                <a href="https://www.cloverhome.nl/" target="_blank">
                   https://www.cloverhome.nl/
                 </a>
               </p>
               <p>
                 <a
                   href="https://www.instagram.com/cloverhome.nl/"
-                  target="_blank"
-                  rel="noreferrer">
+                  target="_blank">
                   https://www.instagram.com/cloverhome.nl/
                 </a>
               </p>
@@ -1048,11 +1038,257 @@ export const events = [
     time: "TBD",
     name: "Dahlia Garden Tour and Dahlia Study Program",
     label: eventTypes.meeting,
+    showMore: [
+      {
+        name: "Details",
+        content: () => {
+          return (
+            <>
+              <p>
+                Join us for a tour of the garden of YDS members Susan and Brad
+                in Wayland Massachusetts. A town steeped in history, Wayland was
+                founded in 1638 and established the first free public library in
+                the state in 1848. Susan and Brad have a lovely suburban garden,
+                growing dahlias in several raised beds and in perennial gardens
+                on their half acre property. They have enjoyed expanding their
+                garden over time, adding more dahlia beds every year to have the
+                lovely dahlia collection they have today.
+              </p>
+              <p>
+                In the morning we will have time to photograph the garden and
+                dahlias for both new and experienced photographers as well as
+                time to chat cameras and photos over coffee and fruit filled
+                brambles. Prior to the tour we will kick off our Dahlia Study
+                program as we look to enrich our dahlia knowledge. We will have
+                time to mingle with dahlia friends and in the afternoon, Susan
+                and Brad will lead a tour of their garden and talk about their
+                dahlias and their gardening journey.
+              </p>
+            </>
+          );
+        },
+      },
+      {
+        name: "Schedule",
+        content: () => {
+          return (
+            <>
+              <ul>
+                <li>
+                  <b>8:30am - 10:00am</b> – Coffee & Cameras Morning Photography
+                  Session: Photographers and aspiring photographers welcome!!
+                  Bring your camera (phone cameras welcomed) and come early to
+                  take morning images of the garden and discuss photography.
+                </li>
+                <li>
+                  <b>10:00am - 11:00am</b> – Dahlia Study Program: Join us as we
+                  dig deeper into dahlias
+                </li>
+                <li>
+                  <b>11:00 - 11:30am</b> – Mingle & Snacks
+                </li>
+                <li>
+                  <b>11:30 - 12:30pm</b> – Garden Tour by Susan & Brad Keyes
+                </li>
+                <li>
+                  <b>9:30am - 11:00am</b> – Rain Plan: Zoom Meeting Email Zoom
+                  link will be sent out prior as needed.
+                </li>
+              </ul>
+            </>
+          );
+        },
+      },
+      {
+        name: "RSVP",
+        content: () => {
+          return (
+            <p>
+              Not required, but it would be wonderful to know if you are able to
+              join us as we would like to make sure to have enough coffee and
+              fruit filled brambles.
+            </p>
+          );
+        },
+      },
+      {
+        name: "RSVP on Sign Up Genius",
+        content: () => {
+          return <p>Emailed to YDS Members</p>;
+        },
+      },
+      {
+        name: "Rain Plan",
+        content: () => {
+          return (
+            <p>
+              We ordered beautiful fall New England weather, however if needed
+              we will plan for a Zoom meeting from 9:30am-11:00am. Notification
+              & Zoom Link will be emailed out in advance.
+            </p>
+          );
+        },
+      },
+      {
+        name: "Guests",
+        content: () => {
+          return (
+            <p>
+              As dahlia bloom season has arrived, it’s the perfect time to learn
+              about YDS and join in on the fun. We welcome guests and simply ask
+              if you would reach out via our{" "}
+              <a href="/contact" alt="Contact Us – Yankee Dahlia Society">
+                contact page
+              </a>{" "}
+              and we can send along information.
+            </p>
+          );
+        },
+      },
+    ],
+  },
+  {
+    date: "2022-10-01",
+    time: "10:00am – 5:00pm",
+    name: "Yankee Dahlia Society Bloom Exhibit, First Day",
+    label: eventTypes.meeting,
+    showMore: [
+      {
+        name: "Details",
+        content: () => {
+          return (
+            <>
+              <p>
+                Come and join in the fun as Yankee Dahlia Society presents a
+                free public dahlia exhibit at the Westwood Public Library. See
+                hundreds of dahlia blooms on display grown by YDS members, of
+                all colors, forms and sizes from dinner plate to dainty. The
+                exhibit is open to the public and we invite everyone to bring
+                your dahlia blooms to display as well. Display Vases will be
+                supplied by Yankee Dahlia Society. Presentations on Saturday and
+                Sunday at 3 PM.
+              </p>
+            </>
+          );
+        },
+      },
+      {
+        name: "Schedule",
+        content: () => {
+          return (
+            <>
+              <ul>
+                <li>
+                  <b>10:00am - 12:00pm</b> – Staging Blooms & SetUp - Display
+                  your dahlias (open to all)
+                </li>
+                <li>
+                  <b>12:00pm - 5:00pm</b> – Dahlia Exhibit Open for Viewing
+                </li>
+                <li>
+                  <b>3:00pm</b> – Presentation: Beautiful Bouquets with Dahlias
+                  from your Garden Garden
+                </li>
+              </ul>
+            </>
+          );
+        },
+      },
+    ],
+  },
+  {
+    date: "2022-10-02",
+    time: "2:00pm – 5:00pm",
+    name: "Yankee Dahlia Society Bloom Exhibit, Second Day",
+    label: eventTypes.meeting,
+    showMore: [
+      {
+        name: "Details",
+        content: () => {
+          return (
+            <>
+              <p>
+                Come and join in the fun as Yankee Dahlia Society presents a
+                free public dahlia exhibit at the Westwood Public Library. See
+                hundreds of dahlia blooms on display grown by YDS members, of
+                all colors, forms and sizes from dinner plate to dainty. The
+                exhibit is open to the public and we invite everyone to bring
+                your dahlia blooms to display as well. Display Vases will be
+                supplied by Yankee Dahlia Society. Presentations on Saturday and
+                Sunday at 3 PM.
+              </p>
+            </>
+          );
+        },
+      },
+      {
+        name: "Schedule",
+        content: () => {
+          return (
+            <>
+              <ul>
+                <li>
+                  <b>12:00pm - 5:00pm</b> – Dahlia Exhibit Open for Viewing
+                </li>
+                <li>
+                  <b>3:00pm</b> – Presentation: The Joy of Growing Dahlias in
+                  New England
+                </li>
+              </ul>
+            </>
+          );
+        },
+      },
+    ],
   },
   {
     date: "2022-10-06",
-    time: "7:00pm - 9:00pm",
-    name: "Zoom Meeting - Very special Guest Floral Design Presentation",
+    time: "7:00pm - 8:30pm",
+    name: "Zoom Meeting - Guest Floral Design Presentation",
     label: eventTypes.meeting,
+    showMore: [
+      {
+        name: "Details",
+        content: () => {
+          return (
+            <>
+              <p>
+                YDS is thrilled to have TJ McGrath of{" "}
+                <a href="https://www.tjmcgrathdesign.com/">TJ McGrath Design</a>{" "}
+                as our guest floral design presenter for our October meeting. TJ
+                creates truly unique and beautiful designs that are floral foam
+                free. In a real time demonstration via Zoom, TJ will take us
+                through the steps of creating a one of a kind arrangement
+                featuring our favorite flower, dahlias. Be sure to mark your
+                calendar and hear first hand as TJ shares his approach in
+                creating his modern and whimsical floral art. You too can be
+                inspired to create your own unique floral designs.
+              </p>
+              <p>
+                TJ will create an arrangement in a compote hand thrown
+                exclusively for him by YDS member, dahlia grower and pottery
+                artist Justin Reis of{" "}
+                <a href="https://www.justinreisceramics.com/">
+                  Justin Reis Ceramics
+                </a>
+                . Justin’s pottery is beautiful and every piece unique. We are
+                excited to have these two talented creatives come together for
+                our October program.
+              </p>
+              <p>
+                <small>
+                  <em>
+                    *Open to YDS Members -{" "}
+                    <a href="https://yankeedahliasociety.com/membership/join/">
+                      Become a YDS Member
+                    </a>
+                  </em>
+                </small>
+              </p>
+            </>
+          );
+        },
+      },
+    ],
   },
 ];

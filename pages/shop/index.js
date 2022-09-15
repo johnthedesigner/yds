@@ -9,7 +9,7 @@ import ProductHighlightRow from "../../components/ProductHighlightRow";
 import { getProductsByCollection } from "../../utils/shopify";
 
 // Should we show tools and supplies yet?
-const showSupplies = true;
+const showSupplies = false;
 
 const ShopIndex = ({ topVarieties, topSupplies }) => {
   return (

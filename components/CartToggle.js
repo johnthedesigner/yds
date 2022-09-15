@@ -1,22 +1,18 @@
 // import {useCartUI} from './CartUIProvider.client';
 import CartIconWithItems from "./CartIconWithItems";
+import { useCartUI } from "./CartUIProvider";
 
-export default function CartToggle() {
-  //   const cartUI = useCartUI();
-
-  //   if (cartUI == null) {
-  //     throw new Error('CartToggle must be a descendent of a CartUIProvider');
-  //   }
-
-  //   const {isCartOpen, toggleCart} = cartUI;
+export default function CartToggle({ type }) {
+  const { isCartOpen, toggleCart } = useCartUI();
 
   return (
     <button
       type="button"
-      aria-expanded={false} // Add real cart open logic here
+      className={type === "mobile" ? "cart__button--mobile" : "cart__button"}
+      aria-expanded={isCartOpen}
       aria-controls="cart"
       onClick={() => {
-        // toggleCart(); // Add real cart open logic here
+        toggleCart();
       }}>
       <CartIconWithItems />
       <span className="sr-only">Open cart</span>

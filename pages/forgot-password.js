@@ -22,7 +22,6 @@ const ForgotPassword = () => {
       },
       headers: { "content-type": "application/json" },
     }).then((response) => {
-      console.log(response);
       let { error } = response.data;
       if (error && error.status) {
         setSuccess(null);

@@ -59,7 +59,7 @@ const ProductCard = ({ product, linkCard = true, showDetails = true }) => {
         <Link href={`/shop/products/${product.handle}`}>
           <a className="product-grid__image-link">
             <img
-              src={productImage.url}
+              src={productImage.url ? productImage.url : "/no-image.svg"}
               className="gallery__image"
               style={{ aspectRatio: 1, objectFit: "cover" }}
             />
@@ -79,11 +79,11 @@ const ProductCard = ({ product, linkCard = true, showDetails = true }) => {
                   <h1 className="product-grid__title">{product.title}</h1>
                 </a>
               </Link>
-              {/* <WithAnyAccess> */}
-              <p className="product-grid__price">
-                <Price price={initialVariant.priceV2.amount} />
-              </p>
-              {/* </WithAnyAccess> */}
+              <WithAnyAccess>
+                <p className="product-grid__price">
+                  <Price price={initialVariant.priceV2.amount} />
+                </p>
+              </WithAnyAccess>
               <WithoutAccess>
                 <p>
                   <small>
