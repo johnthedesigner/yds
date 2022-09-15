@@ -23,7 +23,7 @@ const Index = () => {
       <NewSeo page={pages.home} />
       <Pingpong
         side="left"
-        image="planting-dahlias.jpg"
+        image="/planting-dahlias.jpg"
         imageAlt="A garden with rows of dahlias being planted"
         ratioWidth={1}
         ratioHeight={1.5}>
