@@ -23,7 +23,7 @@ const ProductFilters = ({ options, queryTags, type }) => {
       let tags = tagsConcatenated.split(",");
       updateFilters(tags);
     }
-  }, []);
+  }, [query, updateFilters]);
 
   const FilterGroup = ({ option, optionKey, selected }) => {
     const [groupExpanded, setGroupExpanded] = useState(false);

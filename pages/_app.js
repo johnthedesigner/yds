@@ -4,6 +4,7 @@ import axios from "axios";
 
 import "../styles/globals.css";
 import CartUIProvider from "../components/CartUIProvider";
+import cartLineUpdate from "./api/cart-lines-update";
 
 export const CartContext = createContext({
   cart: null,
@@ -130,7 +131,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     if (cart) {
       localStorage.setItem("ydsCart", JSON.stringify(cart));
     }
-  }, [cart]);
+  }, [cart, setCart, addToCart, getCart, cartLineRemove, cartLineUpdate]);
 
   return (
     <SessionProvider session={session}>

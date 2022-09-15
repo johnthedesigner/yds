@@ -292,7 +292,7 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
     );
     useEffect(() => {
       setYdsSelectedValue(selectedOption.value);
-    }, [ydsMembershipOptions, ydsMembershipVariant]);
+    }, [ydsMembershipOptions, ydsMembershipVariant, selectedOption.value]);
 
     let description = {
       Business:
