@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import queryString from "query-string";
 
@@ -8,14 +8,17 @@ const ProductFilters = ({ options, queryTags, type }) => {
   const { pathname, query } = router;
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const updateFilters = (options) => {
-    if (options.length === 0) {
-      router.push(pathname);
-    } else {
-      let tagsConcatenated = _.concat(options);
-      router.push(`${pathname}?tags=${tagsConcatenated}`);
-    }
-  };
+  const updateFilters = useCallback(
+    (options) => {
+      if (options.length === 0) {
+        router.push(pathname);
+      } else {
+        let tagsConcatenated = _.concat(options);
+        router.push(`${pathname}?tags=${tagsConcatenated}`);
+      }
+    },
+    [pathname, router]
+  );
 
   useEffect(() => {
     let tagsConcatenated = queryString.parse(query).tags;

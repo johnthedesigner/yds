@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const Pingpong = (props) => {
   return (
     <div
@@ -5,7 +7,7 @@ const Pingpong = (props) => {
         props.side == "left" ? "left" : "right"
       }`}>
       <div className="pingpong__image">
-        <img
+        <Image
           src={props.image}
           width={props.ratioWidth || 1}
           height={props.ratioHeight || 1}

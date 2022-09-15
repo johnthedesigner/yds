@@ -1,5 +1,11 @@
 import { SessionProvider } from "next-auth/react";
-import { createContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import axios from "axios";
 
 import "../styles/globals.css";
@@ -19,71 +25,80 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [cart, setCart] = useState(null);
 
   // Cart Management Functions
-  const addToCart = async (lines, attributes) => {
-    let data = {
-      cart,
-      lines,
-    };
-    if (attributes) {
-      data.attributes = attributes;
-    }
-    await axios({
-      method: "post",
-      url: "/api/add-to-cart",
-      data,
-      headers: { "content-type": "application/json" },
-    }).then((response) => {
-      let { data } = response;
-      if (data.errors) {
-        // TODO: handle these errors
-      } else {
-        // Get cart from response and update in-app
-        setCart(data.cart);
+  const addToCart = useCallback(
+    async (lines, attributes) => {
+      let data = {
+        cart,
+        lines,
+      };
+      if (attributes) {
+        data.attributes = attributes;
       }
-    });
-  };
+      await axios({
+        method: "post",
+        url: "/api/add-to-cart",
+        data,
+        headers: { "content-type": "application/json" },
+      }).then((response) => {
+        let { data } = response;
+        if (data.errors) {
+          // TODO: handle these errors
+        } else {
+          // Get cart from response and update in-app
+          setCart(data.cart);
+        }
+      });
+    },
+    [cart]
+  );
 
-  const cartLinesUpdate = async (lines) => {
-    let data = {
-      cart,
-      lines,
-    };
-    await axios({
-      method: "post",
-      url: "/api/cart-lines-update",
-      data,
-      headers: { "content-type": "application/json" },
-    }).then((response) => {
-      let { data } = response;
-      if (data.errors) {
-        // TODO: handle these errors
-      } else {
-        // Get cart from response and update in-app
-        setCart(data);
-      }
-    });
-  };
+  const cartLinesUpdate = useCallback(
+    async (lines) => {
+      let data = {
+        cart,
+        lines,
+      };
+      await axios({
+        method: "post",
+        url: "/api/cart-lines-update",
+        data,
+        headers: { "content-type": "application/json" },
+      }).then((response) => {
+        let { data } = response;
+        if (data.errors) {
+          // TODO: handle these errors
+        } else {
+          // Get cart from response and update in-app
+          setCart(data);
+        }
+      });
+    },
+    [cart]
+  );
 
-  const cartLineRemove = async (lineId) => {
-    let data = {
-      cart,
-      lineId,
-    };
-    await axios({
-      method: "post",
-      url: "/api/cart-line-remove",
-      data,
-      headers: { "content-type": "application/json" },
-    }).then((response) => {
-      let { data } = response;
-      if (data.errors) {
-        // TODO: handle these errors
-      } else {
-        // Get cart from response and update in-app
-        setCart(data);
-      }
-    });
-  };
+  const cartLineRemove = useCallback(
+    async (lineId) => {
+      let data = {
+        cart,
+        lineId,
+      };
+      await axios({
+        method: "post",
+        url: "/api/cart-line-remove",
+        data,
+        headers: { "content-type": "application/json" },
+      }).then((response) => {
+        let { data } = response;
+        if (data.errors) {
+          // TODO: handle these errors
+        } else {
+          // Get cart from response and update in-app
+          setCart(data);
+        }
+      });
+    },
+    [cart]
+  );
 
   const getCart = async (id) => {
     await axios({

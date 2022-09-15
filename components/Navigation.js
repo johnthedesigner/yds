@@ -5,8 +5,7 @@ import Link from "next/link";
 import pages from "../utils/pages.json";
 import CartToggle from "./CartToggle";
 
-export const linkClass = (currentPath, linkedPage) => {
-  let { pathname } = useRouter();
+export const linkClass = (pathname, linkedPage) => {
   let isHome = pathname === "/" && linkedPage.path === "/";
   if (linkedPage.path === "/") {
     return isHome ? "navbar__link navbar__link--active" : "navbar__link";
@@ -19,6 +18,8 @@ export const linkClass = (currentPath, linkedPage) => {
 };
 
 export default function Navigation({ collections }) {
+  let { pathname } = useRouter();
+
   let navPages = _.filter(pages, (page) => {
     return page.inMenu;
   });
@@ -28,9 +29,7 @@ export default function Navigation({ collections }) {
         {_.map(navPages, (page, index) => (
           <li key={`${page.slug}-${index}`} className="navbar__item">
             <Link href={page.path}>
-              <a className={linkClass("props.currentPath", page)}>
-                {page.label}
-              </a>
+              <a className={linkClass(pathname, page)}>{page.label}</a>
             </Link>
           </li>
         ))}

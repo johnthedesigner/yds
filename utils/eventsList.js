@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const eventTypes = {
   workday: "workday",
   meeting: "meeting",
@@ -111,7 +113,10 @@ export const events = [
               </p>
               <p>
                 Email
-                <a href="mailto:info@yankeedahliasociety.com" target="_blank">
+                <a
+                  href="mailto:info@yankeedahliasociety.com"
+                  target="_blank"
+                  rel="noreferrer">
                   info@yankeedahliasociety.com
                 </a>
                 <br />
@@ -246,9 +251,11 @@ export const events = [
               <p>
                 Coffee, Scones, Garden Tour & Floral Arrangement Demonstration
                 hosted by Robin Sears of{" "}
-                <a href="https://www.robinsears.com/" target="_blank">
-                  Robin’s Nest Designs
-                </a>
+                <Link href="https://www.robinsears.com/">
+                  <a target="_blank" rel="noreferrer">
+                    Robin’s Nest Designs
+                  </a>
+                </Link>
                 . Remember to bring your folding chair and a few blooms in a bud
                 vase to show.
               </p>
@@ -318,13 +325,13 @@ export const events = [
             <span>
               <p>
                 Join us for mingling with coffee and cider donuts, a tour of the
-                Farm in bloom (over 150 dahlia varieties to see). We’ll have a
-                Dahlia Display Table to enrich our understanding and learn about
-                forms and sizes as well as preview Seasonal Dahlia Culture for
-                the Fall: digging, dividing and storing. It’s also a wonderful
-                opportunity to see a selection of blooms in person and start
-                making your wish list and preview dahlias for the 2022 club
-                tuber sale.
+                Farm in bloom &#40;over 150 dahlia varieties to see&#41;.
+                We&apos;ll have a Dahlia Display Table to enrich our
+                understanding and learn about forms and sizes as well as preview
+                Seasonal Dahlia Culture for the Fall: digging, dividing and
+                storing. It&apos;s also a wonderful opportunity to see a
+                selection of blooms in person and start making your wish list
+                and preview dahlias for the 2022 club tuber sale.
               </p>
               <p>
                 Remember to bring your folding chair and a few blooms in a bud
@@ -342,18 +349,18 @@ export const events = [
               </span>
               <p>
                 Not required. It would be wonderful to know if you are able to
-                join us as we would like to make sure to have enough coffee &
-                cider donuts. Please sign up through the email Sign-Up Genius
-                Link emailed to members.
+                join us as we would like to make sure to have enough coffee
+                &amp; cider donuts. Please sign up through the email Sign-Up
+                Genius Link emailed to members.
               </p>
               <span>
                 <b>Guests:</b>
               </span>
               <p>
-                We're still fortunate to have blooms in October, so it's still
-                the perfect time to tell your friends about Y.D.S. We welcome
-                guests and simply ask if they can R.S.V.P so we know they are
-                coming.
+                We&apos;re still fortunate to have blooms in October, so
+                it&apos;s still the perfect time to tell your friends about
+                Y.D.S. We welcome guests and simply ask if they can R.S.V.P so
+                we know they are coming.
               </p>
             </span>
           );
@@ -828,16 +835,18 @@ export const events = [
                 bring.
               </p>
               <p>
-                <a href="https://www.cloverhome.nl/" target="_blank">
-                  https://www.cloverhome.nl/
-                </a>
+                <Link href="https://www.cloverhome.nl/">
+                  <a target="_blank" rel="noreferrer">
+                    https://www.cloverhome.nl/
+                  </a>
+                </Link>
               </p>
               <p>
-                <a
-                  href="https://www.instagram.com/cloverhome.nl/"
-                  target="_blank">
-                  https://www.instagram.com/cloverhome.nl/
-                </a>
+                <Link href="https://www.instagram.com/cloverhome.nl/">
+                  <a target="_blank" rel="noreferrer">
+                    https://www.instagram.com/cloverhome.nl/
+                  </a>
+                </Link>
               </p>
             </>
           );
@@ -1137,9 +1146,9 @@ export const events = [
               As dahlia bloom season has arrived, it’s the perfect time to learn
               about YDS and join in on the fun. We welcome guests and simply ask
               if you would reach out via our{" "}
-              <a href="/contact" alt="Contact Us – Yankee Dahlia Society">
-                contact page
-              </a>{" "}
+              <Link href="/contact">
+                <a alt="Contact Us – Yankee Dahlia Society">contact page</a>
+              </Link>
               and we can send along information.
             </p>
           );

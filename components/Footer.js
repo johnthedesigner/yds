@@ -34,7 +34,7 @@ export default function Footer({ collection, product }) {
   return (
     <footer className="footer">
       <div className="footer__body">
-        <Image src="/logo-footer.svg" alt="YDS Logo" />
+        <Image src="/logo-footer.svg" alt="YDS Logo" width="77" height="202" />
         <ul className="footer__menu">
           <Links />
           <li className="footer__menu-item">
@@ -44,7 +44,12 @@ export default function Footer({ collection, product }) {
               title="Yankee Dahlia Society on Instagram"
               target="_blank"
               rel="noreferrer">
-              <Image src="/icon-ig.svg" alt="Instagram Logo" />
+              <Image
+                src="/icon-ig.svg"
+                alt="Instagram Logo"
+                width="24"
+                height="24"
+              />
             </a>
             <a
               href="http://facebook.com/yankeedahliasociety"
@@ -52,7 +57,12 @@ export default function Footer({ collection, product }) {
               title="Yankee Dahlia Society on Facebook"
               target="_blank"
               rel="noreferrer">
-              <Image src="/icon-fb.svg" alt="Facebook Logo" />
+              <Image
+                src="/icon-fb.svg"
+                alt="Facebook Logo"
+                width="24"
+                height="24"
+              />
             </a>
             <a
               href="https://www.youtube.com/channel/UCfr-8mV00MNqG4e9I_-Zw1Q"
@@ -60,7 +70,12 @@ export default function Footer({ collection, product }) {
               title="Yankee Dahlia Society on Youtube"
               target="_blank"
               rel="noreferrer">
-              <Image src="/icon-yt.svg" alt="Youtube Logo" />
+              <Image
+                src="/icon-yt.svg"
+                alt="Youtube Logo"
+                width="24"
+                height="24"
+              />
             </a>
           </li>
           <li className="footer__menu-item">
@@ -70,7 +85,12 @@ export default function Footer({ collection, product }) {
               title="Yankee Dahlia Society on Amazon Smile"
               target="_blank"
               rel="noreferrer">
-              <Image src="/amazon-smile.svg" alt="Amazon Smile Logo" />
+              <Image
+                src="/amazon-smile.svg"
+                alt="Amazon Smile Logo"
+                width="170"
+                height="40"
+              />
             </a>
           </li>
         </ul>

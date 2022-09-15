@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 import pages from "../utils/pages.json";
+import Image from "next/image";
 
 export default function MobileNavigation({ isOpen, setIsOpen }) {
   // const OpenFocusTrap = isOpen ? FocusTrap : Fragment;
@@ -44,7 +45,13 @@ export default function MobileNavigation({ isOpen, setIsOpen }) {
   return (
     <nav className="navbar--mobile">
       <div className="menu__button">
-        <img src="/hamburger.svg" onClick={() => setMenuOpen(!menuOpen)} />
+        <Image
+          src="/hamburger.svg"
+          onClick={() => setMenuOpen(!menuOpen)}
+          alt="Menu Button"
+          width="24"
+          height="24"
+        />
       </div>
       <div
         className="navbar__list-container--mobile"

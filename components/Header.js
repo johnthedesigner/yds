@@ -1,5 +1,6 @@
 import _ from "lodash";
 import Link from "next/link";
+import Image from "next/image";
 
 import CartToggle from "./CartToggle";
 import Navigation from "./Navigation";
@@ -22,7 +23,13 @@ export default function Header({ storeName }) {
       <header role="banner" className="header">
         <Link href="/">
           <a className="logo-link--desktop" title="Yankee Dahlia Society">
-            <img className="logo--desktop" src="/logo-desktop.svg" />
+            <Image
+              className="logo--desktop"
+              src="/logo-desktop.svg"
+              alt="YDS Logo"
+              width="42"
+              height="110"
+            />
           </a>
         </Link>
         <UserMenuBar />

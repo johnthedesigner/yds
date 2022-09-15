@@ -1130,8 +1130,8 @@ button[type="submit"].donation-form__submit-button {
 }
 
 .product-filters__checkbox {
-  vertical-align: top;
-  display: block;
+  display: inline-block;
+  vertical-align: middle;
   height: 0.5rem;
   width: 0.5rem;
 }

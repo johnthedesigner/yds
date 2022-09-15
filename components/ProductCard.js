@@ -4,6 +4,7 @@ import Link from "next/link";
 import { TagDescriptor, HybridizerDescriptor } from "./Descriptor";
 import { WithAnyAccess, WithoutAccess } from "./AccessControl";
 import { flattenConnection } from "../utils/shopify";
+import Image from "next/image";
 
 const ProductCard = ({ product, linkCard = true, showDetails = true }) => {
   let initialVariant = flattenConnection(product.variants)[0];
@@ -21,10 +22,13 @@ const ProductCard = ({ product, linkCard = true, showDetails = true }) => {
     if (product.country_of_origin) {
       let countryString = product.country_of_origin.value.toLowerCase();
       return (
-        <img
+        <Image
           className="product-grid__image-flag"
           src={`/flags/1x1/${countryString}.svg`}
           title={`Country of Origin: ${product.country_of_origin.value}`}
+          alt={`Country of Origin: ${product.country_of_origin.value}`}
+          width="18"
+          height="18"
         />
       );
     } else {
@@ -58,10 +62,14 @@ const ProductCard = ({ product, linkCard = true, showDetails = true }) => {
       <div className="product-grid__image">
         <Link href={`/shop/products/${product.handle}`}>
           <a className="product-grid__image-link">
-            <img
+            <Image
               src={productImage.url ? productImage.url : "/no-image.svg"}
               className="gallery__image"
-              style={{ aspectRatio: 1, objectFit: "cover" }}
+              // style={{ aspectRatio: 1, objectFit: "cover" }}
+              alt="product.title"
+              layout="responsive"
+              width="1"
+              height="1"
             />
           </a>
         </Link>
