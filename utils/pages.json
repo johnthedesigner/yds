@@ -17,6 +17,15 @@
     "inFooter": true,
     "inSitemap": true
   },
+  "fundraiser": {
+    "label": "Fundraiser",
+    "title": "YDS Dahlia Supplies Fundraiser",
+    "description": "As a new club just over one year old, we need to purchase floral exhibit supplies and floral containers to provide for our Dahlia Exhibits now and for years to come. We appreciate your support to help us reach our goal. Thank you for your donation!",
+    "path": "/fundraiser",
+    "inMenu": true,
+    "inFooter": false,
+    "inSitemap": false
+  },
   "shop": {
     "label": "Shop",
     "title": "Y.D.S. Online Shop",
