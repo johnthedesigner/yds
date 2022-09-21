@@ -36,7 +36,7 @@ export const flattenConnection = (connection) => {
 
 // Get single product by handle
 export const getProductByHandle = async (handle) => {
-  let { productByHandle } = await graphQlFetch(`
+  let result = await graphQlFetch(`
     query productByHandle {
         productByHandle(handle: "${handle}") {
             description
@@ -99,6 +99,7 @@ export const getProductByHandle = async (handle) => {
         }
     }
     `);
+  let { productByHandle } = result;
   return productByHandle;
 };
 

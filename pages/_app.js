@@ -9,6 +9,9 @@ import {
 import axios from "axios";
 
 import "../styles/globals.css";
+import "../styles/new-globals.css";
+import "../styles/header.css";
+
 import CartUIProvider from "../components/CartUIProvider";
 
 export const CartContext = createContext({

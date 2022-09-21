@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 import pages from "../utils/pages.json";
 import CartToggle from "./CartToggle";
@@ -17,14 +18,25 @@ export const linkClass = (pathname, linkedPage) => {
   }
 };
 
-export default function Navigation({ collections }) {
+export default function DesktopNavigation() {
   let { pathname } = useRouter();
 
   let navPages = _.filter(pages, (page) => {
     return page.inMenu;
   });
   return (
-    <nav className="navbar__main-menu--desktop">
+    <nav className="navbar--desktop">
+      <Link href="/">
+        <a className="logo-link--desktop" title="Yankee Dahlia Society">
+          <Image
+            className="logo--desktop"
+            src="/logo-header.svg"
+            alt="YDS Logo"
+            width="80"
+            height="72"
+          />
+        </a>
+      </Link>
       <ul className="navbar__main-menu-list--desktop">
         {_.map(navPages, (page, index) => (
           <li key={`${page.slug}-${index}`} className="navbar__item">

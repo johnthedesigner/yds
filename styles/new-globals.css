@@ -1,0 +1,45 @@
+:root {
+  /* Primary Brand Colors */
+  /* Blue */
+  --blue-01: #eef3ff;
+  --blue-02: #c7d2e5;
+  --blue-03: #9fb1cc;
+  --blue-04: #7890b2;
+  --blue-05: #506f98;
+  --blue-06: #456388;
+  --blue-07: #395678;
+  --blue-08: #2e4a68;
+  --blue-09: #223d59;
+  --blue-10: #173149;
+  --blue-11: #0b2439;
+  --blue-12: #001829;
+  /* Red */
+  --red-01: #fff0ee;
+  --red-02: #f1cbcb;
+  --red-03: #e3a5a7;
+  --red-04: #d48084;
+  --red-05: #c65a60;
+  --red-06: #b24d54;
+  --red-07: #9d4049;
+  --red-08: #89333d;
+  --red-09: #752731;
+  --red-10: #611a25;
+  --red-11: #4c0d1a;
+  --red-12: #38000e;
+  /* Gray */
+  --gray-01: #f5f5f5;
+  --gray-02: #d0d2d3;
+  --gray-03: #abafb0;
+  --gray-04: #878b8e;
+  --gray-05: #62686b;
+  --gray-06: #3d4549;
+  --gray-07: #353d41;
+  --gray-08: #2d363a;
+  --gray-09: #242e32;
+  --gray-10: #1c262a;
+  --gray-11: #141f23;
+  --gray-12: #0c171b;
+
+  /* Typography */
+  --font-serif: "Newsreader", serif;
+}

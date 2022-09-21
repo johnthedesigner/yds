@@ -17,6 +17,7 @@
     "fs": "^0.0.1-security",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
+    "js-md5": "^0.7.3",
     "lodash": "^4.17.21",
     "luxon": "^3.0.1",
     "moment": "^2.29.4",

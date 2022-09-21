@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 import pages from "../utils/pages.json";
 import Image from "next/image";
+import CartToggle from "./CartToggle";
 
 export default function MobileNavigation({ isOpen, setIsOpen }) {
   // const OpenFocusTrap = isOpen ? FocusTrap : Fragment;
@@ -43,15 +44,35 @@ export default function MobileNavigation({ isOpen, setIsOpen }) {
   };
 
   return (
-    <nav className="navbar--mobile">
-      <div className="menu__button">
-        <Image
-          src="/hamburger.svg"
-          onClick={() => setMenuOpen(!menuOpen)}
-          alt="Menu Button"
-          width="24"
-          height="24"
-        />
+    <>
+      <div className="navbar--mobile">
+        <Link href="/">
+          <a className="logo-link--mobile" title="Yankee Dahlia Society">
+            <Image
+              className="logo--mobile"
+              src="/logo-header.svg"
+              alt="YDS Logo"
+              width="80"
+              height="72"
+            />
+          </a>
+        </Link>
+        <div className="navbar__mobile-items">
+          <CartToggle />
+          <button
+            className="navbar__hamburger"
+            onClick={() => {
+              setMenuOpen(true);
+            }}>
+            <Image
+              src="/hamburger.svg"
+              onClick={() => setMenuOpen(!menuOpen)}
+              alt="Menu Button"
+              width="24"
+              height="24"
+            />
+          </button>
+        </div>
       </div>
       <div
         className="navbar__list-container--mobile"
@@ -64,6 +85,6 @@ export default function MobileNavigation({ isOpen, setIsOpen }) {
           <Links />
         </ul>
       </div>
-    </nav>
+    </>
   );
 }

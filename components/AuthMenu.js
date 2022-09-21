@@ -1,35 +1,25 @@
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
-import CartToggle from "./CartToggle";
-
-// Styles for email initial avatar
-const initialStyles = {
-  display: "inline-block",
-  fontSize: "1.5rem",
-  lineHeight: "2rem",
-  textAlign: "center",
-  aspectRatio: 1,
-  background: "rgb(198, 90, 96)",
-  color: "maroon",
-  width: "2rem",
-  height: "2rem",
-  verticalAlign: "middle",
-  borderRadius: "50%",
-  marginRight: ".5rem",
-};
+import Image from "next/image";
 
 const LoginButton = ({ currentPath, session }) => {
   // If we're logged in show the user info and "Sign Out" button
   if (session) {
-    let initial = session.user.email.slice(0, 1).toUpperCase();
     return (
       <>
-        <span style={initialStyles}>
-          <span>{initial}</span>
+        <span className="auth-menu__user-avatar">
+          <Image
+            src="/user-avatar.svg"
+            width="24"
+            height="24"
+            alt="user icon"
+          />
         </span>
-        {session.user.email} |{" "}
-        <button className="text-button" onClick={() => signOut()}>
+        <span className="auth-menu__user-email">{session.user.email}</span>
+        <button
+          className="auth-menu__sign-out-button"
+          onClick={() => signOut()}>
           Sign Out
         </button>
       </>
@@ -40,7 +30,7 @@ const LoginButton = ({ currentPath, session }) => {
     <>
       <span style={{ marginRight: "1rem" }}>Log in to shop our store</span>
       <button
-        className="auth-menu__log-in-button"
+        className="auth-menu__sign-in-button"
         onClick={() => signIn("Credentials", { callbackUrl: currentPath })}>
         Member Login
       </button>
@@ -51,12 +41,10 @@ const LoginButton = ({ currentPath, session }) => {
 const AuthMenu = () => {
   let { asPath } = useRouter();
   const { data: session } = useSession();
-  const { accessToken } = session ? session : { accessToken: null };
 
   return (
     <div className="auth-menu">
       <LoginButton currentPath={asPath} session={session} />
-      <CartToggle type="mobile" />
     </div>
   );
 };

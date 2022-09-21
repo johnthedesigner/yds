@@ -14,6 +14,14 @@ export default function Cart() {
   const { cart } = useContext(CartContext);
   const itemCount = cart ? cart.totalQuantity : 0;
   const { isCartOpen, closeCart } = useCartUI();
+  let cartLines = cart ? flattenConnection(cart.lines) : [];
+
+  const [hovered, setHovered] = useState(false);
+
+  var cartTotal = 0;
+  _.each(cartLines, (line) => {
+    cartTotal += 1 * line.quantity * line.merchandise.priceV2.amount;
+  });
 
   return (
     <>
@@ -24,7 +32,41 @@ export default function Cart() {
           <div className="cart__body">
             {itemCount > 0 ? <CartItems /> : <CartEmpty />}
           </div>
-          {/* <CartFooter /> */}
+          <div className="cart__footer">
+            <div
+              style={{ display: "flex", width: "100%", flexDirection: "row" }}>
+              <div
+                style={{
+                  flex: 1,
+                  padding: "1rem",
+                  borderTop: "1px solid #DDD",
+                  fontSize: "1.25rem",
+                  fontWeight: "bold",
+                }}>
+                Total:
+              </div>
+              <div
+                style={{
+                  textAlign: "right",
+                  padding: "1rem",
+                  borderTop: "1px solid #DDD",
+                  fontWeight: "bold",
+                }}>
+                {renderPrice(cartTotal, 1)}
+              </div>
+            </div>
+            <button
+              className="cart__checkout-button"
+              onClick={() => {
+                window.location.href = cart.checkoutUrl;
+              }}
+              onMouseOver={() => setHovered(true)}
+              onFocus={() => setHovered(true)}
+              onMouseOut={() => setHovered(false)}
+              onBlur={() => setHovered(false)}>
+              Checkout
+            </button>
+          </div>
         </div>
       )}
     </>
@@ -34,19 +76,8 @@ export default function Cart() {
 function CartHeader() {
   const { closeCart, toggleCart } = useCartUI();
 
-  const cartHeaderStyles = {
-    padding: "1rem",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    borderBottom: "1px solid #DDD",
-    background: "white",
-    position: "sticky",
-    top: 0,
-  };
-
   return (
-    <header style={cartHeaderStyles}>
+    <header className="cart__header">
       <div>
         <button
           type="button"
@@ -203,28 +234,10 @@ const CartItems = () => {
   const { cart } = useContext(CartContext);
   const cartLines = flattenConnection(cart.lines);
 
-  const [hovered, setHovered] = useState(false);
-
   const listStyles = {
     display: "grid",
     gridTemplateColumns: "1fr 100px max-content",
   };
-  const checkoutButtonStyles = {
-    display: "block",
-    width: "calc(100% - 1rem)",
-    background: hovered ? "#DE7278" : "#C65A60",
-    margin: "0 0.5rem",
-    padding: "0.5rem",
-    border: "none",
-    borderRadius: ".25rem",
-    color: "white",
-    transition: "all linear .1s",
-  };
-
-  var cartTotal = 0;
-  _.each(cartLines, (line) => {
-    cartTotal += 1 * line.quantity * line.merchandise.priceV2.amount;
-  });
 
   if (cartLines.length > 0) {
     return (
@@ -233,47 +246,6 @@ const CartItems = () => {
           {_.map(cartLines, (line) => {
             return <CartItem key={line.id} line={line} />;
           })}
-        </div>
-        <div
-          style={{
-            position: "sticky",
-            bottom: 0,
-            background: "white",
-            paddingBottom: "0.5rem",
-          }}>
-          <div style={{ display: "flex", width: "100%", flexDirection: "row" }}>
-            <div
-              style={{
-                flex: 1,
-                padding: "1rem",
-                borderTop: "1px solid #DDD",
-                fontSize: "1.25rem",
-                fontWeight: "bold",
-              }}>
-              Total:
-            </div>
-            <div
-              style={{
-                textAlign: "right",
-                padding: "1rem",
-                borderTop: "1px solid #DDD",
-                fontWeight: "bold",
-              }}>
-              {renderPrice(cartTotal, 1)}
-            </div>
-          </div>
-          <button
-            className="button"
-            style={checkoutButtonStyles}
-            onClick={() => {
-              window.location.href = cart.checkoutUrl;
-            }}
-            onMouseOver={() => setHovered(true)}
-            onFocus={() => setHovered(true)}
-            onMouseOut={() => setHovered(false)}
-            onBlur={() => setHovered(false)}>
-            Checkout
-          </button>
         </div>
       </>
     );
