@@ -27,7 +27,7 @@ const Fundraiser = ({ fundraiserProduct }) => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(275px, 1fr))",
           width: "70rem",
           maxWidth: "90vw",
           margin: "3rem auto",
