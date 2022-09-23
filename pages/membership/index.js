@@ -63,17 +63,27 @@ const Membership = () => {
         <p>
           Are you interested in learning more about dahlias and curious about
           joining a local dahlia club? We welcome you to join us for your first
-          two meetings before you decide to take the plunge and join the club.
-          Please{" "}
-          <Link href="/contact">
-            <a title="Contact us">drop us a line through the contact form</a>
+          two meetings<span className="required">**</span> before you decide to
+          take the plunge and join the club. Please{" "}
+          <Link title="Contact us" to="/contact">
+            drop us a line through the contact form
           </Link>{" "}
           so we know you are coming!
         </p>
-        <Link href="/meetings">
-          <a className="button" title="Explore Meetings & Events">
-            Explore Meetings & Events
-          </a>
+        <p style={{ lineHeight: "1.125em", margin: "1rem 0" }}>
+          <small>
+            <em>
+              YDS membership required for meetings notated as a Special Event.
+              We invite you to join us by registering on our{" "}
+              <a href="/membership/join">Membership page</a>.
+            </em>
+          </small>
+        </p>
+        <Link
+          className="button"
+          title="Explore Meetings & Events"
+          to="/meetings">
+          Explore Meetings & Events
         </Link>
       </Pingpong>
       <Bumper

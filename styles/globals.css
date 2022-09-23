@@ -793,6 +793,11 @@ button[type="submit"].donation-form__submit-button {
 }
 
 /* Product Filters */
+.product-filters {
+  position: sticky;
+  top: 1rem;
+}
+
 .product-filters__set {
   margin: 2rem 0;
 }

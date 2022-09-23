@@ -18,6 +18,10 @@
 }
 
 @media screen and (max-width: 800px) {
+  .header {
+    font-size: 0.5;
+  }
+
   .header-spacer {
     height: calc(var(--mobile-auth-height) + var(--mobile-nav-height));
   }
@@ -138,10 +142,14 @@
 
 .logo-link--desktop {
   margin: 0.5rem 2rem;
+  width: 80px;
+  height: 72px;
 }
 
 .logo-link--mobile {
   margin: 0 1rem;
+  width: 80px;
+  height: 72px;
 }
 
 .navbar__hamburger {
