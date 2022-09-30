@@ -1237,7 +1237,7 @@ export const events = [
             <>
               <ul>
                 <li>
-                  <b>12:00pm - 5:00pm</b> – Dahlia Exhibit Open for Viewing
+                  <b>2:00pm - 5:00pm</b> – Dahlia Exhibit Open for Viewing
                 </li>
                 <li>
                   <b>3:00pm</b> – Presentation: The Joy of Growing Dahlias in

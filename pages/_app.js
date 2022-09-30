@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         headers: { "content-type": "application/json" },
       }).then((response) => {
         let { data } = response;
-        if (data.errors) {
+        if (data && data.errors) {
           // TODO: handle these errors
         } else {
           // Get cart from response and update in-app
@@ -68,7 +68,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         headers: { "content-type": "application/json" },
       }).then((response) => {
         let { data } = response;
-        if (data.errors) {
+        if (data && data.errors) {
           // TODO: handle these errors
         } else {
           // Get cart from response and update in-app
@@ -92,7 +92,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         headers: { "content-type": "application/json" },
       }).then((response) => {
         let { data } = response;
-        if (data.errors) {
+        if (data && data.errors) {
           // TODO: handle these errors
         } else {
           // Get cart from response and update in-app
@@ -111,7 +111,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       headers: { "content-type": "application/json" },
     }).then((response) => {
       let { data } = response;
-      if (data.errors) {
+      if (data && data.errors) {
         // TODO: handle these errors
       } else {
         // Get cart from response and update in-app
