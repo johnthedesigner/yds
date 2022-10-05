@@ -11,12 +11,12 @@ const Sitemap = () => {
   return null;
 };
 
-const shopSitemap = (products, siteDomain) => {
+const shopSitemap = (products, siteDomain, protocol) => {
   const staticPages = _.map(pages, (page) => {
     if (page.inSitemap) {
       return `
             <url>
-              <loc>${siteDomain}${page.path}</loc>
+              <loc>${protocol}://${siteDomain}${page.path}</loc>
               <lastmod>${getDate}</lastmod>
             </url>
           `;
@@ -66,7 +66,7 @@ const shopSitemap = (products, siteDomain) => {
 };
 
 export const getServerSideProps = async ({ res }) => {
-  const { DOMAIN } = process.env;
+  const { DOMAIN, PROTOCOL } = process.env;
   // Fetch products
   let products = [];
 
@@ -76,7 +76,6 @@ export const getServerSideProps = async ({ res }) => {
     headers: { "content-type": "application/json" },
   }).then((response) => {
     let { data } = response;
-    console.log(data);
     if (data.errors) {
       // TODO: handle these errors
     } else {
@@ -85,9 +84,7 @@ export const getServerSideProps = async ({ res }) => {
     }
   });
 
-  console.log(products);
-
-  let sitemap = shopSitemap(products, DOMAIN);
+  let sitemap = shopSitemap(products, DOMAIN, PROTOCOL);
 
   res.setHeader("Content-Type", "text/xml");
   res.write(sitemap);
