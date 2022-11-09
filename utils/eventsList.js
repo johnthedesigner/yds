@@ -1427,8 +1427,13 @@ export const events = [
                 and a link to RSVP through SignUp Genius in the club newsletter.
               </p>
               <p>
-                <b>Not Yet a YDS Member:</b> Sign up and join today to
-                participate in the fun! We’ll be sure to send you the latest
+                <b>Not Yet a YDS Member:</b>{" "}
+                <a
+                  href="https://www.yankeedahliasociety.com/membership"
+                  target="_blank">
+                  Sign up and join today
+                </a>{" "}
+                to participate in the fun! We’ll be sure to send you the latest
                 club newsletter and all the details for Dahlia-O-Rama.
               </p>
               <p>
