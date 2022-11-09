@@ -7,11 +7,15 @@ import NewSeo from "../../components/NewSeo";
 import pages from "../../utils/pages.json";
 import ProductHighlightRow from "../../components/ProductHighlightRow";
 import { getProductsByCollection } from "../../utils/shopify";
+import { getShopConfig } from "../../utils/strapi";
+import { WithEarlyAccess } from "../../components/AccessControl";
 
 // Should we show tools and supplies yet?
 const showSupplies = false;
 
-const ShopIndex = ({ topVarieties, topSupplies }) => {
+const ShopIndex = ({ topVarieties, topSupplies, shopConfig }) => {
+  console.log(shopConfig);
+
   return (
     <Layout>
       <NewSeo page={pages.shop} />
@@ -19,6 +23,9 @@ const ShopIndex = ({ topVarieties, topSupplies }) => {
         <div className="shop-index__header">
           <div className="shop-index__welcome-text">
             <h1>Y.D.S. Shop</h1>
+            <WithEarlyAccess shopConfig={shopConfig}>
+              <h2>YOU HAVE EARLY ACCESS</h2>
+            </WithEarlyAccess>
             <p>The Y.D.S. dahlia shop is open to Y.D.S. Members only.</p>
             <div className="shop-index__button-row">
               <Link href="/membership">
@@ -32,6 +39,7 @@ const ShopIndex = ({ topVarieties, topSupplies }) => {
           collection={topVarieties}
           indexPath="/shop/dahlias"
           indexTitle="Shop all Dahlias"
+          shopConfig={shopConfig}
         />
         {showSupplies && (
           <ProductHighlightRow
@@ -39,6 +47,7 @@ const ShopIndex = ({ topVarieties, topSupplies }) => {
             collection={topSupplies}
             indexPath="/shop/supplies"
             indexTitle="Shop all Tools & Supplies"
+            shopConfig={shopConfig}
           />
         )}
       </div>
@@ -55,8 +64,11 @@ const ShopIndex = ({ topVarieties, topSupplies }) => {
 export const getServerSideProps = async (ctx) => {
   let topVarieties = await getProductsByCollection("top-varieties");
   let topSupplies = await getProductsByCollection("top-supplies");
+  let shopConfig = await getShopConfig();
 
-  return { props: { topVarieties, topSupplies } };
+  return {
+    props: { topVarieties, topSupplies, shopConfig: shopConfig.attributes },
+  };
 };
 
 export default ShopIndex;

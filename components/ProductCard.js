@@ -6,7 +6,12 @@ import { WithAnyAccess, WithoutAccess } from "./AccessControl";
 import { flattenConnection } from "../utils/shopify";
 import Image from "next/image";
 
-const ProductCard = ({ product, linkCard = true, showDetails = true }) => {
+const ProductCard = ({
+  product,
+  linkCard = true,
+  showDetails = true,
+  shopConfig,
+}) => {
   let initialVariant = flattenConnection(product.variants)[0];
 
   let productImage =

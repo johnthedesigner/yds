@@ -19,6 +19,9 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+// Collect user data to add to the session data
+var earlyAccess = false;
+
 export default NextAuth({
   debug: true,
   // Configure one or more authentication providers
@@ -41,7 +44,7 @@ export default NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        const res = await fetch("http://yds-cms.herokuapp.com/api/auth/local", {
+        const res = await fetch(`${process.env.STRAPI_API}auth/local`, {
           method: "POST",
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" },
@@ -50,7 +53,10 @@ export default NextAuth({
 
         // If no error and we have user data, return it
         if (res.ok && data) {
-          //   return data.user;
+          // Get user fields and save them to be added to the session
+          earlyAccess = data.user.earlyAccess;
+
+          // Only supports {name, email, image}
           return {
             name: data.user.username,
             email: data.user.email,
@@ -87,6 +93,11 @@ export default NextAuth({
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.jti;
+      session.userInfo = user;
+
+      // Add additional user data to the session
+      session.earlyAccess = earlyAccess;
+
       return session;
     },
   },
