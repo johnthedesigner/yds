@@ -1312,30 +1312,33 @@ export const events = [
           return (
             <>
               <p>
+                <em>(Attend one or both of these events on 11/14 and 11/17)</em>
+              </p>
+              <p>
                 Blooming season is over and it’s time to lift, divide and store
                 our dahlias. Join us for a Zoom Conversation and Q&A session:
                 Reflecting on the 2022 Season, Preparing Your Tubers to
                 Overwinter Successfully and Tips on Dividing. We remember it was
                 helpful when we started out to be able to ask questions before
                 jumping right into dividing and storing tubers. Newer growers
-                may be wondering where to begin and considering whether to
-                divide now or in the spring, while some of you with a few years
-                of experience may have a tip to share that you found
+                may be wondering where to begin while some of you with a few
+                years of experience may have a tip to share that you found
                 particularly helpful.
               </p>
               <p>
                 Excited for next season!!! While this season is still fresh in
                 our minds we look forward to hearing about your plans for your
-                2023 Dahlia Garden. Are you making any changes or had any
+                2023 dahlia garden. Are you making any changes or had any
                 particular successes? We would love to hear. Want to share a
                 picture of your garden in bloom or your favorite dahlia of the
-                year? Email us your pictures of your dahlia garden and your
-                favorite blooms along with any questions you would like answered
-                during the meeting. We will have two sessions on two separate
-                dates; one a morning and another an evening session. Come for
-                one or both sessions. It will be wonderful to get together as a
-                group online, have time for questions and collectively share our
-                experience as the season winds down.
+                year? Email us your pictures and any questions you’d like
+                answered during the meeting. We will have two separate Zoom
+                sessions; join us for one or both. It will be wonderful to get
+                together as a group online, have time for questions and
+                collectively share our experience as the season winds down.
+              </p>
+              <p>
+                <b>Zoom Link:</b> Link in the latest club newsletter.
               </p>
             </>
           );
@@ -1355,30 +1358,33 @@ export const events = [
           return (
             <>
               <p>
+                <em>(Attend one or both of these events on 11/14 and 11/17)</em>
+              </p>
+              <p>
                 Blooming season is over and it’s time to lift, divide and store
                 our dahlias. Join us for a Zoom Conversation and Q&A session:
                 Reflecting on the 2022 Season, Preparing Your Tubers to
                 Overwinter Successfully and Tips on Dividing. We remember it was
                 helpful when we started out to be able to ask questions before
                 jumping right into dividing and storing tubers. Newer growers
-                may be wondering where to begin and considering whether to
-                divide now or in the spring, while some of you with a few years
-                of experience may have a tip to share that you found
+                may be wondering where to begin while some of you with a few
+                years of experience may have a tip to share that you found
                 particularly helpful.
               </p>
               <p>
                 Excited for next season!!! While this season is still fresh in
                 our minds we look forward to hearing about your plans for your
-                2023 Dahlia Garden. Are you making any changes or had any
+                2023 dahlia garden. Are you making any changes or had any
                 particular successes? We would love to hear. Want to share a
                 picture of your garden in bloom or your favorite dahlia of the
-                year? Email us your pictures of your dahlia garden and your
-                favorite blooms along with any questions you would like answered
-                during the meeting. We will have two sessions on two separate
-                dates; one a morning and another an evening session. Come for
-                one or both sessions. It will be wonderful to get together as a
-                group online, have time for questions and collectively share our
-                experience as the season winds down.
+                year? Email us your pictures and any questions you’d like
+                answered during the meeting. We will have two separate Zoom
+                sessions; join us for one or both. It will be wonderful to get
+                together as a group online, have time for questions and
+                collectively share our experience as the season winds down.
+              </p>
+              <p>
+                <b>Zoom Link:</b> Link in the latest club newsletter.
               </p>
             </>
           );
@@ -1389,7 +1395,7 @@ export const events = [
   {
     date: "2022-12-04",
     time: "7:00am - 7:00pm",
-    name: "December Dahlia-O-Rama",
+    name: "Y.D.S. December Dahlia-O-Rama",
     label: eventTypes.meeting,
     showMore: [
       {
@@ -1398,31 +1404,70 @@ export const events = [
           return (
             <>
               <p>
-                New this year, YDS will be holding a Dahlia-O-Rama at Spence
-                Farm in Woburn. It's a big collective effort to get club tubers
-                divided and inventoried for our tuber sale! The sooner we can
-                get all the tubers divided, the sooner we can hold our sale, and
-                we know all of you have been waiting for it. We’re excited and
-                can’t wait for it too! We have so many new varieties of dahlias
-                to offer our members in our upcoming tuber sale. It promises to
-                be even better than last year!
-              </p>
-              <p>
-                The YDS Dahlia-O-Rama will be held from 7AM to 7 PM. We’d love
-                for as many of you as can make it to come out that day and help.
+                YDS will be holding a Dahlia-O-Rama at Spence Farm in Woburn.
+                It's a fun day-long collective effort to get club tubers divided
+                and inventoried for our member tuber sale! The sooner we can get
+                all the tubers divided, the sooner we can hold our YDS member
+                tuber sale, and we know all of you have been waiting for it. The
+                YDS Dahlia-O-Rama will be held from <b>7AM to 7PM</b> with a
+                pizza ticket lunch option to keep you energized. We’d love for
+                as many of you as can make it to come out that day and help.
                 Spend a few hours or the whole day, really any amount of time
-                you can volunteer will be greatly appreciated. For those who may
-                be new to dividing dahlias, come for one of our two dividing
-                lessons and we will show you the ropes. There’s something for
-                everyone to help with and plenty of tasks that need to be done
-                that don’t require any previous experience, such as labeling,
-                sorting, counting and packing. When YDS members get together
-                it’s always a lot of fun!
+                you can volunteer will be greatly appreciated.
               </p>
               <p>
-                We’re looking for experienced dividers to be team leaders for
-                each table group. Expect us to reach out and email members
-                asking you to fill a particular role for the day.
+                For those who may be new to dividing dahlias, come for one of
+                our two dividing lessons and we will show you the ropes. There’s
+                something for everyone to help with and plenty of tasks that
+                need to be done that don’t require any previous experience, such
+                as labeling, sorting, counting and packing.
+              </p>
+              <p>
+                <b>RSVP:</b> RSVP not required but strongly encouraged. Details
+                and a link to RSVP through SignUp Genius in the club newsletter.
+              </p>
+              <p>
+                <b>Not Yet a YDS Member:</b> Sign up and join today to
+                participate in the fun! We’ll be sure to send you the latest
+                club newsletter and all the details for Dahlia-O-Rama.
+              </p>
+              <p>
+                <b>Earn Early Access to YDS Tuber Sale</b>
+              </p>
+              <p>
+                Just like last year, members who give at least six hours of
+                volunteer time at the end of the growing season (lifting,
+                washing, preparing, dividing club tubers) will earn Early Access
+                for a full week to our online club tuber sale before we open it
+                up to all members. This is a valuable club perk, and helping out
+                on December 4th is a great way to get your volunteer hours in
+                for Early Access.{" "}
+                <em>
+                  **This may be the last opportunity for members to earn Early
+                  Access for the tuber sale.
+                </em>
+              </p>
+              <p>
+                <b>Events of the Day</b>
+              </p>
+              <ul>
+                <li>7:00am - Doors Open</li>
+                <li>
+                  10:00-10:30 - Learn How to Divide - Hands on Demonstration
+                  (Morning Session)
+                </li>
+                <li>1:00-2:00 - Pizza Lunch* & Mingle</li>
+                <li>
+                  2:00-2:30 - Learn How to Divide - Hands on Demonstration
+                  (Afternoon Session)
+                </li>
+                <li>6:00pm- 7:00pm Breakdown, Clean Up & Pack Up</li>
+                <li>7:00pm- Doors Close</li>
+              </ul>
+              <p>
+                <small>
+                  <em>*purchase a ticket for 2 pizza slices $6.00</em>
+                </small>
               </p>
             </>
           );
