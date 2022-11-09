@@ -1300,4 +1300,134 @@ export const events = [
       },
     ],
   },
+  {
+    date: "2022-11-14",
+    time: "6:00pm - 7:00pm",
+    name: "Reflecting on the 2022 Season, Preparing Your Tubers to Overwinter Successfully and Tips on Dividing",
+    label: eventTypes.meeting,
+    showMore: [
+      {
+        name: "Details",
+        content: () => {
+          return (
+            <>
+              <p>
+                Blooming season is over and it’s time to lift, divide and store
+                our dahlias. Join us for a Zoom Conversation and Q&A session:
+                Reflecting on the 2022 Season, Preparing Your Tubers to
+                Overwinter Successfully and Tips on Dividing. We remember it was
+                helpful when we started out to be able to ask questions before
+                jumping right into dividing and storing tubers. Newer growers
+                may be wondering where to begin and considering whether to
+                divide now or in the spring, while some of you with a few years
+                of experience may have a tip to share that you found
+                particularly helpful.
+              </p>
+              <p>
+                Excited for next season!!! While this season is still fresh in
+                our minds we look forward to hearing about your plans for your
+                2023 Dahlia Garden. Are you making any changes or had any
+                particular successes? We would love to hear. Want to share a
+                picture of your garden in bloom or your favorite dahlia of the
+                year? Email us your pictures of your dahlia garden and your
+                favorite blooms along with any questions you would like answered
+                during the meeting. We will have two sessions on two separate
+                dates; one a morning and another an evening session. Come for
+                one or both sessions. It will be wonderful to get together as a
+                group online, have time for questions and collectively share our
+                experience as the season winds down.
+              </p>
+            </>
+          );
+        },
+      },
+    ],
+  },
+  {
+    date: "2022-11-17",
+    time: "10:00am - 11:00am",
+    name: "Reflecting on the 2022 Season, Preparing Your Tubers to Overwinter Successfully and Tips on Dividing",
+    label: eventTypes.meeting,
+    showMore: [
+      {
+        name: "Details",
+        content: () => {
+          return (
+            <>
+              <p>
+                Blooming season is over and it’s time to lift, divide and store
+                our dahlias. Join us for a Zoom Conversation and Q&A session:
+                Reflecting on the 2022 Season, Preparing Your Tubers to
+                Overwinter Successfully and Tips on Dividing. We remember it was
+                helpful when we started out to be able to ask questions before
+                jumping right into dividing and storing tubers. Newer growers
+                may be wondering where to begin and considering whether to
+                divide now or in the spring, while some of you with a few years
+                of experience may have a tip to share that you found
+                particularly helpful.
+              </p>
+              <p>
+                Excited for next season!!! While this season is still fresh in
+                our minds we look forward to hearing about your plans for your
+                2023 Dahlia Garden. Are you making any changes or had any
+                particular successes? We would love to hear. Want to share a
+                picture of your garden in bloom or your favorite dahlia of the
+                year? Email us your pictures of your dahlia garden and your
+                favorite blooms along with any questions you would like answered
+                during the meeting. We will have two sessions on two separate
+                dates; one a morning and another an evening session. Come for
+                one or both sessions. It will be wonderful to get together as a
+                group online, have time for questions and collectively share our
+                experience as the season winds down.
+              </p>
+            </>
+          );
+        },
+      },
+    ],
+  },
+  {
+    date: "2022-12-04",
+    time: "7:00am - 7:00pm",
+    name: "December Dahlia-O-Rama",
+    label: eventTypes.meeting,
+    showMore: [
+      {
+        name: "Details",
+        content: () => {
+          return (
+            <>
+              <p>
+                New this year, YDS will be holding a Dahlia-O-Rama at Spence
+                Farm in Woburn. It's a big collective effort to get club tubers
+                divided and inventoried for our tuber sale! The sooner we can
+                get all the tubers divided, the sooner we can hold our sale, and
+                we know all of you have been waiting for it. We’re excited and
+                can’t wait for it too! We have so many new varieties of dahlias
+                to offer our members in our upcoming tuber sale. It promises to
+                be even better than last year!
+              </p>
+              <p>
+                The YDS Dahlia-O-Rama will be held from 7AM to 7 PM. We’d love
+                for as many of you as can make it to come out that day and help.
+                Spend a few hours or the whole day, really any amount of time
+                you can volunteer will be greatly appreciated. For those who may
+                be new to dividing dahlias, come for one of our two dividing
+                lessons and we will show you the ropes. There’s something for
+                everyone to help with and plenty of tasks that need to be done
+                that don’t require any previous experience, such as labeling,
+                sorting, counting and packing. When YDS members get together
+                it’s always a lot of fun!
+              </p>
+              <p>
+                We’re looking for experienced dividers to be team leaders for
+                each table group. Expect us to reach out and email members
+                asking you to fill a particular role for the day.
+              </p>
+            </>
+          );
+        },
+      },
+    ],
+  },
 ];
