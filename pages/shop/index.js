@@ -1,5 +1,6 @@
 import _ from "lodash";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 import Layout from "../../components/Layout";
 import Bumper from "../../components/Bumper";
@@ -8,10 +9,7 @@ import pages from "../../utils/pages.json";
 import ProductHighlightRow from "../../components/ProductHighlightRow";
 import { getProductsByCollection } from "../../utils/shopify";
 import { getShopConfig } from "../../utils/strapi";
-import { WithEarlyAccess } from "../../components/AccessControl";
-
-// Should we show tools and supplies yet?
-const showSupplies = true;
+import { WithoutAccess } from "../../components/AccessControl";
 
 const ShopIndex = ({ topVarieties, topSupplies, shopConfig }) => {
   return (
@@ -21,25 +19,30 @@ const ShopIndex = ({ topVarieties, topSupplies, shopConfig }) => {
         <div className="shop-index__header">
           <div className="shop-index__welcome-text">
             <h1>Y.D.S. Shop</h1>
-            <WithEarlyAccess shopConfig={shopConfig}>
-              <h2>YOU HAVE EARLY ACCESS</h2>
-            </WithEarlyAccess>
-            <p>The Y.D.S. dahlia shop is open to Y.D.S. Members only.</p>
-            <div className="shop-index__button-row">
-              <Link href="/membership">
-                <a className="button">Become a Member</a>
-              </Link>
-            </div>
+            <WithoutAccess shopConfig={shopConfig}>
+              <p>The Y.D.S. dahlia shop is open to Y.D.S. Members only.</p>
+              <div className="shop-index__button-row">
+                <button className="button" onClick={signIn}>
+                  Member Login
+                </button>
+                <span style={{ margin: "0 2rem", fontSize: "1.5rem" }}>or</span>
+                <Link href="/membership">
+                  <a className="button">Become a Member</a>
+                </Link>
+              </div>{" "}
+            </WithoutAccess>
           </div>
         </div>
-        <ProductHighlightRow
-          title="Dahlias"
-          collection={topVarieties}
-          indexPath="/shop/dahlias"
-          indexTitle="Shop all Dahlias"
-          shopConfig={shopConfig}
-        />
-        {showSupplies && (
+        {shopConfig.showDahliasInShop && (
+          <ProductHighlightRow
+            title="Dahlias"
+            collection={topVarieties}
+            indexPath="/shop/dahlias"
+            indexTitle="Shop all Dahlias"
+            shopConfig={shopConfig}
+          />
+        )}
+        {shopConfig.showSuppliesInShop && (
           <ProductHighlightRow
             title="Tools & Supplies"
             collection={topSupplies}

@@ -29,6 +29,7 @@ import PriceText from "../../../components/PriceText";
 import { getShopConfig } from "../../../utils/strapi";
 import AddToCartButton from "../../../components/AddToCartButton";
 import { useSession } from "next-auth/react";
+import InventoryText from "../../../components/InventoryText";
 // import { addToCart } from "../../../utils/useApi";
 
 const ProductDetail = ({ product, shopConfig }) => {
@@ -170,11 +171,14 @@ const ProductDetail = ({ product, shopConfig }) => {
               />
             </p>
             <p>
-              {product.totalInventory < 15 && (
-                <small>
-                  <em>{initialVariant.quantityAvailable} left in stock.</em>
-                </small>
-              )}
+              <small>
+                <em>
+                  <InventoryText
+                    shopConfig={shopConfig}
+                    inventory={initialVariant.quantityAvailable}
+                  />
+                </em>
+              </small>
             </p>
           </div>
           <ConditionalDescription />

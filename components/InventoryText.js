@@ -54,17 +54,9 @@ const InventoryText = ({ shopConfig, inventory }) => {
   // Selectively render inventory text
   if (displayInventory) {
     if (inventory === 0) {
-      return (
-        <small>
-          <em>Out of stock.</em>
-        </small>
-      );
+      return <>Out of stock.</>;
     } else if (inventory < inventoryCutoff) {
-      return (
-        <small>
-          <em>Only {inventory} left in stock.</em>
-        </small>
-      );
+      return <>Only {inventory} left in stock.</>;
     } else {
       return (
         <small>
@@ -73,6 +65,7 @@ const InventoryText = ({ shopConfig, inventory }) => {
       );
     }
   } else {
+    // return <>Don't Show Inventory</>;
     return null;
   }
 };

@@ -41,11 +41,15 @@ const ProductCard = ({
   const ImageOverlay = ({ inventory, country }) => {
     // At which quantity should we stop highlighting inventory
     const inventoryCutoff = 5;
-    if (inventory < inventoryCutoff || country) {
+    if (inventory || country) {
       return (
         <div className="product-grid__image-overlay">
           <p className="product-grid__inventory">
-            <InventoryText shopConfig={shopConfig} inventory={inventory} />
+            <small>
+              <em>
+                <InventoryText shopConfig={shopConfig} inventory={inventory} />
+              </em>
+            </small>
           </p>
           <CountryFlag product={product} />
         </div>
