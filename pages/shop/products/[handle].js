@@ -1,5 +1,4 @@
 import _ from "lodash";
-import axios from "axios";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
@@ -18,22 +17,17 @@ import {
   ShowBefore,
   WithEarlyAccess,
   WithAnyAccess,
-  WithoutAccess,
   WithRegularAccess,
 } from "../../../components/AccessControl";
-import LoginButton from "../../../components/LoginButton";
 import NewSeo from "../../../components/NewSeo";
 import { getProductByHandle } from "../../../utils/shopify";
 import { CartContext } from "../../_app";
 import PriceText from "../../../components/PriceText";
 import { getShopConfig } from "../../../utils/strapi";
 import AddToCartButton from "../../../components/AddToCartButton";
-import { useSession } from "next-auth/react";
 import InventoryText from "../../../components/InventoryText";
-// import { addToCart } from "../../../utils/useApi";
 
 const ProductDetail = ({ product, shopConfig }) => {
-  // const { addToCart } = useApi();
   const { addToCart } = useContext(CartContext);
   const router = useRouter();
   const { pathname, query } = router;
