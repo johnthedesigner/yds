@@ -11,11 +11,9 @@ import { getShopConfig } from "../../utils/strapi";
 import { WithEarlyAccess } from "../../components/AccessControl";
 
 // Should we show tools and supplies yet?
-const showSupplies = false;
+const showSupplies = true;
 
 const ShopIndex = ({ topVarieties, topSupplies, shopConfig }) => {
-  console.log(shopConfig);
-
   return (
     <Layout>
       <NewSeo page={pages.shop} />

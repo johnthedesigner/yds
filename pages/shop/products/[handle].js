@@ -25,9 +25,13 @@ import LoginButton from "../../../components/LoginButton";
 import NewSeo from "../../../components/NewSeo";
 import { getProductByHandle } from "../../../utils/shopify";
 import { CartContext } from "../../_app";
+import PriceText from "../../../components/PriceText";
+import { getShopConfig } from "../../../utils/strapi";
+import AddToCartButton from "../../../components/AddToCartButton";
+import { useSession } from "next-auth/react";
 // import { addToCart } from "../../../utils/useApi";
 
-const ProductDetail = ({ product }) => {
+const ProductDetail = ({ product, shopConfig }) => {
   // const { addToCart } = useApi();
   const { addToCart } = useContext(CartContext);
   const router = useRouter();
@@ -131,10 +135,6 @@ const ProductDetail = ({ product }) => {
     );
   };
 
-  const ProductPrice = ({ price }) => {
-    return <>{`$${(1 * price).toFixed(2)}`}</>;
-  };
-
   return (
     <Layout>
       <NewSeo product={product} />
@@ -163,16 +163,12 @@ const ProductDetail = ({ product }) => {
         <div className="product-detail__product-info">
           <div>
             <h1 className="product-detail__title">{product.title}</h1>
-            <WithoutAccess>
-              <p style={{ marginBottom: "2rem" }}>
-                <em>Log in for pricing</em>
-              </p>
-            </WithoutAccess>
-            <WithAnyAccess>
-              <p className="product-detail__price">
-                <ProductPrice price={initialVariant.priceV2.amount} />
-              </p>
-            </WithAnyAccess>
+            <p className="product-detail__price">
+              <PriceText
+                shopConfig={shopConfig}
+                price={initialVariant.priceV2.amount}
+              />
+            </p>
             <p>
               {product.totalInventory < 15 && (
                 <small>
@@ -190,17 +186,12 @@ const ProductDetail = ({ product }) => {
           <TagDescriptor product={product} tag="size" label="Size" />
           <TagDescriptor product={product} tag="color" label="Color" />
           <div>
-            <EarlyAccessPeriod />
-            <AllAccessPeriod />
-            <NoAccessPeriod />
-            <WithoutAccess>
-              <p style={{ marginTop: "2rem" }}>
-                <em>Sales are open to members only</em>
-              </p>
-              <p style={{ marginTop: "1rem" }}>
-                <LoginButton className="button" />
-              </p>
-            </WithoutAccess>
+            <div style={{ margin: "2rem 0" }}>
+              <AddToCartButton
+                shopConfig={shopConfig}
+                handleClick={handleAddToCart}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -212,8 +203,10 @@ const ProductDetail = ({ product }) => {
 export const getServerSideProps = async (ctx) => {
   let { handle } = ctx.params;
   let product = await getProductByHandle(handle);
+  // Fetch Shop Configuration
+  let shopConfig = await getShopConfig();
 
-  return { props: { product } };
+  return { props: { product, shopConfig: shopConfig.attributes } };
 };
 
 export default ProductDetail;

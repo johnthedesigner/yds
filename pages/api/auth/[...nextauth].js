@@ -19,9 +19,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-// Collect user data to add to the session data
-var earlyAccess = false;
-
 export default NextAuth({
   debug: true,
   // Configure one or more authentication providers
@@ -53,13 +50,11 @@ export default NextAuth({
 
         // If no error and we have user data, return it
         if (res.ok && data) {
-          // Get user fields and save them to be added to the session
-          earlyAccess = data.user.earlyAccess;
-
           // Only supports {name, email, image}
           return {
             name: data.user.username,
             email: data.user.email,
+            earlyAccess: data.user.earlyAccess,
           };
         }
         // Return null if user data could not be retrieved
@@ -83,10 +78,13 @@ export default NextAuth({
       // Redirect to current page ('url'), use 'baseUrl' for homepage
       return url;
     },
-    async jwt({ token, account }) {
+    async jwt({ token, user, account, profile }) {
       // Persist the OAuth access_token to the token right after signin
       if (account) {
         token.accessToken = account.access_token;
+      }
+      if (user) {
+        token.earlyAccess = user.earlyAccess;
       }
       return token;
     },
@@ -94,9 +92,7 @@ export default NextAuth({
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.jti;
       session.userInfo = user;
-
-      // Add additional user data to the session
-      session.earlyAccess = earlyAccess;
+      session.earlyAccess = token.earlyAccess;
 
       return session;
     },

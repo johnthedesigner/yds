@@ -15,6 +15,7 @@ import { getProductsByTags } from "../../utils/shopify";
 import pages from "../../utils/pages.json";
 import catalogData from "../../utils/catalogData.json";
 import { getShopConfig } from "../../utils/strapi";
+import { useSession } from "next-auth/react";
 
 const productType = "tubers";
 
@@ -111,7 +112,7 @@ export const getServerSideProps = async (ctx) => {
   let shopConfig = await getShopConfig();
 
   return {
-    props: { products, queryTags: tags, shopConfig },
+    props: { products, queryTags: tags, shopConfig: shopConfig.attributes },
   };
 };
 

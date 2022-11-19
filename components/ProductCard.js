@@ -2,9 +2,10 @@ import _ from "lodash";
 import Link from "next/link";
 
 import { TagDescriptor, HybridizerDescriptor } from "./Descriptor";
-import { WithAnyAccess, WithoutAccess } from "./AccessControl";
 import { flattenConnection } from "../utils/shopify";
 import Image from "next/image";
+import PriceText from "./PriceText";
+import InventoryText from "./InventoryText";
 
 const ProductCard = ({
   product,
@@ -18,10 +19,6 @@ const ProductCard = ({
     flattenConnection(product.media).length > 0
       ? flattenConnection(product.media)[0].image
       : {};
-
-  const Price = ({ price }) => {
-    return `$${(1 * price).toFixed(2)}`;
-  };
 
   const CountryFlag = ({ product }) => {
     if (product.country_of_origin) {
@@ -48,11 +45,7 @@ const ProductCard = ({
       return (
         <div className="product-grid__image-overlay">
           <p className="product-grid__inventory">
-            {inventory < inventoryCutoff && (
-              <small>
-                <em>{inventory} left in stock.</em>
-              </small>
-            )}
+            <InventoryText shopConfig={shopConfig} inventory={inventory} />
           </p>
           <CountryFlag product={product} />
         </div>
@@ -92,18 +85,12 @@ const ProductCard = ({
                   <h1 className="product-grid__title">{product.title}</h1>
                 </a>
               </Link>
-              <WithAnyAccess>
-                <p className="product-grid__price">
-                  <Price price={initialVariant.priceV2.amount} />
-                </p>
-              </WithAnyAccess>
-              <WithoutAccess>
-                <p>
-                  <small>
-                    <em>Log in for pricing</em>
-                  </small>
-                </p>
-              </WithoutAccess>
+              <p className="product-grid__price">
+                <PriceText
+                  shopConfig={shopConfig}
+                  price={initialVariant.priceV2.amount}
+                />
+              </p>
             </div>
             <HybridizerDescriptor
               hybridizer={product.hybridizer}
