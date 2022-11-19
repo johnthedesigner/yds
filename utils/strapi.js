@@ -15,3 +15,11 @@ export const getCollection = async (contentType) => {
 
   return data.data;
 };
+
+export const getShopConfig = async () => {
+  let requestUrl = `${STRAPI_API}shop-config`;
+
+  let { data } = await axios.get(requestUrl);
+
+  return data.data;
+};

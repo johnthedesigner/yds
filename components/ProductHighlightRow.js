@@ -4,7 +4,13 @@ import Link from "next/link";
 import { flattenConnection } from "../utils/shopify";
 import ProductCard from "../components/ProductCard";
 
-const ProductHighlightRow = ({ title, collection, indexPath, indexTitle }) => {
+const ProductHighlightRow = ({
+  title,
+  collection,
+  indexPath,
+  indexTitle,
+  shopConfig,
+}) => {
   // If there are products, prepare product data
   const products = collection ? flattenConnection(collection.products) : [];
   const sortedProducts = _.orderBy(products, "title");
@@ -30,6 +36,7 @@ const ProductHighlightRow = ({ title, collection, indexPath, indexTitle }) => {
             <div key={product.handle} className="product-grid__item">
               <ProductCard
                 product={product}
+                shopConfig={shopConfig}
                 // linkCard={false}
                 // showDetails={false}
               />

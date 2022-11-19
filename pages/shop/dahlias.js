@@ -14,10 +14,12 @@ import { getProductsByTags } from "../../utils/shopify";
 
 import pages from "../../utils/pages.json";
 import catalogData from "../../utils/catalogData.json";
+import { getShopConfig } from "../../utils/strapi";
+import { useSession } from "next-auth/react";
 
 const productType = "tubers";
 
-const ShopIndex = ({ products, queryTags }) => {
+const ShopIndex = ({ products, queryTags, shopConfig }) => {
   const [sortOption, setSortOption] = useState("titleAsc");
 
   // If there are no products available, show "not found"
@@ -81,7 +83,7 @@ const ShopIndex = ({ products, queryTags }) => {
             {sortedProducts.map((product) => {
               return (
                 <div key={product.handle} className="product-grid__item">
-                  <NewProductCard product={product} />
+                  <NewProductCard product={product} shopConfig={shopConfig} />
                 </div>
               );
             })}
@@ -106,9 +108,11 @@ export const getServerSideProps = async (ctx) => {
   let tags = query.tags ? query.tags.split(",") : [];
   // Fetch products
   let products = await getProductsByTags(productType, tags);
+  // Fetch Shop Configuration
+  let shopConfig = await getShopConfig();
 
   return {
-    props: { products, queryTags: tags },
+    props: { products, queryTags: tags, shopConfig: shopConfig.attributes },
   };
 };
 

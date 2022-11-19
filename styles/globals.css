@@ -125,6 +125,7 @@ a {
   text-decoration: none;
   transition: all linear 0.15s;
   box-shadow: 0 0.125rem 0.25rem rgba(80, 111, 152, 0.4);
+  cursor: pointer;
 }
 
 .button--homepage {
@@ -712,7 +713,7 @@ button[type="submit"].donation-form__submit-button {
 
 .product-grid__price {
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 400;
   margin: 0.25rem 0;
 }
 

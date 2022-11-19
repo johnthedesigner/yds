@@ -12,8 +12,7 @@ import "../styles/globals.css";
 import "../styles/new-globals.css";
 import "../styles/header.css";
 
-import CartUIProvider from "../components/CartUIProvider";
-
+import CartUIProvider, { useCartUI } from "../components/CartUIProvider";
 export const CartContext = createContext({
   cart: null,
   setCart: () => {},
@@ -26,6 +25,8 @@ export const CartContext = createContext({
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   // State mangement for our shopping cart
   const [cart, setCart] = useState(null);
+
+  // const { openCart } = useCartUI();
 
   // Cart Management Functions
   const addToCart = useCallback(
@@ -49,6 +50,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         } else {
           // Get cart from response and update in-app
           setCart(data.cart);
+          // openCart();
         }
       });
     },
@@ -145,9 +147,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   }, []);
 
   useEffect(() => {
-    if (cart) {
-      localStorage.setItem("ydsCart", JSON.stringify(cart));
-    }
+    // console.log("cart changed set localstorage");
+    localStorage.setItem("ydsCart", JSON.stringify(cart));
   }, [cart]);
 
   return (

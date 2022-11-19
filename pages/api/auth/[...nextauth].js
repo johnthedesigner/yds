@@ -16,8 +16,35 @@
 
 // ---------------
 
+import { DateTime } from "luxon";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+// Update current session properties
+const refreshToken = async (token) => {
+  const res = await fetch(`${process.env.STRAPI_API}users/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token.jwt}`,
+    },
+  });
+  const data = await res.json();
+
+  // If no error and we have user data, update fields and return new token
+  if (res.ok && data) {
+    // Set a time after which we will refresh this token upon a new pageload
+    let currentTime = DateTime.now();
+    let refreshHorizon = currentTime.plus({ seconds: 30 });
+
+    // Build new token with updated properties
+    return {
+      ...token,
+      earlyAccess: data.earlyAccess,
+      refreshHorizon, // Reset refresh horizon
+    };
+  }
+};
 
 export default NextAuth({
   debug: true,
@@ -41,7 +68,7 @@ export default NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        const res = await fetch("http://yds-cms.herokuapp.com/api/auth/local", {
+        const res = await fetch(`${process.env.STRAPI_API}auth/local`, {
           method: "POST",
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" },
@@ -50,10 +77,12 @@ export default NextAuth({
 
         // If no error and we have user data, return it
         if (res.ok && data) {
-          //   return data.user;
+          // Only supports {name, email, image}
           return {
             name: data.user.username,
             email: data.user.email,
+            earlyAccess: data.user.earlyAccess,
+            jwt: data.jwt,
           };
         }
         // Return null if user data could not be retrieved
@@ -77,16 +106,33 @@ export default NextAuth({
       // Redirect to current page ('url'), use 'baseUrl' for homepage
       return url;
     },
-    async jwt({ token, account }) {
+    async jwt({ token, user, account, profile }) {
       // Persist the OAuth access_token to the token right after signin
-      if (account) {
+      if (user && account) {
         token.accessToken = account.access_token;
+
+        // Set a time after which we will refresh this token upon a new pageload
+        let currentTime = DateTime.now();
+        token.refreshHorizon = currentTime.plus({ seconds: 30 });
+        // Mark user's early access status
+        token.earlyAccess = user.earlyAccess;
+        // Record user's token
+        token.jwt = user.jwt;
       }
+
+      // TODO: Check for token expiration and refresh session properties
+      if (DateTime.now() > DateTime.fromISO(token.refreshHorizon)) {
+        return refreshToken(token);
+      }
+
       return token;
     },
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.jti;
+      session.userInfo = user;
+      session.earlyAccess = token.earlyAccess;
+
       return session;
     },
   },

@@ -1,7 +1,7 @@
 // import {useCartLinesTotalQuantity, useCart} from '@shopify/hydrogen/client';
 import _ from "lodash";
 import { Dialog } from "@headlessui/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { CartContext } from "../pages/_app";
 import { useCartUI } from "./CartUIProvider";
@@ -12,11 +12,32 @@ import cartLineUpdate from "../pages/api/cart-lines-update";
 
 export default function Cart() {
   const { cart } = useContext(CartContext);
-  const itemCount = cart ? cart.totalQuantity : 0;
-  const { isCartOpen, closeCart } = useCartUI();
+  const cartId = cart ? cart.id : null;
+
+  // const itemCount = cart ? cart.totalQuantity : 0;
+  const { isCartOpen, closeCart, openCart } = useCartUI();
   let cartLines = cart ? flattenConnection(cart.lines) : [];
 
+  const [itemCount, setItemCount] = useState(null);
   const [hovered, setHovered] = useState(false);
+
+  useEffect(() => {
+    let totalQuantity = cart ? cart.totalQuantity : 0;
+    if (itemCount != totalQuantity && itemCount === null) {
+      // console.log("cart null", itemCount, totalQuantity);
+      // openCart();
+      setItemCount(totalQuantity);
+    } else if (itemCount != totalQuantity) {
+      // console.log("cart count set", itemCount, totalQuantity);
+      // TODO: Open cart when an item is added
+      // openCart();
+      setItemCount(totalQuantity);
+    }
+    // console.log(itemCount);
+    // if (itemCount > 0) {
+    //   openCart();
+    // }
+  }, [cart]);
 
   var cartTotal = 0;
   _.each(cartLines, (line) => {
