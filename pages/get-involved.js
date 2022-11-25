@@ -58,19 +58,37 @@ const GetInvolved = () => {
             Would you have extra time to put together articles to be included in
             our Monthly Emails. Possibly you would like to work with others and
             write a column in our monthly newsletters. Ideas include:
-            <ul>
-              <li>American Dahlia Society Quarterly Bulletins</li>
-              <li>
-                Content Ideas for the Monthly Newsletter:
-                <ul>
-                  <li>Ask The Expert</li>
-                  <li>Feature a YDS Member</li>
-                  <li>Seasonal Tips</li>
-                  <li>Meeting Recaps</li>
-                </ul>
-              </li>
-            </ul>
           </p>
+          <ul>
+            <li>
+              <p>American Dahlia Society Quarterly Bulletins</p>
+            </li>
+            <li>
+              <p>Content Ideas for the Monthly Newsletter:</p>
+              <ul>
+                <li>
+                  <p>
+                    <small>Ask The Expert</small>
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <small>Feature a YDS Member</small>
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <small>Seasonal Tips</small>
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <small>Meeting Recaps</small>
+                  </p>
+                </li>
+              </ul>
+            </li>
+          </ul>
         </CompactText>
         <Bumper
           text="Reach out to inquire about opportunities to get involved"
