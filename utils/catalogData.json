@@ -2,10 +2,11 @@
   "category": {
     "supplies": {
       "type": {
-        "Tools": "Tools"
+        "Tools": "Tools",
+        "Amendments": "Amendments"
       }
     },
-    "tubers": {
+    "dahlias": {
       "color": {
         "BI": "Bicolor",
         "BR": "Bronze",
