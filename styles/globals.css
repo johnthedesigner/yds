@@ -198,6 +198,11 @@ select {
   box-shadow: 0 1px 5px inset rgba(63, 79, 99, 0.4);
   border-radius: 0.25rem;
 }
+
+input::placeholder {
+  color: #aaa;
+}
+
 select {
   box-shadow: 0 1px 10px rgba(63, 79, 99, 0.4);
 }
@@ -527,6 +532,7 @@ button[type="submit"].donation-form__submit-button {
 
 .pingpong__image {
   flex: 1;
+  padding-top: 3rem;
 }
 
 .pingpong__image img {
@@ -535,6 +541,7 @@ button[type="submit"].donation-form__submit-button {
   height: auto;
   padding: 1rem;
   box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.2);
+  object-fit: cover;
 }
 
 .pingpong__text {

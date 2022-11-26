@@ -60,7 +60,7 @@ const Login = ({ callbackUrl }) => {
             type="email"
             id="identifier"
             name="identifier"
-            placeholder="cafeauyay@example.com"
+            placeholder="Your email"
           />
         </fieldset>
         <fieldset className="auth-block__fieldset">

@@ -45,8 +45,8 @@ const GetInvolved = () => {
           <h3>Extra Set of Hands</h3>
           <p>
             Would you have a little extra time you can spare and would like to
-            help the club at one of our Growing Partner Locations (Maplebrook
-            Farm in Sterling, MA or at Wright-Locke Farm in Winchester, MA).
+            help the club at one of our Growing Partner Locations (Woburn Senior
+            Center in Woburn, MA or at Wright-Locke Farm in Winchester, MA).
             Seasonally we could use some help with tasks to plant tubers, stake
             growing plants, dig tubers or divide tubers. Please reach out to let
             us know that you would like to help.

@@ -16,7 +16,7 @@ const Membership = () => {
       <NewSeo page={pages.membership} />
       <Pingpong
         side="left"
-        image="/digging-tubers.jpg"
+        image="/group-photo-2.jpg"
         imageAlt="Dahlia plants being dug up with a pitchfork"
         ratioWidth="1"
         ratioHeight="1">
