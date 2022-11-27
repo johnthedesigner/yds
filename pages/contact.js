@@ -78,7 +78,7 @@ const Contact = () => {
           <p>
             It takes a village to run a club and if you have a little time
             please reach out to us because we would greatly appreciate any time
-            you have to support the club.
+            you have to support the club..
           </p>
           <Link href="http://instagram.com/yankeedahliasociety">
             <a
