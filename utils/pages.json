@@ -35,15 +35,6 @@
     "inFooter": true,
     "inSitemap": true
   },
-  "all-products": {
-    "label": "All Products",
-    "title": "Y.D.S. Online Shop - All Products",
-    "description": "Buy tubers, cuttings, supplies & gift certificates to help grow dahlias and to grow Y.D.S.",
-    "path": "/shop/products",
-    "inMenu": false,
-    "inFooter": false,
-    "inSitemap": true
-  },
   "membership": {
     "label": "Membership",
     "title": "Membership",
@@ -139,6 +130,15 @@
     "title": "Member Badge Usage Info",
     "description": "How to use the Y.D.S. membership badge on your website and marketing materials",
     "path": "/badge-info",
+    "inMenu": false,
+    "inFooter": false,
+    "inSitemap": false
+  },
+  "messages": {
+    "label": "Contact Form Messages",
+    "title": "Contact Form Messages",
+    "description": "Contact Yankee Dahlia Society",
+    "path": "/messages",
     "inMenu": false,
     "inFooter": false,
     "inSitemap": false

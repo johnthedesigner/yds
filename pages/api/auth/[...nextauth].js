@@ -22,11 +22,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 // Update current session properties
 const refreshToken = async (token) => {
-  const res = await fetch(`${process.env.STRAPI_API}users/me`, {
+  const res = await fetch(`${process.env.STRAPI_API}users/me?populate=role`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token.jwt}`,
+      Authorization: `Bearer ${token}`,
     },
   });
   const data = await res.json();
@@ -39,8 +39,11 @@ const refreshToken = async (token) => {
 
     // Build new token with updated properties
     return {
-      ...token,
+      name: data.username,
+      email: data.email,
       earlyAccess: data.earlyAccess,
+      role: data.role ? data.role.type : "general", // Role only present for admin users
+      jwt: token,
       refreshHorizon, // Reset refresh horizon
     };
   }
@@ -77,13 +80,7 @@ export default NextAuth({
 
         // If no error and we have user data, return it
         if (res.ok && data) {
-          // Only supports {name, email, image}
-          return {
-            name: data.user.username,
-            email: data.user.email,
-            earlyAccess: data.user.earlyAccess,
-            jwt: data.jwt,
-          };
+          return data;
         }
         // Return null if user data could not be retrieved
         return null;
@@ -93,6 +90,9 @@ export default NextAuth({
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       const isAllowedToSignIn = true;
+      // Check if we receive a valid user object
+      // let isAllowedToSignIn = user && user.id;
+
       if (isAllowedToSignIn) {
         return true;
       } else {
@@ -107,24 +107,17 @@ export default NextAuth({
       return url;
     },
     async jwt({ token, user, account, profile }) {
-      // Persist the OAuth access_token to the token right after signin
+      // Get user data right after sign-in
       if (user && account) {
-        token.accessToken = account.access_token;
-
-        // Set a time after which we will refresh this token upon a new pageload
-        let currentTime = DateTime.now();
-        token.refreshHorizon = currentTime.plus({ seconds: 30 });
-        // Mark user's early access status
-        token.earlyAccess = user.earlyAccess;
-        // Record user's token
-        token.jwt = user.jwt;
+        return refreshToken(user.jwt);
       }
 
-      // TODO: Check for token expiration and refresh session properties
+      // Check for token expiration and refresh session properties
       if (DateTime.now() > DateTime.fromISO(token.refreshHorizon)) {
-        return refreshToken(token);
+        return refreshToken(token.jwt);
       }
 
+      // If this isn't a new sign-in and the token hasn't expired, just return it
       return token;
     },
     async session({ session, token, user }) {
@@ -132,10 +125,7 @@ export default NextAuth({
       if (token) {
         session.accessToken = token.jti;
         session.earlyAccess = token.earlyAccess;
-      }
-
-      if (user) {
-        session.userInfo = user;
+        session.role = token.role;
       }
 
       return session;

@@ -7,13 +7,16 @@ import NewSeo from "../components/NewSeo";
 import pages from "../utils/pages.json";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
 
 const Contact = () => {
-  const [topic, setTopic] = useState("");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [otherTopic, setOtherTopic] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [topic, setTopic] = useState("");
+  const [topicOther, setTopicOther] = useState("");
+  const [messageText, setMessageText] = useState("");
+  const [succesFlag, setSuccessFlag] = useState(false);
 
   const isOther = () => {
     return topic === "other";
@@ -24,8 +27,9 @@ const Contact = () => {
       return (
         <TextInput
           label="If other, what subject?"
-          name="entry.389562223"
+          name="topicOther"
           required={true}
+          onChange={(e) => setTopicOther(e.target.value)}
         />
       );
     } else {
@@ -61,6 +65,46 @@ const Contact = () => {
         />
       </fieldset>
     );
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    let formFields = {
+      topic,
+      topicOther,
+      name,
+      emailAddress,
+      phoneNumber,
+      messageText,
+    };
+
+    axios
+      .post("/api/post-message", formFields)
+      .then((response) => {
+        // Reset email triggered
+        // res.status(200).json({ response });
+        console.log("RESPONSE", response.data);
+
+        // Unset all contact fields
+        setName("");
+        setEmailAddress("");
+        setPhoneNumber("");
+        setTopic("");
+        setTopicOther("");
+        setMessageText("");
+
+        // Show Success Message
+        setSuccessFlag(true);
+        setTimeout(() => {
+          setSuccessFlag(false);
+        }, 2000);
+      })
+      .catch((error) => {
+        // res.status(200).json({ error });
+        console.log("ERROR", error);
+      });
+    return false;
   };
 
   return (
@@ -109,29 +153,28 @@ const Contact = () => {
         </CompactText>
         <CompactText>
           <h3>Contact Us</h3>
-          <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeHRwqdeRYp6EOO4SEQpKQTHIYFwxb81mQi6HkLtPTp5RTUBw/formResponse">
+          <form onSubmit={handleFormSubmit}>
             <TextInput
               label="Email Address"
-              name="entry.1132014782"
-              key="entry.1132014782"
+              name="emailAddress"
+              key="emailAddress"
               required={true}
               onChange={(e) => {
-                setEmail(e.target.value);
-                e.preventDefault();
+                setEmailAddress(e.target.value);
               }}
-              value={email}
+              value={emailAddress}
             />
             <TextInput
               label="Phone Number"
-              name="entry.537002206"
-              key="entry.537002206"
-              onChange={(e) => setPhone(e.target.value)}
-              value={phone}
+              name="phoneNumber"
+              key="phoneNumber"
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              value={phoneNumber}
             />
             <TextInput
               label="Your Name"
-              name="entry.605890569"
-              key="entry.605890569"
+              name="name"
+              key="name"
               required={true}
               onChange={(e) => setName(e.target.value)}
               value={name}
@@ -144,7 +187,7 @@ const Contact = () => {
               <select
                 onChange={(e) => setTopic(e.target.value)}
                 value={topic}
-                name="entry.1748743079"
+                name="topic"
                 required={true}>
                 <option value="">Select an option</option>
                 <option value="Membership Question">Membership Question</option>
@@ -163,12 +206,25 @@ const Contact = () => {
                 Your message
                 <RequiredMark />
               </label>
-              <textarea required name="entry.84551917" />
+              <textarea
+                required
+                name="messageText"
+                value={messageText}
+                onChange={(e) => setMessageText(e.target.value)}
+              />
             </fieldset>
             <button className="button" type="submit">
               Submit
             </button>
           </form>
+          <div
+            style={{
+              background: "green",
+              padding: "1rem",
+              display: succesFlag ? "block" : "none",
+            }}>
+            Sucessfully submitted contact form
+          </div>
           <p>
             <em className="required-footnote">* Required field</em>
           </p>

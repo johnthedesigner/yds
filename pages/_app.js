@@ -7,10 +7,13 @@ import {
   useState,
 } from "react";
 import axios from "axios";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 
 import "../styles/globals.css";
 import "../styles/new-globals.css";
 import "../styles/header.css";
+import "../styles/messages.css";
 
 import CartUIProvider, { useCartUI } from "../components/CartUIProvider";
 export const CartContext = createContext({
@@ -25,6 +28,9 @@ export const CartContext = createContext({
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   // State mangement for our shopping cart
   const [cart, setCart] = useState(null);
+
+  // Set local for "Time ago" date labelling
+  TimeAgo.addDefaultLocale(en);
 
   // const { openCart } = useCartUI();
 
