@@ -483,7 +483,8 @@ button[type="submit"].donation-form__submit-button {
 .compact-text__wrapper {
   width: 60rem;
   max-width: 90%;
-  margin: 6rem auto;
+  margin: 0 auto;
+  padding: 6rem 0;
   display: flex;
   flex-wrap: wrap;
   align-items: top;
@@ -499,7 +500,8 @@ button[type="submit"].donation-form__submit-button {
 .pingpong {
   width: 60rem;
   max-width: 90%;
-  margin: 6rem auto;
+  margin: 0 auto;
+  padding: 6rem 0;
   display: flex;
   align-items: top;
 }
@@ -561,7 +563,8 @@ button[type="submit"].donation-form__submit-button {
 .bumper {
   width: 60rem;
   max-width: 90%;
-  margin: 4rem auto;
+  margin: 0 auto;
+  padding: 4rem 0;
   text-align: center;
 }
 
@@ -1035,6 +1038,25 @@ button[type="submit"].donation-form__submit-button {
   color: maroon;
   padding: 0.5rem;
   line-height: 1.5rem;
+}
+
+.show {
+  width: 50rem;
+  max-width: 90vw;
+  margin: 0 auto;
+  padding: 4rem 0;
+  line-height: 1.5;
+  border-top: var(--gray-02) solid 1px;
+}
+
+.show__name {
+  font-size: 2.5rem;
+  margin: 0.5rem 0;
+}
+
+.show__location {
+  font-size: 1.25rem;
+  font-weight: 400;
 }
 
 .events-list {
