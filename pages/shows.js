@@ -62,17 +62,15 @@ const Shows = ({ shows }) => {
     } = show.attributes;
 
     return (
-      <div className="event">
+      <div className="show">
         <Date startDate={startDate} endDate={endDate} />
-        <h3 className="event__name">{name}</h3>
+        <h3 className="show__name">{name}</h3>
         {organization && (
-          <div className="event__location">Organization: {organization}</div>
+          <div className="show__location">Organization: {organization}</div>
         )}
-        {location && (
-          <div className="event__location">Location: {location}</div>
-        )}
+        {location && <div className="show__location">Location: {location}</div>}
         {linkUrl && (
-          <div className="event__link">
+          <div className="show__link">
             <a href={linkUrl} target="_blank" rel="noreferrer">
               {linkText ? linkText : linkUrl}
             </a>

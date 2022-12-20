@@ -17,6 +17,7 @@ import catalogData from "../../utils/catalogData.json";
 import { getShopConfig } from "../../utils/strapi";
 import { useSession } from "next-auth/react";
 
+// TODO: this needs to change to "dahlias"
 const productType = "tubers";
 
 const ShopIndex = ({ products, queryTags, shopConfig }) => {
@@ -56,7 +57,7 @@ const ShopIndex = ({ products, queryTags, shopConfig }) => {
       <div className="product-listing">
         <div className="product-listing__sidebar">
           <ProductFilters
-            options={catalogData.category[productType]}
+            options={catalogData.category["dahlias"]}
             queryTags={queryTags}
             type="desktop"
           />
