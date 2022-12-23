@@ -142,5 +142,14 @@
     "inMenu": false,
     "inFooter": false,
     "inSitemap": false
+  },
+  "newEvents": {
+    "label": "Meetings",
+    "title": "Meetings & Events",
+    "description": "Find out when we are having our next meeting, event or garden tour and plan ahead to join in on the fun.",
+    "path": "/events",
+    "inMenu": false,
+    "inFooter": false,
+    "inSitemap": false
   }
 }
