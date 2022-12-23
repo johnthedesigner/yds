@@ -1083,6 +1083,7 @@ button[type="submit"].donation-form__submit-button {
 .events-list__year-group,
 .events-list__month-group {
   min-width: 0;
+  flex: 1;
 }
 
 .events-list__month {
@@ -1098,6 +1099,7 @@ button[type="submit"].donation-form__submit-button {
   top: calc(var(--desktop-nav-height) + 7rem);
   bottom: 0;
   left: 0;
+  width: 5rem;
   padding: 2.5rem 0rem;
   margin-top: 1rem;
   align-self: flex-start;
@@ -1108,6 +1110,7 @@ button[type="submit"].donation-form__submit-button {
 
 .events-list__month-marker {
   left: 3rem;
+  width: 9rem;
 }
 
 .event {
@@ -1156,10 +1159,26 @@ button[type="submit"].donation-form__submit-button {
   color: var(--blue-06);
 }
 
-.event__zoom-link-label {
+.event__location-link-label {
   color: var(--blue-10);
   font-style: normal;
   font-weight: 400;
+}
+
+.event__location-link {
+  background: var(--blue-02);
+  border: var(--blue-08) solid 1px;
+  border-radius: 1rem;
+  color: var(--blue-06);
+  padding: 0.4rem 1rem 0.2rem;
+  font-size: 1.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event__location-link a {
+  color: var(--blue-06);
 }
 
 .event__rsvp-link {
@@ -1267,4 +1286,76 @@ button[type="submit"].donation-form__submit-button {
 .events-list__filter-button--zoom,
 .event__tag--zoom {
   background: indianred;
+}
+
+@media screen and (max-width: 800px) {
+  .events-list__year-group,
+  .events-list__month-group {
+    display: block;
+    position: relative;
+  }
+  .events-list__month {
+    display: block;
+    position: relative;
+  }
+  .events-list__year-marker,
+  .events-list__month-marker {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: auto;
+    display: none;
+  }
+  .event {
+    padding: 1rem;
+  }
+
+  .event__name {
+    font-size: 1.5rem;
+  }
+
+  .event__date {
+    font-size: 0.75rem;
+    margin: 0.5rem 0;
+  }
+
+  .event__location {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .event__tag,
+  .events-list__filter-button {
+    font-size: 0.75rem;
+  }
+
+  .events-list__filter-row {
+    line-height: 1.75;
+    text-align: left;
+    padding: 0.5rem 0 1.5rem 0;
+  }
+
+  .events-list__filter-label {
+    display: block;
+    margin: 0.5rem 1rem;
+  }
+
+  .event__details {
+    font-size: 50%;
+  }
+
+  .event__zoom-link,
+  .event__rsvp-link,
+  .event__location-link {
+    font-size: 1rem;
+  }
+
+  .event__details-body {
+    font-size: 75%;
+  }
+
+  .event__details-body p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
 }
