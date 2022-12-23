@@ -105,7 +105,8 @@ const Events = ({ events }) => {
 
   const formatTime = (time) => {
     let splitTime = time.split(":");
-    let hours = ((splitTime[0] + 11) % 12) + 1;
+    let hours = (0 - splitTime[0]) * -1; // Coerce into a number
+    hours = ((hours + 11) % 12) + 1; // Convert to 12-hour time
     let minutes = splitTime[1];
     let suffix = splitTime[0] > 11 ? "pm" : "am";
     let formattedTime = `${hours}:${minutes} ${suffix}`;
@@ -164,8 +165,8 @@ const Events = ({ events }) => {
           {expandDetails && (
             <>
               {event.attributes.locationAddress && (
-                <p className="event__zoom-link">
-                  <em className="event__zoom-link-label">Event Address:</em>{" "}
+                <p className="event__location-link">
+                  <em className="event__location-link-label">Event Address:</em>{" "}
                   <Link
                     href={`https://www.google.com/maps/place/${encodeURIComponent(
                       event.attributes.locationAddress
@@ -228,7 +229,7 @@ const Events = ({ events }) => {
       isCommercePage={false}>
       <NewSeo page={pages.meetings} />
       <div className="events-list__filter-row">
-        Included Events:
+        <span className="events-list__filter-label">Included Events:</span>
         <button
           className={`events-list__filter-button events-list__filter-button--in-person ${
             !includeInPerson ? "events-list__filter-button--disabled" : ""
@@ -266,14 +267,16 @@ const Events = ({ events }) => {
         </button>
       </div>
       <div className="events-list">
-        {_.map(_.keys(filteredEvents), (year) => {
+        {_.map(_.sortBy(_.keys(filteredEvents)), (year) => {
           return (
-            <div className="events-list__year">
+            <div className="events-list__year" key={year}>
               <div className="events-list__year-marker">{year}&nbsp;/</div>
               <div className="events-list__year-group">
-                {_.map(_.keys(filteredEvents[year]), (month) => {
+                {_.map(_.sortBy(_.keys(filteredEvents[year])), (month) => {
                   return (
-                    <div className="events-list__month">
+                    <div
+                      className="events-list__month"
+                      key={`${year}-${month}`}>
                       <div className="events-list__month-marker">
                         {monthStrings[month]}
                       </div>
