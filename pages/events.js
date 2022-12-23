@@ -116,10 +116,14 @@ const Events = ({ events }) => {
   const Event = ({ event }) => {
     const [expandDetails, setExpandDetails] = useState(false);
 
+    let eventDate = event.attributes.dateFinal
+      ? DateTime.fromISO(event.attributes.date).toFormat("EEEE, DD")
+      : `${DateTime.fromISO(event.attributes.date).toFormat("MMMM")} Date TBD`;
+
     return (
       <div className="event">
         <p className="event__date">
-          {DateTime.fromISO(event.attributes.date).toFormat("EEEE, DD")}
+          {eventDate}
           {event.attributes.startTime && (
             <>
               {" "}
@@ -141,17 +145,17 @@ const Events = ({ events }) => {
           {event.attributes.inPerson === true && (
             <span className="event__tag event__tag--in-person">In Person</span>
           )}
-          {event.attributes.meeting === true && (
+          {/* {event.attributes.meeting === true && (
             <span className="event__tag event__tag--meeting">Club Meeting</span>
-          )}
-          {event.attributes.gardenTour === true && (
+          )} */}
+          {/* {event.attributes.gardenTour === true && (
             <span className="event__tag event__tag--garden-tour">
               Garden Tour
             </span>
-          )}
-          {event.attributes.workDay === true && (
+          )} */}
+          {/* {event.attributes.workDay === true && (
             <span className="event__tag event__tag--work-day">Work Day</span>
-          )}
+          )} */}
           {event.attributes.zoomMeeting === true && (
             <span className="event__tag event__tag--zoom">Zoom Meeting</span>
           )}
@@ -237,7 +241,7 @@ const Events = ({ events }) => {
           onClick={() => setIncludeInPerson(!includeInPerson)}>
           {includeInPerson === true ? "✓" : "✗"} In Person
         </button>
-        <button
+        {/* <button
           className={`events-list__filter-button events-list__filter-button--meeting ${
             !includeMeeting ? "events-list__filter-button--disabled" : ""
           }`}
@@ -257,7 +261,7 @@ const Events = ({ events }) => {
           }`}
           onClick={() => setIncludeWorkDay(!includeWorkDay)}>
           {includeWorkDay === true ? "✓" : "✗"} Work Day
-        </button>
+        </button> */}
         <button
           className={`events-list__filter-button events-list__filter-button--zoom ${
             !includeZoomMeeting ? "events-list__filter-button--disabled" : ""
