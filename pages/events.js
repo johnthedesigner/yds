@@ -75,12 +75,13 @@ const Events = ({ events }) => {
     let filteredEvents = _.filter(events, (event) => {
       if (includeInPerson && event.attributes.inPerson) {
         return true;
-      } else if (includeMeeting && event.attributes.meeting) {
-        return true;
-      } else if (includeGardenTour && event.attributes.gardenTour) {
-        return true;
-      } else if (includeWorkDay && event.attributes.workDay) return false;
-      else if (includeZoomMeeting && event.attributes.zoomMeeting) {
+        //   } else if (includeMeeting && event.attributes.meeting) {
+        //     return true;
+        //   } else if (includeGardenTour && event.attributes.gardenTour) {
+        //     return true;
+        //   } else if (includeWorkDay && event.attributes.workDay) {
+        //     return true;
+      } else if (includeZoomMeeting && event.attributes.zoomMeeting) {
         return true;
       } else {
         return false;
