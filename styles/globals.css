@@ -1266,6 +1266,7 @@ button[type="submit"].donation-form__submit-button {
 .events-list__filter-button--in-person,
 .event__tag--in-person {
   background: teal;
+  background: var(--blue-05);
 }
 
 .events-list__filter-button--meeting,
