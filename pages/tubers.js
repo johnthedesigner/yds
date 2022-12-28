@@ -17,33 +17,37 @@ const Tubers = () => {
         side="left"
         image="/tubers.jpg"
         imageAlt="Dahlia tubers ready to be divided">
-        <h3>Preparing for Our Inaugural Tuber Sale in 2022</h3>
+        <h3>Preparing for Our 2023 Tuber Sale</h3>
         <p>
-          Naturally a dahlia club needs dahlias to support club activities and
-          education.
+          Locally grown dahlias! We have dahlia tubers grown in Massachusetts by
+          Yankee Dahlia Society members & Growing Partners.
         </p>
         <p>
-          We have a plan to grow our tuber stock through our Growing Partners
-          for the 2021 season so we can have a huge sale in 2022. Spring tuber
-          sales provide a major source of funding for club activities while
-          being a great source for members to have access to tubers for sale.
-          Over the last several months our founders have personally supported
-          the purchase of nearly 500 tubers from growers around the US and in
-          addition contributed more than 100 tubers from their personal
-          collections. We look forward to having over 200 varieties to offer for
-          our first sale in 2022.
+          We are fortunate to have several Growing Partners each year that we
+          have worked with to grow dahlias and tuber stock for the annual club
+          tuber sale. Our Growing Partners share their extra growing space to
+          grow dahlia plants and tubers for the club. YDS supplies the tubers to
+          our growing partner and in exchange our Growing Partner gets the cut
+          flowers during the season to do with as they wish while the club gets
+          the tubers at the end of the season.
         </p>
         <p>
-          Yankee Dahlia Society has connected with several Growing Partners who
-          generously share their extra growing space to grow dahlia plants and
-          tubers for the club. YDS supplies the tubers to our growing partner
-          and in exchange our Growing Partner gets the cut flowers during the
-          season to do with as they wish while the club gets the tubers at the
-          end of the season.
+          Tuber sales provide a good source of club funding: supporting club
+          programming and activities while being a great source for members to
+          have access to tubers for sale. Your purchases directly support YDS
+          and are a vital part of our club! We are looking forward to our second
+          annual club tuber sale in just a few short weeks. This season we grew
+          lots of wonderful varieties and look forward to offering them first to
+          our club members.
         </p>
         <p>
-          Do you have extra space to grow Y.D.S. tubers? If so, we&apos;d love
-          to talk with you about growing partnerships.
+          Join YDS, get access to our tuber sale, enjoy wonderful club
+          programming and make friends. The YDS Tuber sale goes live soon. Join
+          today to get details.
+        </p>
+        <p>
+          Do you have extra space to grow Y.D.S. tubers? If so, we'd love to
+          talk with you about growing partnerships.
         </p>
         <Link href="/contact">
           <a className="button" title="Contact Us About Growing Partnerships">
@@ -52,7 +56,7 @@ const Tubers = () => {
         </Link>
       </Pingpong>
       <Bumper
-        text="Interested in Tuber Sales & Swaps? Become a Member to Get Updates!"
+        text="Interested in Tuber Sales & Making more Dahlia Friends? Become a Member to Get Updates!"
         buttonUrl="/membership"
         buttonLabel="Membership Info"
       />
