@@ -46,8 +46,8 @@ const Tubers = () => {
           today to get details.
         </p>
         <p>
-          Do you have extra space to grow Y.D.S. tubers? If so, we'd love to
-          talk with you about growing partnerships.
+          Do you have extra space to grow Y.D.S. tubers? If so, we&apos;d love
+          to talk with you about growing partnerships.
         </p>
         <Link href="/contact">
           <a className="button" title="Contact Us About Growing Partnerships">
