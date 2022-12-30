@@ -1,164 +1,229 @@
-import { useState } from "react";
 import _ from "lodash";
-import moment from "moment";
+import ReactMarkdown from "react-markdown";
+import { useSession } from "next-auth/react";
 
 import Layout from "../components/Layout";
 import Hero from "../components/Hero";
-import Bumper from "../components/Bumper";
 import NewSeo from "../components/NewSeo";
 import pages from "../utils/pages.json";
-import { events, eventTypes } from "../utils/eventsList";
+import { getCollection } from "../utils/strapi";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { DateTime } from "luxon";
 
-const Meetings = () => {
-  const [showPastEvents, setShowPastEvents] = useState(false);
-  const [showMeetings, setShowMeetings] = useState(true);
-  const [showWorkdays, setShowWorkdays] = useState(true);
+const Events = ({ events }) => {
+  const { status } = useSession();
+  const [filteredEvents, setFilteredEvents] = useState({});
+  const [includeInPerson, setIncludeInPerson] = useState(true);
+  const [includeGardenTour, setIncludeGardenTour] = useState(true);
+  const [includeMeeting, setIncludeMeeting] = useState(true);
+  const [includeWorkDay, setIncludeWorkDay] = useState(true);
+  const [includeZoomMeeting, setIncludeZoomMeeting] = useState(true);
 
-  const colors = {
-    blue: "#506F98",
-    red: "#C65A60",
-  };
-
-  const formatDate = (date) => {
-    return moment(date).format("dddd, MMM D, YYYY");
-  };
-
-  const Date = (props) => {
-    if (props.startDate && props.endDate) {
-      return (
-        <span>
-          {formatDate(props.startDate)} – {formatDate(props.endDate)}
-        </span>
+  // Build an index of events grouped by four-digit year and two-digit month
+  const groupByDate = (events) => {
+    const groupedEvents = {};
+    let groupedByYear = _.groupBy(events, (event) => {
+      return DateTime.fromISO(event.attributes.date).toFormat("yyyy");
+    });
+    // Go through each year and group events within them by month
+    _.each(groupedByYear, (yearGroup) => {
+      // Get the year for building our index
+      let firstEventOfYear = yearGroup[0];
+      let year = DateTime.fromISO(firstEventOfYear.attributes.date).toFormat(
+        "yyyy"
       );
-    } else if (props.startDate) {
-      return <span>{formatDate(props.startDate)}</span>;
-    } else {
-      return null;
-    }
+      // Add year to index
+      groupedEvents[year] = {};
+
+      // Group the year's events by month
+      let groupedByMonth = _.groupBy(yearGroup, (event) => {
+        return DateTime.fromISO(event.attributes.date).toFormat("MM");
+      });
+
+      // Loop through months within a single year and assign to index
+      _.each(groupedByMonth, (monthGroup) => {
+        // Get the month for building our index
+        let firstEventOfMonth = monthGroup[0];
+        let month = DateTime.fromISO(
+          firstEventOfMonth.attributes.date
+        ).toFormat("MM");
+
+        // Assign month groups to index under corresponding year
+        groupedEvents[year][month] = monthGroup;
+      });
+    });
+    return groupedEvents;
   };
 
-  const Event = (props) => {
-    const [showMore, setShowMore] = useState(false);
+  const monthStrings = {
+    "01": "January",
+    "02": "February",
+    "03": "March",
+    "04": "April",
+    "05": "May",
+    "06": "June",
+    "07": "July",
+    "08": "August",
+    "09": "September",
+    10: "October",
+    11: "November",
+    12: "December",
+  };
 
-    let eventLabelStyles = {
-      background: props.label === eventTypes.meeting ? colors.blue : colors.red,
-      display: "inline-block",
-      padding: ".5rem",
-      fontSize: ".75rem",
-      lineHeight: 1,
-      height: "1.5rem",
-      borderRadius: ".25rem",
-      marginRight: "auto",
-      marginBottom: 0,
-      color: "white",
-    };
-    let showMoreButtonStyles = {
-      fontFamily: "'Newsreader', serif",
-      textDecoration: "underline",
-      cursor: "pointer",
-      display: "inline",
-      background: "none",
-      border: "none",
-      color: "#C65A60",
-      textAlign: "left",
-      marginRight: "auto",
-      padding: 0,
-    };
+  useEffect(() => {
+    let filteredEvents = _.filter(events, (event) => {
+      if (includeInPerson && event.attributes.inPerson) {
+        return true;
+        //   } else if (includeMeeting && event.attributes.meeting) {
+        //     return true;
+        //   } else if (includeGardenTour && event.attributes.gardenTour) {
+        //     return true;
+        //   } else if (includeWorkDay && event.attributes.workDay) {
+        //     return true;
+      } else if (includeZoomMeeting && event.attributes.zoomMeeting) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    let orderedEvents = _.orderBy(
+      filteredEvents,
+      (event) => {
+        return event.attributes.date;
+      },
+      "desc"
+    );
+    setFilteredEvents(groupByDate(orderedEvents));
+  }, [
+    events,
+    includeGardenTour,
+    includeInPerson,
+    includeMeeting,
+    includeWorkDay,
+    includeZoomMeeting,
+  ]);
+
+  const formatTime = (time) => {
+    let splitTime = time.split(":");
+    let hours = (0 - splitTime[0]) * -1; // Coerce into a number
+    hours = ((hours + 11) % 12) + 1; // Convert to 12-hour time
+    let minutes = splitTime[1];
+    let suffix = splitTime[0] > 11 ? "pm" : "am";
+    let formattedTime = `${hours}:${minutes} ${suffix}`;
+    return formattedTime;
+  };
+
+  const Event = ({ event }) => {
+    const [expandDetails, setExpandDetails] = useState(false);
+
+    let eventDate = event.attributes.dateFinal
+      ? DateTime.fromISO(event.attributes.date).toFormat("EEEE, DD")
+      : `${DateTime.fromISO(event.attributes.date).toFormat("MMMM")} Date TBD`;
 
     return (
       <div className="event">
-        <h4 className="event__label" style={eventLabelStyles}>
-          {props.label}
-        </h4>
-        <h3 className="event__date" style={{ fontSize: "2rem" }}>
-          <Date startDate={props.date} endDate={props.dateEnd} /> | {props.time}
-        </h3>
-        <h4 className="event__name">{props.name}</h4>
-        <div
-          className="show-more__content"
-          style={{ display: showMore ? "block" : "none" }}>
-          {_.map(props.showMore, (item, index) => {
-            return (
-              <div key={index}>
-                <h4
-                  style={{
-                    fontSize: ".75rem",
-                    fontWeight: "bold",
-                    margin: "1.5rem 0 0",
-                  }}>
-                  {item.name}
-                </h4>
-                <item.content />
-              </div>
-            );
-          })}
+        <p className="event__date">
+          {eventDate}
+          {event.attributes.startTime && (
+            <>
+              {" "}
+              | {formatTime(event.attributes.startTime)}
+              {event.attributes.endTime && (
+                <> – {formatTime(event.attributes.endTime)}</>
+              )}
+            </>
+          )}
+        </p>
+        <h3 className="event__name">{event.attributes.name}</h3>
+        <p className="event__location">
+          <em className="event__details-label">Location:</em>{" "}
+          {event.attributes.zoomMeeting
+            ? "Virtual"
+            : event.attributes.locationName}
+        </p>
+        <div className="event__meta">
+          {event.attributes.inPerson === true && (
+            <span className="event__tag event__tag--in-person">In Person</span>
+          )}
+          {/* {event.attributes.meeting === true && (
+            <span className="event__tag event__tag--meeting">Club Meeting</span>
+          )} */}
+          {/* {event.attributes.gardenTour === true && (
+            <span className="event__tag event__tag--garden-tour">
+              Garden Tour
+            </span>
+          )} */}
+          {/* {event.attributes.workDay === true && (
+            <span className="event__tag event__tag--work-day">Work Day</span>
+          )} */}
+          {event.attributes.zoomMeeting === true && (
+            <span className="event__tag event__tag--zoom">Zoom Meeting</span>
+          )}
         </div>
-        <button
-          className="show-more__button"
-          style={{
-            ...showMoreButtonStyles,
-            display: props.showMore ? "inline" : "none",
-          }}
-          onClick={() => setShowMore(!showMore)}>
-          {showMore ? "Show Less" : "Show More"}
-        </button>
+        <div className="event__details">
+          <button
+            className="event__show-hide"
+            onClick={() => setExpandDetails(!expandDetails)}>
+            {expandDetails ? "Hide Details" : "Show Details"}
+          </button>
+          {expandDetails && (
+            <>
+              {event.attributes.locationAddress && (
+                <p className="event__location-link">
+                  <em className="event__location-link-label">Event Address:</em>{" "}
+                  <Link
+                    href={`https://www.google.com/maps/place/${encodeURIComponent(
+                      event.attributes.locationAddress
+                    )}`}>
+                    <a target="_blank" title="Meeting Zoom link">
+                      {event.attributes.locationAddress}
+                    </a>
+                  </Link>
+                </p>
+              )}
+            </>
+          )}
+          {expandDetails && (
+            <>
+              {event.attributes.zoomLink && (
+                <p className="event__zoom-link">
+                  <em className="event__zoom-link-label">Zoom Link:</em>{" "}
+                  {status === "authenticated" ? (
+                    <Link href={event.attributes.zoomLink}>
+                      <a target="_blank" title="Meeting Zoom link">
+                        {event.attributes.zoomLink}
+                      </a>
+                    </Link>
+                  ) : (
+                    <em>Log in with a member account for Zoom Link</em>
+                  )}
+                </p>
+              )}
+              {event.attributes.rsvpLink && (
+                <p className="event__rsvp-link">
+                  <em className="event__rsvp-link-label">
+                    RSVP for this event:
+                  </em>{" "}
+                  {status === "authenticated" ? (
+                    <Link href={event.attributes.rsvpLink}>
+                      <a target="_blank" title="Meeting RSVP link">
+                        {event.attributes.rsvpLink}
+                      </a>
+                    </Link>
+                  ) : (
+                    <em>Log in with a member account for RSVP Link</em>
+                  )}
+                </p>
+              )}
+              <div className="event__details-body">
+                <ReactMarkdown>{event.attributes.details}</ReactMarkdown>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     );
-  };
-
-  let eventTypeButtonStyles = {
-    fontFamily: "'Newsreader', serif",
-    textTransform: "uppercase",
-    display: "inline-block",
-    padding: ".5rem",
-    fontSize: ".75rem",
-    lineHeight: 1,
-    height: "1.5rem",
-    border: "none",
-    borderRadius: ".25rem",
-    marginRight: "auto",
-    color: "white",
-    cursor: "pointer",
-  };
-
-  const displayedEvents = () => {
-    let eventsToDisplay = [];
-
-    if (showPastEvents) {
-      eventsToDisplay = [...events];
-    } else {
-      _.map(events, (event) => {
-        if (moment().isBefore(moment(event.date).add(1, "days"))) {
-          eventsToDisplay.push(event);
-        }
-      });
-    }
-
-    return eventsToDisplay;
-  };
-
-  let buttonStyles = (type) => {
-    let defaultStyles = {
-      border: "none",
-      background: "none",
-      fontFamily: "inherit",
-      fontSize: "inherit",
-    };
-    if (
-      (showPastEvents && type === "all") ||
-      (!showPastEvents && type === "upcoming")
-    ) {
-      return {
-        ...defaultStyles,
-        color: "#3d4549",
-      };
-    } else {
-      return {
-        ...defaultStyles,
-        color: "#BBB",
-        cursor: "pointer",
-      };
-    }
   };
 
   return (
@@ -168,80 +233,79 @@ const Meetings = () => {
       }
       isCommercePage={false}>
       <NewSeo page={pages.meetings} />
-      <Bumper text="Club meetings will typically be held on the 1st Sunday of the month.  During the dahlia blooming season we will hold a few extra events." />
-      <div
-        style={{
-          width: "60rem",
-          maxWidth: "90%",
-          margin: "0 auto",
-          display: "flex",
-          flexDirection: "row",
-        }}>
-        <p
-          style={{
-            flex: 1,
-          }}>
-          Event Type:{" "}
-          <button
-            style={{
-              ...eventTypeButtonStyles,
-              background: showMeetings ? colors.blue : "gray",
-            }}
-            onClick={() => setShowMeetings(!showMeetings)}>
-            Meetings
-          </button>{" "}
-          |{" "}
-          <button
-            style={{
-              ...eventTypeButtonStyles,
-              background: showWorkdays ? colors.red : "gray",
-            }}
-            onClick={() => setShowWorkdays(!showWorkdays)}>
-            Workdays
-          </button>
-        </p>
-        <p
-          style={{
-            flex: 1,
-            textAlign: "right",
-          }}>
-          Event Date:{" "}
-          <button
-            style={buttonStyles("upcoming")}
-            onClick={() => setShowPastEvents(false)}>
-            Upcoming Events
-          </button>{" "}
-          |{" "}
-          <button
-            style={buttonStyles("all")}
-            onClick={() => setShowPastEvents(true)}>
-            All Events
-          </button>
-        </p>
+      <div className="events-list__filter-row">
+        <span className="events-list__filter-label">Included Events:</span>
+        <button
+          className={`events-list__filter-button events-list__filter-button--in-person ${
+            !includeInPerson ? "events-list__filter-button--disabled" : ""
+          }`}
+          onClick={() => setIncludeInPerson(!includeInPerson)}>
+          {includeInPerson === true ? "✓" : "✗"} In Person
+        </button>
+        {/* <button
+          className={`events-list__filter-button events-list__filter-button--meeting ${
+            !includeMeeting ? "events-list__filter-button--disabled" : ""
+          }`}
+          onClick={() => setIncludeMeeting(!includeMeeting)}>
+          {includeMeeting === true ? "✓" : "✗"} Club Meeting
+        </button>
+        <button
+          className={`events-list__filter-button events-list__filter-button--garden-tour ${
+            !includeGardenTour ? "events-list__filter-button--disabled" : ""
+          }`}
+          onClick={() => setIncludeGardenTour(!includeGardenTour)}>
+          {includeGardenTour === true ? "✓" : "✗"} Garden Tour
+        </button>
+        <button
+          className={`events-list__filter-button events-list__filter-button--work-day ${
+            !includeWorkDay ? "events-list__filter-button--disabled" : ""
+          }`}
+          onClick={() => setIncludeWorkDay(!includeWorkDay)}>
+          {includeWorkDay === true ? "✓" : "✗"} Work Day
+        </button> */}
+        <button
+          className={`events-list__filter-button events-list__filter-button--zoom ${
+            !includeZoomMeeting ? "events-list__filter-button--disabled" : ""
+          }`}
+          onClick={() => setIncludeZoomMeeting(!includeZoomMeeting)}>
+          {includeZoomMeeting === true ? "✓" : "✗"} Zoom Meeting
+        </button>
       </div>
-      {_.map(displayedEvents(), (event, index) => {
-        if (
-          (event.label === eventTypes.meeting && showMeetings) ||
-          (event.label === eventTypes.workday && showWorkdays)
-        ) {
+      <div className="events-list">
+        {_.map(_.sortBy(_.keys(filteredEvents)), (year) => {
           return (
-            <Event
-              {...event}
-              key={event.date + index}
-              date={moment(event.date).format("dddd, MMMM D, YYYY")}
-            />
+            <div className="events-list__year" key={year}>
+              <div className="events-list__year-marker">{year}&nbsp;/</div>
+              <div className="events-list__year-group">
+                {_.map(_.sortBy(_.keys(filteredEvents[year])), (month) => {
+                  return (
+                    <div
+                      className="events-list__month"
+                      key={`${year}-${month}`}>
+                      <div className="events-list__month-marker">
+                        {monthStrings[month]}
+                      </div>
+                      <div className="events-list__month-group">
+                        {_.map(filteredEvents[year][month], (event) => {
+                          return <Event event={event} key={event.id} />;
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           );
-        } else {
-          return null;
-        }
-      })}
-      <Bumper
-        text="Become a member to attend meetings & events and much more!"
-        buttonUrl="/membership"
-        buttonLabel="Learn About Memberships"
-      />
+        })}
+      </div>
     </Layout>
   );
 };
 
-export default Meetings;
+// Fetch shows for server side rendering
+export const getServerSideProps = async (ctx) => {
+  let events = await getCollection("events");
+  return { props: { events } };
+};
+
+export default Events;
