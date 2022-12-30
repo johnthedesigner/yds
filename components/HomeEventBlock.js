@@ -3,9 +3,15 @@ import _ from "lodash";
 import Link from "next/link";
 
 const HomeEventBlock = ({ events }) => {
-  const upcomingEvents = _.filter(events, (event) => {
-    return moment().isBefore(moment(event.attributes.date).add(1, "days"));
-  });
+  const upcomingEvents = _.orderBy(
+    _.filter(events, (event) => {
+      return moment().isBefore(moment(event.attributes.date).add(1, "days"));
+    }),
+    (event) => {
+      return event.attributes.date;
+    },
+    "asc"
+  );
 
   if (upcomingEvents[0]) {
     return (
