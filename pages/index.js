@@ -7,8 +7,9 @@ import Bumper from "../components/Bumper";
 import HomeEventBlock from "../components/HomeEventBlock";
 import NewSeo from "../components/NewSeo";
 import pages from "../utils/pages.json";
+import { getCollection } from "../utils/strapi";
 
-const Index = () => {
+const Index = ({ events }) => {
   return (
     <Layout
       hero={
@@ -41,7 +42,7 @@ const Index = () => {
             Find out more
           </a>
         </Link>
-        <HomeEventBlock />
+        <HomeEventBlock events={events} />
       </Pingpong>
       <Bumper
         text="Already a member and looking for ways to lend a hand within Yankee Dahlia Society?"
@@ -50,6 +51,12 @@ const Index = () => {
       />
     </Layout>
   );
+};
+
+// Fetch shows for server side rendering
+export const getServerSideProps = async (ctx) => {
+  let events = await getCollection("events");
+  return { props: { events } };
 };
 
 export default Index;
