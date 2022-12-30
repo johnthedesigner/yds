@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-const Descriptor = ({ label, value }) => {
+export const Descriptor = ({ label, value }) => {
   return (
     <div className="descriptor">
       <div className="descriptor__key">{label}</div>

@@ -318,6 +318,7 @@ button[type="submit"] {
   box-sizing: margin-box;
   /* overflow: auto; */
   padding: 0;
+  padding-bottom: 1rem;
 }
 
 @media screen and (max-width: 800px) {
@@ -762,9 +763,7 @@ button[type="submit"].donation-form__submit-button {
   .product-listing__sidebar {
     display: none;
   }
-}
 
-@media screen and (min-width: 700px) {
   .product-filters--mobile {
     display: none;
   }
@@ -776,6 +775,25 @@ button[type="submit"].donation-form__submit-button {
   font-family: "Newsreader", serif;
   color: rgb(198, 90, 96);
   font-size: 1.25rem;
+}
+
+.product-callout__wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.product-callout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: auto;
+  pointer-events: none;
 }
 
 /* Product Sort */
@@ -866,6 +884,15 @@ button[type="submit"].donation-form__submit-button {
   margin: 3rem auto;
 }
 
+.product-detail__callout {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-style: italic;
+  background: var(--red-02);
+  color: var(--red-10);
+  border-radius: 0.5rem;
+}
+
 @media screen and (max-width: 700px) {
   .product-detail {
     flex-direction: column;
@@ -874,12 +901,17 @@ button[type="submit"].donation-form__submit-button {
 
 .product-detail__breadcrumb {
   text-align: center;
-  margin: 1rem;
+  padding: 1rem;
 }
 
 .product-detail__gallery-container {
+  position: relative;
   flex: 3;
   padding: 1rem;
+}
+
+.product-detail__gallery-image-wrapper {
+  position: relative;
 }
 
 .product-detail__product-info {
@@ -1074,10 +1106,6 @@ button[type="submit"].donation-form__submit-button {
   display: flex;
   flex-direction: row;
   border-top: var(--gray-03) solid 1px;
-}
-
-.events-list__year:first-child {
-  /* border-top: none; */
 }
 
 .events-list__year-group,

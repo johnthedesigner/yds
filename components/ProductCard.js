@@ -1,11 +1,12 @@
 import _ from "lodash";
 import Link from "next/link";
 
-import { TagDescriptor, HybridizerDescriptor } from "./Descriptor";
-import { flattenConnection } from "../utils/shopify";
+import { TagDescriptor, HybridizerDescriptor, Descriptor } from "./Descriptor";
+import { flattenConnection, getAwards, getCallouts } from "../utils/shopify";
 import Image from "next/image";
 import PriceText from "./PriceText";
 import InventoryText from "./InventoryText";
+import Callout from "./Callout";
 
 const ProductCard = ({
   product,
@@ -19,6 +20,9 @@ const ProductCard = ({
     flattenConnection(product.media).length > 0
       ? flattenConnection(product.media)[0].image
       : {};
+
+  let awards = getAwards(product);
+  let callouts = getCallouts(product);
 
   const CountryFlag = ({ product }) => {
     if (product.country_of_origin) {
@@ -75,6 +79,7 @@ const ProductCard = ({
             />
           </a>
         </Link>
+        <Callout callouts={callouts} />
         <ImageOverlay
           inventory={initialVariant.quantityAvailable}
           country={product.country_of_origin}
@@ -103,6 +108,9 @@ const ProductCard = ({
             <TagDescriptor product={product} tag="form" label="Form" />
             <TagDescriptor product={product} tag="size" label="Size" />
             <TagDescriptor product={product} tag="color" label="Color" />
+            {awards[0] && (
+              <Descriptor label="Awards" value={awards.join(", ")} />
+            )}
           </div>
         </div>
       )}
