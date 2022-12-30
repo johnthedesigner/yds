@@ -29,7 +29,7 @@ const ShopIndex = ({ topVarieties, topSupplies, shopConfig }) => {
                 <Link href="/membership">
                   <a className="button">Become a Member</a>
                 </Link>
-              </div>{" "}
+              </div>
             </WithoutAccess>
           </div>
         </div>

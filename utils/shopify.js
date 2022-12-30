@@ -34,6 +34,34 @@ export const flattenConnection = (connection) => {
   });
 };
 
+// Get callouts from callout collections
+export const getCallouts = (product) => {
+  let collections = flattenConnection(product.collections);
+  let callouts = _.map(
+    _.filter(collections, (collection) => {
+      return collection.title.split(":")[0].toLowerCase() === "callout";
+    }),
+    (callout) => {
+      return callout.title.split(": ")[1];
+    }
+  );
+  return callouts;
+};
+
+// Get awards from award collections
+export const getAwards = (product) => {
+  let collections = flattenConnection(product.collections);
+  let awards = _.map(
+    _.filter(collections, (collection) => {
+      return collection.title.split(":")[0].toLowerCase() === "award";
+    }),
+    (award) => {
+      return award.title.split(": ")[1];
+    }
+  );
+  return awards;
+};
+
 // Get single product by handle
 export const getProductByHandle = async (handle) => {
   let result = await graphQlFetch(`
@@ -48,6 +76,13 @@ export const getProductByHandle = async (handle) => {
             options(first: 10) {
                 name
                 values
+            }
+            collections(first: 10) {
+              edges {
+                node {
+                  title
+                }
+              }
             }
             media(first: 10) {
                 edges {
@@ -146,6 +181,13 @@ export const getProductsByCollection = async (handle) => {
               height: metafield(namespace: "my_fields", key: "height") {
                 key
                 value
+              }
+              collections(first: 10) {
+                edges {
+                  node {
+                    title
+                  }
+                }
               }
               media(first: 10) {
                 edges {
@@ -260,6 +302,13 @@ export const getProductsByTags = async (productTypeTag, categoryTags) => {
                 height: metafield(namespace: "my_fields", key: "height") {
                     key
                     value
+                }
+                collections(first: 10) {
+                  edges {
+                    node {
+                      title
+                    }
+                  }
                 }
                 media(first: 10) {
                     edges {

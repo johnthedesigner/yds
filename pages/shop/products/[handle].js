@@ -3,12 +3,17 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 
-import { flattenConnection } from "../../../utils/shopify";
+import {
+  flattenConnection,
+  getAwards,
+  getCallouts,
+} from "../../../utils/shopify";
 import { useContext } from "react";
 
 // import NotFound from '../../../components/NotFound.client';
 import Layout from "../../../components/Layout";
 import {
+  Descriptor,
   HybridizerDescriptor,
   TagDescriptor,
 } from "../../../components/Descriptor";
@@ -26,6 +31,7 @@ import PriceText from "../../../components/PriceText";
 import { getShopConfig } from "../../../utils/strapi";
 import AddToCartButton from "../../../components/AddToCartButton";
 import InventoryText from "../../../components/InventoryText";
+import Callout from "../../../components/Callout";
 
 const ProductDetail = ({ product, shopConfig }) => {
   const { addToCart } = useContext(CartContext);
@@ -43,6 +49,9 @@ const ProductDetail = ({ product, shopConfig }) => {
       : "/no-image.svg";
 
   const initialVariant = flattenConnection(product.variants)[0];
+
+  let awards = getAwards(product);
+  let callouts = getCallouts(product);
 
   // Use add to cart functionality
   const handleAddToCart = () => {
@@ -145,15 +154,18 @@ const ProductDetail = ({ product, shopConfig }) => {
       </div>
       <div className="product-detail">
         <div className="product-detail__gallery-container">
-          <Image
-            src={productImage}
-            layout="responsive"
-            width="1fr"
-            height="1fr"
-            className="gallery__image"
-            alt={`Product image - ${product.title}`}
-            priority={true}
-          />
+          <div className="product-detail__gallery-image-wrapper">
+            <Image
+              src={productImage}
+              layout="responsive"
+              width="1fr"
+              height="1fr"
+              className="gallery__image"
+              alt={`Product image - ${product.title}`}
+              priority={true}
+            />
+            <Callout callouts={callouts} />
+          </div>
         </div>
         <div className="product-detail__product-info">
           <div>
@@ -183,6 +195,7 @@ const ProductDetail = ({ product, shopConfig }) => {
           <TagDescriptor product={product} tag="form" label="Form" />
           <TagDescriptor product={product} tag="size" label="Size" />
           <TagDescriptor product={product} tag="color" label="Color" />
+          {awards[0] && <Descriptor label="Awards" value={awards[0]} />}
           <div>
             <div style={{ margin: "2rem 0" }}>
               <AddToCartButton
