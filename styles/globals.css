@@ -976,6 +976,30 @@ button[type="submit"].donation-form__submit-button {
 }
 
 /* Gallery */
+.product-detail__gallery-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery__controls {
+  flex: 1;
+  height: 2rem;
+  margin: 0.5rem;
+  text-align: center;
+}
+
+.gallery__thumbnail {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  margin: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.product-detail__gallery-image-wrapper {
+  aspect-ratio: 1;
+}
+
 .gallery__image {
   aspect-ratio: 1;
   object-fit: cover;
