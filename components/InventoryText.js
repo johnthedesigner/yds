@@ -1,8 +1,11 @@
 import { useSession } from "next-auth/react";
 import { CheckFeatureEnablement } from "../utils/shopConfig";
 
-const InventoryText = ({ shopConfig, inventory }) => {
+const InventoryText = ({ shopConfig, inventory, product }) => {
   const { data: session, status } = useSession();
+
+  // If product has "Supplies" tag record it, otherwise use "Dahlias"
+  let productType = product.tags.includes("Supplies") ? "Supplies" : "Dahlias";
 
   let disabledGlobally = shopConfig.disableShowInventoryGlobally;
 
@@ -36,6 +39,13 @@ const InventoryText = ({ shopConfig, inventory }) => {
         rangeStart,
         rangeEnd
       );
+    }
+    // If the product type is "supplies" then display price and add to cart button
+    if (
+      productType === "Supplies" &&
+      !shopConfig.disableShowInventoryGlobally
+    ) {
+      displayInventory = true;
     }
   } else {
     // console.log("OTHER VISITORS");

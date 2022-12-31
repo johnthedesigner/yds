@@ -2,8 +2,11 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { CheckFeatureEnablement } from "../utils/shopConfig";
 
-const AddToCartButton = ({ shopConfig, handleClick }) => {
+const AddToCartButton = ({ shopConfig, handleClick, product }) => {
   const { data: session, status } = useSession();
+
+  // If product has "Supplies" tag record it, otherwise use "Dahlias"
+  let productType = product.tags.includes("Supplies") ? "Supplies" : "Dahlias";
 
   let disabledGlobally = shopConfig.disableAddToCartGlobally;
 
@@ -35,6 +38,11 @@ const AddToCartButton = ({ shopConfig, handleClick }) => {
         rangeStart,
         rangeEnd
       );
+    }
+    // If the product type is "supplies" then display price and add to cart button
+    // Unless this is disabled globally
+    if (productType === "Supplies" && !shopConfig.disableAddToCartGlobally) {
+      enableAddToCart = true;
     }
   } else {
     // console.log("OTHER VISITORS");

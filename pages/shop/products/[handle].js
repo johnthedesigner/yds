@@ -48,6 +48,9 @@ const ProductDetail = ({ product, shopConfig }) => {
       ? flattenConnection(product.media)[0].image.url
       : "/no-image.svg";
 
+  // If product has "Supplies" tag record it, otherwise use "Dahlias"
+  let productType = product.tags.includes("Supplies") ? "Supplies" : "Dahlias";
+
   const initialVariant = flattenConnection(product.variants)[0];
 
   let awards = getAwards(product);
@@ -147,8 +150,8 @@ const ProductDetail = ({ product, shopConfig }) => {
           <a>Shop</a>
         </Link>{" "}
         /{" "}
-        <Link href="/shop/dahlias">
-          <a>Dahlias</a>
+        <Link href={`/shop/${productType.toLowerCase()}`}>
+          <a>{productType}</a>
         </Link>{" "}
         / <b className="product-detail__title">{product.title}</b>
       </div>
@@ -172,6 +175,7 @@ const ProductDetail = ({ product, shopConfig }) => {
             <h1 className="product-detail__title">{product.title}</h1>
             <p className="product-detail__price">
               <PriceText
+                product={product}
                 shopConfig={shopConfig}
                 price={initialVariant.priceV2.amount}
               />
@@ -180,6 +184,7 @@ const ProductDetail = ({ product, shopConfig }) => {
               <small>
                 <em>
                   <InventoryText
+                    product={product}
                     shopConfig={shopConfig}
                     inventory={initialVariant.quantityAvailable}
                   />
@@ -199,6 +204,7 @@ const ProductDetail = ({ product, shopConfig }) => {
           <div>
             <div style={{ margin: "2rem 0" }}>
               <AddToCartButton
+                product={product}
                 shopConfig={shopConfig}
                 handleClick={handleAddToCart}
               />

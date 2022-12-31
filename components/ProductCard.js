@@ -51,7 +51,11 @@ const ProductCard = ({
           <p className="product-grid__inventory">
             <small>
               <em>
-                <InventoryText shopConfig={shopConfig} inventory={inventory} />
+                <InventoryText
+                  product={product}
+                  shopConfig={shopConfig}
+                  inventory={inventory}
+                />
               </em>
             </small>
           </p>
@@ -96,6 +100,7 @@ const ProductCard = ({
               </Link>
               <p className="product-grid__price">
                 <PriceText
+                  product={product}
                   shopConfig={shopConfig}
                   price={initialVariant.priceV2.amount}
                 />
