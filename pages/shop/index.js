@@ -7,7 +7,10 @@ import Bumper from "../../components/Bumper";
 import NewSeo from "../../components/NewSeo";
 import pages from "../../utils/pages.json";
 import ProductHighlightRow from "../../components/ProductHighlightRow";
-import { getProductsByCollection } from "../../utils/shopify";
+import {
+  flattenConnection,
+  getProductsByCollection,
+} from "../../utils/shopify";
 import { getShopConfig } from "../../utils/strapi";
 import { WithoutAccess } from "../../components/AccessControl";
 
