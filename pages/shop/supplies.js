@@ -50,7 +50,7 @@ const ShopIndex = ({ products, queryTags, shopConfig }) => {
         <Link href="/shop">
           <a>Shop</a>
         </Link>{" "}
-        / <b>Dahlias</b>
+        / <b>Supplies</b>
       </div>
       <div className="product-listing">
         <div className="product-listing__sidebar">
