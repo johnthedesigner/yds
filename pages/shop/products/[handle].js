@@ -8,7 +8,7 @@ import {
   getAwards,
   getCallouts,
 } from "../../../utils/shopify";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 // import NotFound from '../../../components/NotFound.client';
 import Layout from "../../../components/Layout";
@@ -38,15 +38,13 @@ const ProductDetail = ({ product, shopConfig }) => {
   const router = useRouter();
   const { pathname, query } = router;
 
+  const [galleryImage, setGalleryImage] = useState(0);
+
   if (!product) {
     return null;
   }
 
   const productImages = flattenConnection(product.media);
-  const productImage =
-    productImages.length > 0
-      ? flattenConnection(product.media)[0].image.url
-      : "/no-image.svg";
 
   // If product has "Supplies" tag record it, otherwise use "Dahlias"
   let productType = product.tags.includes("Supplies") ? "Supplies" : "Dahlias";
@@ -158,17 +156,48 @@ const ProductDetail = ({ product, shopConfig }) => {
       <div className="product-detail">
         <div className="product-detail__gallery-container">
           <div className="product-detail__gallery-image-wrapper">
-            <Image
-              src={productImage}
-              layout="responsive"
-              width="1fr"
-              height="1fr"
-              className="gallery__image"
-              alt={`Product image - ${product.title}`}
-              priority={true}
-            />
+            {productImages.length === 0 && (
+              <img
+                src="/no-image.svg"
+                className="gallery__image"
+                alt="Placeholder Image"
+              />
+            )}
+            {_.map(productImages, (item, index) => {
+              let itemStyles = {
+                display: index === galleryImage ? "block" : "none",
+              };
+              return (
+                <img
+                  key={index}
+                  style={itemStyles}
+                  src={item.image.url}
+                  className="gallery__image"
+                  alt={`Product image - ${product.title}`}
+                />
+              );
+            })}
             <Callout callouts={callouts} />
           </div>
+          {productImages.length > 1 && (
+            <div className="gallery__controls">
+              {_.map(productImages, (item, index) => {
+                return (
+                  <img
+                    key={index}
+                    src={item.image.url}
+                    className="gallery__thumbnail"
+                    alt={`Product thumbnail - ${product.title}`}
+                    onClick={() => setGalleryImage(index)}
+                    style={{
+                      border:
+                        index === galleryImage ? "2px solid #9d4049" : "none",
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
         <div className="product-detail__product-info">
           <div>
