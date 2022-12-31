@@ -153,12 +153,13 @@ const ProductDetail = ({ product, shopConfig }) => {
       <div className="product-detail">
         <div className="product-detail__gallery-container">
           <div className="product-detail__gallery-image-wrapper">
-            <img
-              src="/no-image.svg"
-              className="gallery__image"
-              alt={`Product image - ${product.title}`}
-              style={{ display: productImages.length ? "none" : "block" }}
-            />
+            {productImages.length === 0 && (
+              <img
+                src="/no-image.svg"
+                className="gallery__image"
+                alt="Placeholder Image"
+              />
+            )}
             {_.map(productImages, (item, index) => {
               let itemStyles = {
                 display: index === galleryImage ? "block" : "none",
@@ -175,25 +176,25 @@ const ProductDetail = ({ product, shopConfig }) => {
             })}
             <Callout callouts={callouts} />
           </div>
-          <div
-            className="gallery__controls"
-            style={{ display: productImages.length > 1 ? "block" : "none" }}>
-            {_.map(productImages, (item, index) => {
-              return (
-                <img
-                  key={index}
-                  src={item.image.url}
-                  className="gallery__thumbnail"
-                  alt={`Product thumbnail - ${product.title}`}
-                  onClick={() => setGalleryImage(index)}
-                  style={{
-                    border:
-                      index === galleryImage ? "2px solid #9d4049" : "none",
-                  }}
-                />
-              );
-            })}
-          </div>
+          {productImages.length > 1 && (
+            <div className="gallery__controls">
+              {_.map(productImages, (item, index) => {
+                return (
+                  <img
+                    key={index}
+                    src={item.image.url}
+                    className="gallery__thumbnail"
+                    alt={`Product thumbnail - ${product.title}`}
+                    onClick={() => setGalleryImage(index)}
+                    style={{
+                      border:
+                        index === galleryImage ? "2px solid #9d4049" : "none",
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
         <div className="product-detail__product-info">
           <div>
