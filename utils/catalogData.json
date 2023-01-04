@@ -3,7 +3,9 @@
     "supplies": {
       "type": {
         "Tools": "Tools",
-        "Amendments": "Amendments"
+        "Books": "Books",
+        "Growing-Supplies": "Growing Supplies",
+        "YDS-Merchandise": "Merchandise"
       }
     },
     "dahlias": {
