@@ -93,7 +93,7 @@ const ProductCard = ({
         <div className="product-grid__product-info">
           <div>
             <div className="product-grid__title-row">
-              <Link href={`/shop/products/`}>
+              <Link href={`/shop/products/${product.handle}`}>
                 <a className="product-grid__title-link">
                   <h1 className="product-grid__title">{product.title}</h1>
                 </a>
