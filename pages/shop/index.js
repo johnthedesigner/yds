@@ -13,6 +13,7 @@ import {
 } from "../../utils/shopify";
 import { getShopConfig } from "../../utils/strapi";
 import { WithoutAccess } from "../../components/AccessControl";
+import ShopHelpText from "../../components/ShopHelpText";
 
 const ShopIndex = ({ topVarieties, topSupplies, shopConfig }) => {
   return (
@@ -36,6 +37,7 @@ const ShopIndex = ({ topVarieties, topSupplies, shopConfig }) => {
             </WithoutAccess>
           </div>
         </div>
+        <ShopHelpText shopConfig={shopConfig} />
         {shopConfig.showDahliasInShop && (
           <ProductHighlightRow
             title="Dahlias"
