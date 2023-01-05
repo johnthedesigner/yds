@@ -595,6 +595,34 @@ button[type="submit"].donation-form__submit-button {
   border-top: #ddd solid 1px;
 }
 
+/* Shop Help Text */
+.shop-help-text {
+  background: var(--blue-02);
+  color: var(--blue-08);
+  padding: 1rem;
+  text-align: center;
+}
+
+.shop-help-text__body {
+  width: 90%;
+  max-width: 50rem;
+  margin: 0 auto;
+}
+
+.shop-help-text__title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+}
+
+.shop-help-text__text {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+}
+
 /* Shop Index */
 .shop-index__header {
   position: relative;

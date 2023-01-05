@@ -15,6 +15,7 @@ import { getProductsByTags } from "../../utils/shopify";
 import pages from "../../utils/pages.json";
 import catalogData from "../../utils/catalogData.json";
 import { getShopConfig } from "../../utils/strapi";
+import ShopHelpText from "../../components/ShopHelpText";
 
 const productType = "supplies";
 
@@ -46,6 +47,7 @@ const ShopIndex = ({ products, queryTags, shopConfig }) => {
   return (
     <Layout>
       <NewSeo page={pages["all-products"]} />
+      <ShopHelpText shopConfig={shopConfig} />
       <div className="product-detail__breadcrumb">
         <Link href="/shop">
           <a>Shop</a>
