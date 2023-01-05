@@ -43,28 +43,22 @@ const ProductCard = ({
   };
 
   const ImageOverlay = ({ inventory, country }) => {
-    // At which quantity should we stop highlighting inventory
-    const inventoryCutoff = 5;
-    if (inventory || country) {
-      return (
-        <div className="product-grid__image-overlay">
-          <p className="product-grid__inventory">
-            <small>
-              <em>
-                <InventoryText
-                  product={product}
-                  shopConfig={shopConfig}
-                  inventory={inventory}
-                />
-              </em>
-            </small>
-          </p>
-          <CountryFlag product={product} />
-        </div>
-      );
-    } else {
-      return null;
-    }
+    return (
+      <div className="product-grid__image-overlay">
+        <p className="product-grid__inventory">
+          <small>
+            <em>
+              <InventoryText
+                product={product}
+                shopConfig={shopConfig}
+                inventory={inventory}
+              />
+            </em>
+          </small>
+        </p>
+        <CountryFlag product={product} />
+      </div>
+    );
   };
 
   return (

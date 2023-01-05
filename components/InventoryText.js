@@ -68,11 +68,7 @@ const InventoryText = ({ shopConfig, inventory, product }) => {
     } else if (inventory < inventoryCutoff) {
       return <>Only {inventory} left in stock.</>;
     } else {
-      return (
-        <small>
-          <em>In stock.</em>
-        </small>
-      );
+      return <>In stock.</>;
     }
   } else {
     // return <>Don't Show Inventory</>;
