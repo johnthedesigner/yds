@@ -7,6 +7,9 @@ import {
   useState,
 } from "react";
 import axios from "axios";
+import Script from "next/script";
+import * as gtag from "../utils/gtag";
+import { useRouter } from "next/router";
 
 import "../styles/globals.css";
 import "../styles/new-globals.css";
@@ -27,6 +30,18 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [cart, setCart] = useState(null);
 
   // const { openCart } = useCartUI();
+
+  // Capture pageviews and events in google analytics
+  const router = useRouter();
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      gtag.pageview(url);
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
 
   // Cart Management Functions
   const addToCart = useCallback(
@@ -152,13 +167,33 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   }, [cart]);
 
   return (
-    <SessionProvider session={session}>
-      <CartContext.Provider value={cartValue}>
-        <CartUIProvider>
-          <Component {...pageProps} />
-        </CartUIProvider>
-      </CartContext.Provider>
-    </SessionProvider>
+    <>
+      <Script
+        strategy="afterInteractive"
+        src="https://www.googletagmanager.com/gtag/js?id=G-YQPD41DH63"
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-YQPD41DH63', {
+            page_path: window.location.pathname,
+            });
+            `,
+        }}
+      />
+      <SessionProvider session={session}>
+        <CartContext.Provider value={cartValue}>
+          <CartUIProvider>
+            <Component {...pageProps} />
+          </CartUIProvider>
+        </CartContext.Provider>
+      </SessionProvider>
+    </>
   );
 }
 
