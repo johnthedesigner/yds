@@ -3,10 +3,10 @@ import { DateTime } from "luxon";
 const ShopHelpText = ({ shopConfig }) => {
   let earlyAccessDate = DateTime.fromISO(
     shopConfig.earlyAccessShopStart
-  ).toFormat("EEEE, DD");
+  ).toFormat("EEEE, DD, t");
 
   let allMembersDate = DateTime.fromISO(shopConfig.memberShopStart).toFormat(
-    "EEEE, DD"
+    "EEEE, DD, t"
   );
 
   return (
