@@ -769,9 +769,13 @@ button[type="submit"].donation-form__submit-button {
   pointer-events: initial;
 }
 
-.product-listing__mobile-filter {
+.product-filters--mobile {
   display: none;
 }
+
+/* .product-listing__mobile-filter {
+  display: none;
+} */
 
 @media screen and (max-width: 1000px) {
   .product-grid {
@@ -793,7 +797,7 @@ button[type="submit"].donation-form__submit-button {
   }
 
   .product-filters--mobile {
-    display: none;
+    display: block;
   }
 }
 
