@@ -35,11 +35,20 @@
     "inFooter": true,
     "inSitemap": true
   },
-  "all-products": {
-    "label": "All Products",
-    "title": "Y.D.S. Online Shop - All Products",
+  "dahlias": {
+    "label": "Shop Dahlias",
+    "title": "All Dahlias - Y.D.S. Online Shop",
     "description": "Buy tubers, cuttings, supplies & gift certificates to help grow dahlias and to grow Y.D.S.",
-    "path": "/shop/products",
+    "path": "/shop/dahlias",
+    "inMenu": false,
+    "inFooter": false,
+    "inSitemap": true
+  },
+  "supplies": {
+    "label": "Shop Supplies",
+    "title": "All Supplies - Y.D.S. Online Shop",
+    "description": "Buy tubers, cuttings, supplies & gift certificates to help grow dahlias and to grow Y.D.S.",
+    "path": "/shop/supplies",
     "inMenu": false,
     "inFooter": false,
     "inSitemap": true
