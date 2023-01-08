@@ -46,7 +46,7 @@ const ShopIndex = ({ products, queryTags, shopConfig }) => {
 
   return (
     <Layout>
-      <NewSeo page={pages["all-products"]} />
+      <NewSeo page={pages["supplies"]} />
       <ShopHelpText shopConfig={shopConfig} />
       <div className="product-detail__breadcrumb">
         <Link href="/shop">
