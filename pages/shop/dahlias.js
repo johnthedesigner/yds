@@ -93,7 +93,7 @@ const ShopIndex = ({ products, queryTags, shopConfig }) => {
           </div>
         </div>
         <ProductFilters
-          options={catalogData.category["tubers"]}
+          options={catalogData.category["dahlias"]}
           queryTags={queryTags}
           type="mobile"
         />
