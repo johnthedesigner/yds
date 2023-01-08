@@ -1,11 +1,14 @@
-// import {Helmet} from '@shopify/hydrogen/client';
 import { Helmet } from "react-helmet";
 import { flattenConnection } from "../utils/shopify";
 
-// import shopifyConfig from '../../shopify.config';
-const siteDomain = process.env.SITE_DOMAIN;
-
 export default function NewSeo({ shopName, product, page }) {
+  let siteDomain;
+  if (typeof window !== "undefined") {
+    siteDomain = window.location.origin;
+  } else {
+    siteDomain = process.env.SITE_DOMAIN;
+  }
+
   if (product) {
     const variant = product.variants.edges[0].node;
     const price = variant.priceV2;
