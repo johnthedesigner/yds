@@ -80,7 +80,7 @@ const Fundraiser = ({ fundraiserProduct }) => {
             We will need to purchase floral pin frogs, chicken wire and 560
             display containers to create a beautiful and educational display of
             dahlia blooms for all to enjoy now and in the future. The cost for
-            display supplies needed for this year's event is estimated at
+            display supplies needed for this year&apos;s event is estimated at
             $2,500.00 and in addition we have projected our annual show expenses
             at $2,500.00.
           </p>
