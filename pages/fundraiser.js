@@ -57,34 +57,40 @@ const Fundraiser = ({ fundraiserProduct }) => {
             and interest in these beautiful flowers.
           </p>
           <p style={{ margin: "1rem 0", fontSize: "1.25rem" }}>
-            YDS is planning to hold our first free Dahlia Exhibit open to the
-            public on October 1-2, 2022 at the Westwood Public Library in
-            Westwood MA. We will have on display hundreds of beautiful dahlia
-            blooms grown by YDS members and non-members alike for the public to
-            enjoy. In addition, we will have floral design and growing
-            presentations to inspire and educate people to grow and learn more
-            about dahlias.
+            YDS is planning to hold our 2nd annual Dahlia Exhibit open to the
+            public on September 30 - October 1, 2023 at Spence Farm @ Hurld
+            Wyman Elementary School in Woburn MA. We will have on display
+            hundreds of beautiful dahlia blooms grown by YDS members and
+            non-members alike for the public to enjoy. In addition, we will have
+            floral design and growing presentations to inspire and educate
+            people to grow and learn more about dahlias.
           </p>
           <p style={{ margin: "1rem 0", fontSize: "1.25rem" }}>
-            As a new club just over one year old, we need to purchase floral
+            As a new club just over two years old, we need to purchase floral
             exhibit supplies and floral containers to provide for our Dahlia
             Exhibits now and for years to come. We would like our Dahlia Exhibit
             to be environmentally friendly, and want to use display supplies
             that can be reused year after year. Since floral foam cannot be
-            reused, recycled or readily composted, YDS has decided to make this
+            reused, recycled or readily composted, YDS has decided to make our
             Dahlia Exhibit a floral foam free event. Instead, we will use metal
             floral pin frogs and chicken wire to support our blooms in reusable
             display containers.
           </p>
           <p style={{ margin: "1rem 0", fontSize: "1.25rem" }}>
-            We anticipate needing to purchase 504 floral pin frogs and 574
+            We will need to purchase floral pin frogs, chicken wire and 560
             display containers to create a beautiful and educational display of
-            dahlia blooms for all to enjoy now and in the future.
+            dahlia blooms for all to enjoy now and in the future. The cost for
+            display supplies needed for this year&apos;s event is estimated at
+            $2,500.00 and in addition we have projected our annual show expenses
+            at $2,500.00.
           </p>
           <p style={{ margin: "1rem 0", fontSize: "1.25rem" }}>
-            Please help us reach our goal of raising $2,500.00 for our bloom
-            display supplies. We appreciate your support to help us reach our
-            goal. Thank you for your donation!
+            Please help us reach our goal of raising $5,000.00 for our bloom
+            display supplies and the 2023 YDS Dahlia Bloom Exhibit expenses. We
+            appreciate your support to help us reach our goal. Thank you for
+            your donation! Be sure to save the date for September 30 - October
+            1, 2023. We hope to see you at the YDS Dahlia Bloom Exhibit in the
+            fall.
           </p>
         </div>
       </div>
