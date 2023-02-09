@@ -4,9 +4,14 @@ import { useContext, useEffect, useRef, useState } from "react";
 
 import { flattenConnection } from "../utils/shopify";
 import { CartContext } from "../pages/_app";
+import Link from "next/link";
 
 const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, cart } = useContext(CartContext);
+
+  // Manage form state
+  const formRef = useRef(null);
+  const [showFormSuccess, setShowFormSuccess] = useState(false);
 
   // YDS membership product state
   const ydsMembershipVariants = flattenConnection(
@@ -31,8 +36,7 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
     donationVariant.selectedOptions
   );
 
-  // Member Info Data state
-  const [memberInfo, setMemberInfo] = useState({
+  const defaultMemberInfo = {
     businessName: "",
     firstName: "",
     lastName: "",
@@ -42,7 +46,10 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
     city: "",
     state: "",
     zip: "",
-  });
+  };
+
+  // Member Info Data state
+  const [memberInfo, setMemberInfo] = useState(defaultMemberInfo);
 
   // Member Info Validation state
   const [memberInfoValidation, setMemberInfoValidation] = useState({
@@ -191,12 +198,12 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
           quantity: 1,
         });
       }
-      addToCart(newLines);
-      // if (cart && cart.id) {
-      //   await linesAdd(newLines);
-      // } else {
-      //   await cartCreate({ lines: newLines });
-      // }
+      await addToCart(newLines);
+      setMemberInfo(defaultMemberInfo);
+      setShowFormSuccess(true);
+      setTimeout(() => {
+        setShowFormSuccess(false);
+      }, 4000);
     }
   };
 
@@ -377,241 +384,259 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
   const RequiredMark = () => <span style={{ color: "#c65a60" }}>*</span>;
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "1rem",
-        gridAutoRows: "minmax(3rem, auto",
-      }}>
-      <div className="form-block__large">
-        {_.map(ydsMembershipProduct.options, (option) => {
-          return (
-            <MembershipOption
-              key={option.name}
-              name={option.name}
-              values={option.values}
-            />
-          );
-        })}
+    <>
+      <div className="membership-form__success-message-wrapper">
+        <div
+          className="membership-form__success-message"
+          style={{
+            display: showFormSuccess ? "block" : "none",
+          }}>
+          Thanks! Your membership has been added to the cart.{" "}
+          <Link href={cart ? cart.checkoutUrl : ""}>Checkout Now</Link>
+        </div>
       </div>
-      {ydsMembershipType === "Business" && (
-        <fieldset className="form-block__large">
-          <label htmlFor="busineeName">
-            Business Name <RequiredMark />
-          </label>
-          <input
-            className={
-              memberInfoValidation.businessName
-                ? "member-info-field"
-                : "member-info-field member-info-field--invalid"
-            }
-            type="text"
-            name="businessName"
-            value={memberInfo.businessName}
-            ref={memberInfoRefs.businessName}
-            onChange={(e) => {
-              updateMemberInfo("businessName", e.target.value);
-            }}
-          />
-        </fieldset>
-      )}
-      <fieldset className="form-block__medium">
-        <label htmlFor="firstName">
-          First Name <RequiredMark />
-        </label>
-        <input
-          className={
-            memberInfoValidation.firstName
-              ? "member-info-field"
-              : "member-info-field member-info-field--invalid"
-          }
-          type="text"
-          name="firstName"
-          value={memberInfo.firstName}
-          ref={memberInfoRefs.firstName}
-          onChange={(e) => {
-            updateMemberInfo("firstName", e.target.value);
-          }}
-        />
-      </fieldset>
-      <fieldset className="form-block__medium">
-        <label htmlFor="lastName">
-          Last Name <RequiredMark />
-        </label>
-        <input
-          className={
-            memberInfoValidation.lastName
-              ? "member-info-field"
-              : "member-info-field member-info-field--invalid"
-          }
-          type="text"
-          name="lastName"
-          value={memberInfo.lastName}
-          ref={memberInfoRefs.lastName}
-          onChange={(e) => {
-            updateMemberInfo("lastName", e.target.value);
-          }}
-        />
-      </fieldset>
-      <fieldset className="form-block__medium">
-        <label htmlFor="email">
-          Email Address <RequiredMark />
-        </label>
-        <input
-          className={
-            memberInfoValidation.email
-              ? "member-info-field"
-              : "member-info-field member-info-field--invalid"
-          }
-          type="text"
-          name="email"
-          value={memberInfo.email}
-          ref={memberInfoRefs.email}
-          onChange={(e) => {
-            updateMemberInfo("email", e.target.value);
-          }}
-        />
-      </fieldset>
-      <fieldset className="form-block__medium">
-        <label htmlFor="phone">
-          Phone Number <RequiredMark />
-        </label>
-        <input
-          className={
-            memberInfoValidation.phone
-              ? "member-info-field"
-              : "member-info-field member-info-field--invalid"
-          }
-          type="text"
-          name="phone"
-          value={memberInfo.phone}
-          ref={memberInfoRefs.phone}
-          onChange={(e) => {
-            updateMemberInfo("phone", e.target.value);
-          }}
-        />
-      </fieldset>
-      <fieldset className="form-block__large">
-        <label htmlFor="address">
-          Mailing Address <RequiredMark />
-        </label>
-        <input
-          className={
-            memberInfoValidation.address
-              ? "member-info-field"
-              : "member-info-field member-info-field--invalid"
-          }
-          type="text"
-          name="address"
-          value={memberInfo.address}
-          ref={memberInfoRefs.address}
-          onChange={(e) => {
-            updateMemberInfo("address", e.target.value);
-          }}
-        />
-      </fieldset>
-      <fieldset className="form-block__medium">
-        <label htmlFor="city">
-          City <RequiredMark />
-        </label>
-        <input
-          className={
-            memberInfoValidation.city
-              ? "member-info-field"
-              : "member-info-field member-info-field--invalid"
-          }
-          type="text"
-          name="city"
-          value={memberInfo.city}
-          ref={memberInfoRefs.city}
-          onChange={(e) => {
-            updateMemberInfo("city", e.target.value);
-          }}
-        />
-      </fieldset>
-      <fieldset className="form-block__small">
-        <label htmlFor="state">
-          State <RequiredMark />
-        </label>
-        <input
-          className={
-            memberInfoValidation.state
-              ? "member-info-field"
-              : "member-info-field member-info-field--invalid"
-          }
-          type="text"
-          name="state"
-          value={memberInfo.state}
-          ref={memberInfoRefs.state}
-          onChange={(e) => {
-            updateMemberInfo("state", e.target.value);
-          }}
-        />
-      </fieldset>
-      <fieldset className="form-block__small">
-        <label htmlFor="zip">
-          Zip Code <RequiredMark />
-        </label>
-        <input
-          className={
-            memberInfoValidation.zip
-              ? "member-info-field"
-              : "member-info-field member-info-field--invalid"
-          }
-          type="text"
-          name="zip"
-          value={memberInfo.zip}
-          ref={memberInfoRefs.zip}
-          onChange={(e) => {
-            updateMemberInfo("zip", e.target.value);
-          }}
-        />
-      </fieldset>
-      <div className="form-block__large" style={{ marginTop: "2rem" }}>
-        {_.map(donationProduct.options, (option) => {
-          return (
-            <DonationOption
-              key={option.name}
-              name={option.name}
-              values={option.values}
-            />
-          );
-        })}
-      </div>
-      <div className="form-block__large">
-        <Tally
-          amounts={[
-            {
-              label: "YDS Membership",
-              include: true,
-              price: ydsMembershipVariant.priceV2.amount,
-            },
-            {
-              label: "Optional Donation",
-              include: includeDonation,
-              price: donationVariant.priceV2.amount,
-            },
-          ]}
-        />
-        <div style={{ textAlign: "right" }}>
-          {memberInfoDirty && (
-            <p style={{ color: "#c65a60" }}>
-              <em>
-                Please check your member info above, you may be missing some
-                required fields.
-              </em>
-            </p>
+      <form
+        ref={formRef}
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "1rem",
+            gridAutoRows: "minmax(3rem, auto",
+          }}>
+          <div className="form-block__large">
+            {_.map(ydsMembershipProduct.options, (option) => {
+              return (
+                <MembershipOption
+                  key={option.name}
+                  name={option.name}
+                  values={option.values}
+                />
+              );
+            })}
+          </div>
+          {ydsMembershipType === "Business" && (
+            <fieldset className="form-block__large">
+              <label htmlFor="busineeName">
+                Business Name <RequiredMark />
+              </label>
+              <input
+                className={
+                  memberInfoValidation.businessName
+                    ? "member-info-field"
+                    : "member-info-field member-info-field--invalid"
+                }
+                type="text"
+                name="businessName"
+                value={memberInfo.businessName}
+                ref={memberInfoRefs.businessName}
+                onChange={(e) => {
+                  updateMemberInfo("businessName", e.target.value);
+                }}
+              />
+            </fieldset>
           )}
-          <button className="button" onClick={addMembershipToCart}>
-            Add to Cart
-          </button>
+          <fieldset className="form-block__medium">
+            <label htmlFor="firstName">
+              First Name <RequiredMark />
+            </label>
+            <input
+              className={
+                memberInfoValidation.firstName
+                  ? "member-info-field"
+                  : "member-info-field member-info-field--invalid"
+              }
+              type="text"
+              name="firstName"
+              value={memberInfo.firstName}
+              ref={memberInfoRefs.firstName}
+              onChange={(e) => {
+                updateMemberInfo("firstName", e.target.value);
+              }}
+            />
+          </fieldset>
+          <fieldset className="form-block__medium">
+            <label htmlFor="lastName">
+              Last Name <RequiredMark />
+            </label>
+            <input
+              className={
+                memberInfoValidation.lastName
+                  ? "member-info-field"
+                  : "member-info-field member-info-field--invalid"
+              }
+              type="text"
+              name="lastName"
+              value={memberInfo.lastName}
+              ref={memberInfoRefs.lastName}
+              onChange={(e) => {
+                updateMemberInfo("lastName", e.target.value);
+              }}
+            />
+          </fieldset>
+          <fieldset className="form-block__medium">
+            <label htmlFor="email">
+              Email Address <RequiredMark />
+            </label>
+            <input
+              className={
+                memberInfoValidation.email
+                  ? "member-info-field"
+                  : "member-info-field member-info-field--invalid"
+              }
+              type="text"
+              name="email"
+              value={memberInfo.email}
+              ref={memberInfoRefs.email}
+              onChange={(e) => {
+                updateMemberInfo("email", e.target.value);
+              }}
+            />
+          </fieldset>
+          <fieldset className="form-block__medium">
+            <label htmlFor="phone">
+              Phone Number <RequiredMark />
+            </label>
+            <input
+              className={
+                memberInfoValidation.phone
+                  ? "member-info-field"
+                  : "member-info-field member-info-field--invalid"
+              }
+              type="text"
+              name="phone"
+              value={memberInfo.phone}
+              ref={memberInfoRefs.phone}
+              onChange={(e) => {
+                updateMemberInfo("phone", e.target.value);
+              }}
+            />
+          </fieldset>
+          <fieldset className="form-block__large">
+            <label htmlFor="address">
+              Mailing Address <RequiredMark />
+            </label>
+            <input
+              className={
+                memberInfoValidation.address
+                  ? "member-info-field"
+                  : "member-info-field member-info-field--invalid"
+              }
+              type="text"
+              name="address"
+              value={memberInfo.address}
+              ref={memberInfoRefs.address}
+              onChange={(e) => {
+                updateMemberInfo("address", e.target.value);
+              }}
+            />
+          </fieldset>
+          <fieldset className="form-block__medium">
+            <label htmlFor="city">
+              City <RequiredMark />
+            </label>
+            <input
+              className={
+                memberInfoValidation.city
+                  ? "member-info-field"
+                  : "member-info-field member-info-field--invalid"
+              }
+              type="text"
+              name="city"
+              value={memberInfo.city}
+              ref={memberInfoRefs.city}
+              onChange={(e) => {
+                updateMemberInfo("city", e.target.value);
+              }}
+            />
+          </fieldset>
+          <fieldset className="form-block__small">
+            <label htmlFor="state">
+              State <RequiredMark />
+            </label>
+            <input
+              className={
+                memberInfoValidation.state
+                  ? "member-info-field"
+                  : "member-info-field member-info-field--invalid"
+              }
+              type="text"
+              name="state"
+              value={memberInfo.state}
+              ref={memberInfoRefs.state}
+              onChange={(e) => {
+                updateMemberInfo("state", e.target.value);
+              }}
+            />
+          </fieldset>
+          <fieldset className="form-block__small">
+            <label htmlFor="zip">
+              Zip Code <RequiredMark />
+            </label>
+            <input
+              className={
+                memberInfoValidation.zip
+                  ? "member-info-field"
+                  : "member-info-field member-info-field--invalid"
+              }
+              type="text"
+              name="zip"
+              value={memberInfo.zip}
+              ref={memberInfoRefs.zip}
+              onChange={(e) => {
+                updateMemberInfo("zip", e.target.value);
+              }}
+            />
+          </fieldset>
+          <div className="form-block__large" style={{ marginTop: "2rem" }}>
+            {_.map(donationProduct.options, (option) => {
+              return (
+                <DonationOption
+                  key={option.name}
+                  name={option.name}
+                  values={option.values}
+                />
+              );
+            })}
+          </div>
+          <div className="form-block__large">
+            <Tally
+              amounts={[
+                {
+                  label: "YDS Membership",
+                  include: true,
+                  price: ydsMembershipVariant.priceV2.amount,
+                },
+                {
+                  label: "Optional Donation",
+                  include: includeDonation,
+                  price: donationVariant.priceV2.amount,
+                },
+              ]}
+            />
+            <div style={{ textAlign: "right" }}>
+              {memberInfoDirty && (
+                <p style={{ color: "#c65a60" }}>
+                  <em>
+                    Please check your member info above, you may be missing some
+                    required fields.
+                  </em>
+                </p>
+              )}
+              <button className="button" onClick={addMembershipToCart}>
+                Add to Cart
+              </button>
+            </div>
+            <div style={{ color: "#c65a60", marginTop: "2rem" }}>
+              <em>* Required Field</em>
+            </div>
+          </div>
         </div>
-        <div style={{ color: "#c65a60", marginTop: "2rem" }}>
-          <em>* Required Field</em>
-        </div>
-      </div>
-    </div>
+      </form>
+    </>
   );
 };
 
