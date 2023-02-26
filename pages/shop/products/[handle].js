@@ -32,6 +32,7 @@ import { getShopConfig } from "../../../utils/strapi";
 import AddToCartButton from "../../../components/AddToCartButton";
 import InventoryText from "../../../components/InventoryText";
 import Callout from "../../../components/Callout";
+import ProductCategories from "../../../components/ProductCategories";
 
 const ProductDetail = ({ product, shopConfig }) => {
   const { addToCart } = useContext(CartContext);
@@ -143,6 +144,7 @@ const ProductDetail = ({ product, shopConfig }) => {
   return (
     <Layout>
       <NewSeo product={product} />
+      <ProductCategories />
       <div className="product-detail__breadcrumb">
         <Link href="/shop">
           <a>Shop</a>

@@ -14,12 +14,15 @@ import {
 import { getShopConfig } from "../../utils/strapi";
 import { WithoutAccess } from "../../components/AccessControl";
 import ShopHelpText from "../../components/ShopHelpText";
+import ProductCategories from "../../components/ProductCategories";
 
 const ShopIndex = ({ topVarieties, topSupplies, shopConfig }) => {
   return (
     <Layout>
       <NewSeo page={pages.shop} />
       <div className="shop-index">
+        <ProductCategories />
+        <ShopHelpText shopConfig={shopConfig} />
         <div className="shop-index__header">
           <div className="shop-index__welcome-text">
             <h1>Y.D.S. Shop</h1>
@@ -37,7 +40,6 @@ const ShopIndex = ({ topVarieties, topSupplies, shopConfig }) => {
             </WithoutAccess>
           </div>
         </div>
-        <ShopHelpText shopConfig={shopConfig} />
         {shopConfig.showDahliasInShop && (
           <ProductHighlightRow
             title="Dahlias"
