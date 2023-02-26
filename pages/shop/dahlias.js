@@ -17,6 +17,7 @@ import catalogData from "../../utils/catalogData.json";
 import { getShopConfig } from "../../utils/strapi";
 import { useSession } from "next-auth/react";
 import ShopHelpText from "../../components/ShopHelpText";
+import ProductCategories from "../../components/ProductCategories";
 
 // TODO: this needs to change to "dahlias"
 const productType = "tubers";
@@ -49,6 +50,7 @@ const ShopIndex = ({ products, queryTags, shopConfig }) => {
   return (
     <Layout>
       <NewSeo page={pages["dahlias"]} />
+      <ProductCategories category="Dahlias" />
       <ShopHelpText shopConfig={shopConfig} />
       <div className="product-detail__breadcrumb">
         <Link href="/shop">
