@@ -941,6 +941,18 @@ button[type="submit"].donation-form__submit-button {
   margin: 3rem auto;
 }
 
+.product-detail__categories {
+  background: linear-gradient(to bottom, var(--gray-00), var(--gray-03));
+  position: relative;
+  padding: 1.5rem;
+  /* background: white; */
+  /* color: white; */
+  font-size: 1.25rem;
+  text-align: center;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
 .product-detail__callout {
   padding: 0.5rem 1rem;
   font-size: 1rem;
