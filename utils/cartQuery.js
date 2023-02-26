@@ -18,6 +18,7 @@ const cartQuery = `
               }
               product {
                 title
+                handle
                 totalInventory
               }
             }
