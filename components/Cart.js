@@ -10,6 +10,9 @@ import { flattenConnection } from "../utils/shopify";
 import cartLineUpdate from "../pages/api/cart-lines-update";
 // import { BUTTON_PRIMARY_CLASSES } from "./Button";
 
+// Define membership product handle for quantity UI conditional
+const membershipHandle = "yds-annual-membership-2022-2023";
+
 export default function Cart() {
   const { cart } = useContext(CartContext);
   const cartId = cart ? cart.id : null;
@@ -126,6 +129,7 @@ const renderPrice = (amount, quantity) => {
 
 const CartItem = ({ line }) => {
   const { cartLinesUpdate, cartLineRemove } = useContext(CartContext);
+  console.log(line.merchandise.product.handle);
 
   const infoStyles = {
     padding: "1rem",
@@ -145,7 +149,10 @@ const CartItem = ({ line }) => {
     lineHeight: 1.5,
   };
   const quantityBlockStyles = {
-    display: "inline-block",
+    display:
+      line.merchandise.product.handle === membershipHandle
+        ? "none"
+        : "inline-block",
     border: "1px solid #DDD",
     borderRadius: ".5rem",
     padding: "0.5rem",
