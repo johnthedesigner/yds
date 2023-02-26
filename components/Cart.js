@@ -129,7 +129,6 @@ const renderPrice = (amount, quantity) => {
 
 const CartItem = ({ line }) => {
   const { cartLinesUpdate, cartLineRemove } = useContext(CartContext);
-  console.log(line.merchandise.product.handle);
 
   const infoStyles = {
     padding: "1rem",
