@@ -13,13 +13,17 @@ const ShopHelpText = ({ shopConfig }) => {
     <div className="shop-help-text">
       <div className="shop-help-text__body">
         <h4 className="shop-help-text__title">
-          The YDS Supply Shop is open now to all members!
+          Dahlia Tubers & Growing Supplies available in the YDS Shop
         </h4>
         <p className="shop-help-text__text">
-          The YDS Tuber Sale will begin on {earlyAccessDate} for members with
-          Early Access and {allMembersDate} for All Member Access. Preview our
-          2023 tuber selection. Still more cultivars and inventory to be added.
-          Check back often and look out for announcements.
+          The YDS Tuber Sale will be restocked on Sunday, April 16, 2023 at
+          1:00pm.
+          <br />
+          Planting in our gardens is right around the corner and just in time we
+          have 27 new-to-offer dahlia varieties in our club store with wonderful
+          cultivars restocked. Lots of tubers are still available on our website
+          and you will want to take another look. Get them now before they are
+          gone.
         </p>
       </div>
     </div>
