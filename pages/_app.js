@@ -10,6 +10,7 @@ import axios from "axios";
 import Script from "next/script";
 import * as gtag from "../utils/gtag";
 import { useRouter } from "next/router";
+import { Analytics } from "@vercel/analytics/react";
 
 import "../styles/globals.css";
 import "../styles/new-globals.css";
@@ -190,6 +191,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         <CartContext.Provider value={cartValue}>
           <CartUIProvider>
             <Component {...pageProps} />
+            <Analytics />
           </CartUIProvider>
         </CartContext.Provider>
       </SessionProvider>
