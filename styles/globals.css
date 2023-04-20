@@ -402,11 +402,6 @@ button[type="submit"] {
   margin: 1rem 2rem;
 }
 
-.footer__amazon-smile {
-  width: 30rem;
-  margin: 0 2rem 4rem;
-}
-
 .donation-form__wrapper {
   width: 30rem;
   max-width: 100%;
