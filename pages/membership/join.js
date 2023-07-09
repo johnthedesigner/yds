@@ -38,7 +38,7 @@ const Join = ({ ydsMembershipProduct, donationProduct }) => {
 // Fetch membership products for server side rendering
 export const getServerSideProps = async (ctx) => {
   let ydsMembershipProduct = await getProductByHandle(
-    "yds-annual-membership-2022-2023"
+    "yds-annual-membership-2023-2026"
   );
   let donationProduct = await getProductByHandle("membership-donation");
 
