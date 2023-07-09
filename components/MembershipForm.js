@@ -54,6 +54,8 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
     businessName: "",
     firstName: "",
     lastName: "",
+    phone: "",
+    email: "",
     firstName2: "",
     lastName2: "",
     phone2: "",
