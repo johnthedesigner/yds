@@ -14,9 +14,23 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
   const [showFormSuccess, setShowFormSuccess] = useState(false);
 
   // YDS membership product state
-  const ydsMembershipVariants = flattenConnection(
+  const unfilteredYdsMembershipVariants = flattenConnection(
     ydsMembershipProduct.variants
   );
+
+  // Remove any variants where the name is prepended with '*'
+  let removalCharacter = "*";
+  const ydsMembershipVariants = _.filter(
+    unfilteredYdsMembershipVariants,
+    (variant) => {
+      // Get 'Membership Type' option
+      let membershipTypeOption = _.find(variant.selectedOptions, (option) => {
+        return option.name === "Membership Type";
+      });
+      return membershipTypeOption.value.charAt(0) != removalCharacter;
+    }
+  );
+
   const [ydsMembershipVariant, setYdsMembershipVariant] = useState(
     ydsMembershipVariants[0]
   );
@@ -42,6 +56,10 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
     lastName: "",
     phone: "",
     email: "",
+    firstName2: "",
+    lastName2: "",
+    phone2: "",
+    email2: "",
     address: "",
     city: "",
     state: "",
@@ -58,6 +76,10 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
     lastName: true,
     phone: true,
     email: true,
+    firstName2: true,
+    lastName2: true,
+    phone2: true,
+    email2: true,
     address: true,
     city: true,
     state: true,
@@ -72,6 +94,10 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
     lastName: useRef(null),
     phone: useRef(null),
     email: useRef(null),
+    firstName2: useRef(null),
+    lastName2: useRef(null),
+    phone2: useRef(null),
+    email2: useRef(null),
     address: useRef(null),
     city: useRef(null),
     state: useRef(null),
@@ -97,6 +123,20 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
       return value != "";
     },
     email: (value) => {
+      let emailCheck =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      return value.match(emailCheck);
+    },
+    firstName2: (value) => {
+      return value != "";
+    },
+    lastName2: (value) => {
+      return value != "";
+    },
+    phone2: (value) => {
+      return value != "";
+    },
+    email2: (value) => {
       let emailCheck =
         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       return value.match(emailCheck);
@@ -305,6 +345,8 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
       Business:
         "An individual person with a business can choose this option for membership (but it’s not required).  We love promoting our members’ businesses.",
       Individual: "For one individual dahlia enthusiast.",
+      Household:
+        "For two people who are in the same family or household and want to participate in the club together.",
     };
     return (
       <fieldset style={{ margin: "1rem 0" }}>
@@ -316,27 +358,33 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
             name,
             value
           );
-          let buttonClass = `button__product-option ${
-            ydsSelectedValue === value ? "button__product-option--active" : null
-          }`;
-          return (
-            <fieldset key={index}>
-              <button
-                className={buttonClass}
-                name={name}
-                value={value}
-                onClick={() => {
-                  changeMembershipOption(name, value);
-                }}>
-                <div>
-                  <b>
-                    {value} – {dollarize(candidateVariant.priceV2.amount)}
-                  </b>
-                </div>
-                <div>{description[value]}</div>
-              </button>
-            </fieldset>
-          );
+          if (candidateVariant != undefined) {
+            let buttonClass = `button__product-option ${
+              ydsSelectedValue === value
+                ? "button__product-option--active"
+                : null
+            }`;
+            return (
+              <fieldset key={index}>
+                <button
+                  className={buttonClass}
+                  name={name}
+                  value={value}
+                  onClick={() => {
+                    changeMembershipOption(name, value);
+                  }}>
+                  <div>
+                    <b>
+                      {value} – {dollarize(candidateVariant.priceV2.amount)}
+                    </b>
+                  </div>
+                  <div>{description[value]}</div>
+                </button>
+              </fieldset>
+            );
+          } else {
+            return null;
+          }
         })}
       </fieldset>
     );
@@ -515,6 +563,86 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
               }}
             />
           </fieldset>
+          {ydsMembershipType === "Household" && (
+            <>
+              <fieldset className="form-block__medium">
+                <label htmlFor="firstName2">
+                  First Name (Second Member) <RequiredMark />
+                </label>
+                <input
+                  className={
+                    memberInfoValidation.firstName2
+                      ? "member-info-field"
+                      : "member-info-field member-info-field--invalid"
+                  }
+                  type="text"
+                  name="firstName2"
+                  value={memberInfo.firstName2}
+                  ref={memberInfoRefs.firstName2}
+                  onChange={(e) => {
+                    updateMemberInfo("firstName2", e.target.value);
+                  }}
+                />
+              </fieldset>
+              <fieldset className="form-block__medium">
+                <label htmlFor="lastName2">
+                  Last Name (Second Member) <RequiredMark />
+                </label>
+                <input
+                  className={
+                    memberInfoValidation.lastName2
+                      ? "member-info-field"
+                      : "member-info-field member-info-field--invalid"
+                  }
+                  type="text"
+                  name="lastName2"
+                  value={memberInfo.lastName2}
+                  ref={memberInfoRefs.lastName2}
+                  onChange={(e) => {
+                    updateMemberInfo("lastName2", e.target.value);
+                  }}
+                />
+              </fieldset>
+              <fieldset className="form-block__medium">
+                <label htmlFor="email2">
+                  Email Address (Second Member) <RequiredMark />
+                </label>
+                <input
+                  className={
+                    memberInfoValidation.email2
+                      ? "member-info-field"
+                      : "member-info-field member-info-field--invalid"
+                  }
+                  type="text"
+                  name="email2"
+                  value={memberInfo.email2}
+                  ref={memberInfoRefs.email2}
+                  onChange={(e) => {
+                    updateMemberInfo("email2", e.target.value);
+                  }}
+                />
+              </fieldset>
+              <fieldset className="form-block__medium">
+                <label htmlFor="phone2">
+                  Phone Number (Second Member) <RequiredMark />
+                </label>
+                <input
+                  className={
+                    memberInfoValidation.phone2
+                      ? "member-info-field"
+                      : "member-info-field member-info-field--invalid"
+                  }
+                  type="text"
+                  name="phone2"
+                  value={memberInfo.phone2}
+                  ref={memberInfoRefs.phone2}
+                  onChange={(e) => {
+                    updateMemberInfo("phone2", e.target.value);
+                  }}
+                />
+              </fieldset>
+            </>
+          )}
           <fieldset className="form-block__large">
             <label htmlFor="address">
               Mailing Address <RequiredMark />
