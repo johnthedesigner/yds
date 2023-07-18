@@ -235,7 +235,6 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
             key === "businessName"
           ) {
             // return nothing
-            console.log("don't return non-individual fields");
           } else {
             return { key, value };
           }
@@ -247,14 +246,12 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
             key === "phone2"
           ) {
             // return nothing
-            console.log("don't return non-business fields");
           } else {
             return { key, value };
           }
         } else if (ydsMembershipType === "Household") {
           if (key === "businessName") {
             // return nothing
-            console.log("don't return non-household fields");
           } else {
             return { key, value };
           }
@@ -278,7 +275,6 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
           quantity: 1,
         });
       }
-      console.log(newLines);
       await addToCart(newLines);
       setMemberInfo(defaultMemberInfo);
       setShowFormSuccess(true);
