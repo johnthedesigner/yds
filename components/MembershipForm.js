@@ -128,18 +128,34 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
       return value.match(emailCheck);
     },
     firstName2: (value) => {
-      return value != "";
+      if (ydsMembershipType === "Household") {
+        return value != "";
+      } else {
+        return true;
+      }
     },
     lastName2: (value) => {
-      return value != "";
+      if (ydsMembershipType === "Household") {
+        return value != "";
+      } else {
+        return true;
+      }
     },
     phone2: (value) => {
-      return value != "";
+      if (ydsMembershipType === "Household") {
+        return value != "";
+      } else {
+        return true;
+      }
     },
     email2: (value) => {
-      let emailCheck =
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-      return value.match(emailCheck);
+      if (ydsMembershipType === "Household") {
+        let emailCheck =
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        return value.match(emailCheck);
+      } else {
+        return true;
+      }
     },
     address: (value) => {
       return value != "";
@@ -210,11 +226,35 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
       await setMemberInfoDirty(false);
       let attributes = _.map(memberInfo, (value, key) => {
         // Check if this is a biz membership, if not omit business name
-        if (ydsMembershipType === "Business") {
-          return { key, value };
-        } else {
+        if (ydsMembershipType === "Individual") {
+          if (
+            key === "firstName2" ||
+            key === "lastName2" ||
+            key === "email2" ||
+            key === "phone2" ||
+            key === "businessName"
+          ) {
+            // return nothing
+            console.log("don't return non-individual fields");
+          } else {
+            return { key, value };
+          }
+        } else if (ydsMembershipType === "Business") {
+          if (
+            key === "firstName2" ||
+            key === "lastName2" ||
+            key === "email2" ||
+            key === "phone2"
+          ) {
+            // return nothing
+            console.log("don't return non-business fields");
+          } else {
+            return { key, value };
+          }
+        } else if (ydsMembershipType === "Household") {
           if (key === "businessName") {
             // return nothing
+            console.log("don't return non-household fields");
           } else {
             return { key, value };
           }
@@ -238,6 +278,7 @@ const MembershipForm = ({ ydsMembershipProduct, donationProduct }) => {
           quantity: 1,
         });
       }
+      console.log(newLines);
       await addToCart(newLines);
       setMemberInfo(defaultMemberInfo);
       setShowFormSuccess(true);
