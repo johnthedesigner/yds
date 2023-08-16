@@ -32,23 +32,6 @@ const Shows = ({ shows }) => {
     }
   };
 
-  const File = ({ file }) => {
-    if (file && file.data) {
-      return (
-        <div className="event__link">
-          <a
-            href={file.data[0].attributes.name}
-            target="_blank"
-            rel="noreferrer">
-            Download PDF Brochure
-          </a>
-        </div>
-      );
-    } else {
-      return null;
-    }
-  };
-
   const Show = ({ show }) => {
     let {
       name,
@@ -58,7 +41,7 @@ const Shows = ({ shows }) => {
       location,
       linkUrl,
       linkText,
-      file,
+      fileUrl,
     } = show.attributes;
 
     return (
@@ -76,7 +59,13 @@ const Shows = ({ shows }) => {
             </a>
           </div>
         )}
-        {file && <File file={file} />}
+        {fileUrl && (
+          <div className="show__link">
+            <a href={fileUrl} target="_blank" rel="noreferrer">
+              Download PDF Brochure
+            </a>
+          </div>
+        )}
       </div>
     );
   };
