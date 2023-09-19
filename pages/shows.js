@@ -62,20 +62,6 @@ const Shows = ({ shows }) => {
           <div className="show__location">Organization: {organization}</div>
         )}
         {location && <div className="show__location">Location: {location}</div>}
-        {linkUrl && (
-          <div className="show__link">
-            <a href={linkUrl} target="_blank" rel="noreferrer">
-              {linkText ? linkText : linkUrl}
-            </a>
-          </div>
-        )}
-        {fileUrl && (
-          <div className="show__link">
-            <a href={fileUrl} target="_blank" rel="noreferrer">
-              Download PDF Brochure
-            </a>
-          </div>
-        )}
         {link1Text && link1Url && (
           <div className="show__link">
             <a href={link1Url} target="_blank" rel="noreferrer">
