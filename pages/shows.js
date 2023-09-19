@@ -39,9 +39,16 @@ const Shows = ({ shows }) => {
       endDate,
       organization,
       location,
-      linkUrl,
-      linkText,
-      fileUrl,
+      link1Text,
+      link1Url,
+      link2Text,
+      link2Url,
+      link3Text,
+      link3Url,
+      link4Text,
+      link4Url,
+      link5Text,
+      link5Url,
     } = show.attributes;
 
     return (
@@ -52,17 +59,38 @@ const Shows = ({ shows }) => {
           <div className="show__location">Organization: {organization}</div>
         )}
         {location && <div className="show__location">Location: {location}</div>}
-        {linkUrl && (
+        {link1Text && link1Url && (
           <div className="show__link">
-            <a href={linkUrl} target="_blank" rel="noreferrer">
-              {linkText ? linkText : linkUrl}
+            <a href={link1Url} target="_blank" rel="noreferrer">
+              {link1Text}
             </a>
           </div>
         )}
-        {fileUrl && (
+        {link2Text && link2Url && (
           <div className="show__link">
-            <a href={fileUrl} target="_blank" rel="noreferrer">
-              Download PDF Brochure
+            <a href={link2Url} target="_blank" rel="noreferrer">
+              {link2Text}
+            </a>
+          </div>
+        )}
+        {link3Text && link3Url && (
+          <div className="show__link">
+            <a href={link3Url} target="_blank" rel="noreferrer">
+              {link3Text}
+            </a>
+          </div>
+        )}
+        {link4Text && link4Url && (
+          <div className="show__link">
+            <a href={link4Url} target="_blank" rel="noreferrer">
+              {link4Text}
+            </a>
+          </div>
+        )}
+        {link5Text && link5Url && (
+          <div className="show__link">
+            <a href={link5Url} target="_blank" rel="noreferrer">
+              {link5Text}
             </a>
           </div>
         )}
