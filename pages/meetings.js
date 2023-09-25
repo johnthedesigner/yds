@@ -92,7 +92,7 @@ const Events = ({ events }) => {
       (event) => {
         return event.attributes.date;
       },
-      "desc"
+      "asc"
     );
     setFilteredEvents(groupByDate(orderedEvents));
   }, [
