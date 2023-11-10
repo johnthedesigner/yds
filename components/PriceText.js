@@ -7,6 +7,11 @@ const PriceText = ({ shopConfig, price, product }) => {
   // If product has "Supplies" tag record it, otherwise use "Dahlias"
   let productType = product.tags.includes("Supplies") ? "Supplies" : "Dahlias";
 
+  // Check if this product type is selectively disabled
+  let productTypeDisabled = product.tags.includes("Supplies")
+    ? shopConfig.disableSupplyPrices
+    : shopConfig.disableDahliaPrices;
+
   let disabledGlobally = shopConfig.disableShowPricesGlobally;
 
   // Format dollar amount
@@ -26,6 +31,7 @@ const PriceText = ({ shopConfig, price, product }) => {
       noPriceText = shopConfig.earlyAccessNoPriceText;
       displayPrice = CheckFeatureEnablement(
         disabledGlobally,
+        productTypeDisabled,
         statusByRole,
         rangeStart,
         rangeEnd
@@ -39,6 +45,7 @@ const PriceText = ({ shopConfig, price, product }) => {
       noPriceText = shopConfig.memberNoPriceText;
       displayPrice = CheckFeatureEnablement(
         disabledGlobally,
+        productTypeDisabled,
         statusByRole,
         rangeStart,
         rangeEnd
@@ -57,6 +64,7 @@ const PriceText = ({ shopConfig, price, product }) => {
     noPriceText = shopConfig.allVisitorsNoPriceText;
     displayPrice = CheckFeatureEnablement(
       disabledGlobally,
+      productTypeDisabled,
       statusByRole,
       rangeStart,
       rangeEnd

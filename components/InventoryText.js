@@ -7,6 +7,11 @@ const InventoryText = ({ shopConfig, inventory, product }) => {
   // If product has "Supplies" tag record it, otherwise use "Dahlias"
   let productType = product.tags.includes("Supplies") ? "Supplies" : "Dahlias";
 
+  // Check if this product type is selectively disabled
+  let productTypeDisabled = product.tags.includes("Supplies")
+    ? shopConfig.disableSupplyShowInventory
+    : shopConfig.disableDahliaShowInventory;
+
   let disabledGlobally = shopConfig.disableShowInventoryGlobally;
 
   // Above this quanity, we will not show inventory figures
@@ -23,6 +28,7 @@ const InventoryText = ({ shopConfig, inventory, product }) => {
       let rangeEnd = shopConfig.earlyAccessShopEnd;
       displayInventory = CheckFeatureEnablement(
         disabledGlobally,
+        productTypeDisabled,
         statusByRole,
         rangeStart,
         rangeEnd
@@ -35,6 +41,7 @@ const InventoryText = ({ shopConfig, inventory, product }) => {
       let rangeEnd = shopConfig.memberShopEnd;
       displayInventory = CheckFeatureEnablement(
         disabledGlobally,
+        productTypeDisabled,
         statusByRole,
         rangeStart,
         rangeEnd
@@ -55,6 +62,7 @@ const InventoryText = ({ shopConfig, inventory, product }) => {
     let rangeEnd = shopConfig.allVisitorsShopEnd;
     displayInventory = CheckFeatureEnablement(
       disabledGlobally,
+      productTypeDisabled,
       statusByRole,
       rangeStart,
       rangeEnd
