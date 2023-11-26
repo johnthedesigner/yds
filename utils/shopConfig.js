@@ -33,10 +33,10 @@ export const CheckFeatureEnablement = (
   console.log("check product type", productTypeDisabled);
   if (disabledGlobally) {
     // Feature is disabled globally or disabled by product type
-    console.log("feature disabled globally:", disabledGlobally);
+    // console.log("feature disabled globally:", disabledGlobally);
     return false;
   } else if (productTypeDisabled) {
-    console.log("this product type is disabled");
+    // console.log("this product type is disabled");
     return false;
   } else {
     if (statusByRole === "enabled") {
