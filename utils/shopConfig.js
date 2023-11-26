@@ -24,14 +24,18 @@ export const CurrentlyInTimeRange = (start, end) => {
 // Check whether a feature is enabled for the current user
 export const CheckFeatureEnablement = (
   disabledGlobally,
+  productTypeDisabled,
   statusByRole,
   rangeStart,
   rangeEnd
 ) => {
   //   console.log("check enablement");
   if (disabledGlobally) {
-    // Feature is disabled globally
+    // Feature is disabled globally or disabled by product type
     // console.log("feature disabled globally:", disabledGlobally);
+    return false;
+  } else if (productTypeDisabled) {
+    // console.log("this product type is disabled");
     return false;
   } else {
     if (statusByRole === "enabled") {
