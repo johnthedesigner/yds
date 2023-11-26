@@ -3,7 +3,6 @@ import Link from "next/link";
 import { CheckFeatureEnablement } from "../utils/shopConfig";
 
 const AddToCartButton = ({ shopConfig, handleClick, product }) => {
-  console.log(shopConfig);
   const { data: session, status } = useSession();
 
   // If product has "Supplies" tag record it, otherwise use "Dahlias"
@@ -21,7 +20,7 @@ const AddToCartButton = ({ shopConfig, handleClick, product }) => {
   var statusByRole = "disabled";
   if (status === "authenticated") {
     if (session.earlyAccess) {
-      console.log("EARLY ACCESS");
+      // console.log("EARLY ACCESS");
       // Early access users
       statusByRole = shopConfig.earlyAccessAddToCart;
       let rangeStart = shopConfig.earlyAccessShopStart;
@@ -34,12 +33,11 @@ const AddToCartButton = ({ shopConfig, handleClick, product }) => {
         rangeEnd
       );
     } else {
-      console.log("MEMBER");
+      // console.log("MEMBER");
       // Members without early access
       statusByRole = shopConfig.memberAddToCart;
       let rangeStart = shopConfig.memberShopStart;
       let rangeEnd = shopConfig.memberShopEnd;
-      console.log("enableAddToCart", enableAddToCart);
       enableAddToCart = CheckFeatureEnablement(
         disabledGlobally,
         productTypeDisabled,
@@ -58,7 +56,7 @@ const AddToCartButton = ({ shopConfig, handleClick, product }) => {
       enableAddToCart = true;
     }
   } else {
-    console.log("OTHER VISITORS");
+    // console.log("OTHER VISITORS");
     // All other visitors
     statusByRole = shopConfig.allVisitorsAddToCart;
     let rangeStart = shopConfig.allVisitorsShopStart;
@@ -73,8 +71,6 @@ const AddToCartButton = ({ shopConfig, handleClick, product }) => {
   }
 
   // Selectively render price text
-  console.log("productTypeDisabled", productTypeDisabled);
-  console.log("enableAddToCart", enableAddToCart);
   if (enableAddToCart) {
     return (
       <button className="button" onClick={handleClick}>
