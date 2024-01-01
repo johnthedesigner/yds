@@ -22,6 +22,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 // Update current session properties
 const refreshToken = async (token) => {
+  // console.log("REFRESHING TOKEN");
   const res = await fetch(`${process.env.STRAPI_API}users/me`, {
     method: "GET",
     headers: {
@@ -41,8 +42,19 @@ const refreshToken = async (token) => {
     return {
       ...token,
       earlyAccess: data.earlyAccess,
+      membershipExpired: data.membershipExpired,
       refreshHorizon, // Reset refresh horizon
     };
+  }
+};
+
+const expirationCheck = (session) => {
+  if (session.membershipExpired) {
+    let expiredSession = { ..._.omit(session, "accessToken") };
+    expiredSession;
+    return expiredSession;
+  } else {
+    return session;
   }
 };
 
@@ -82,6 +94,7 @@ export default NextAuth({
             name: data.user.username,
             email: data.user.email,
             earlyAccess: data.user.earlyAccess,
+            membershipExpired: data.user.membershipExpired,
             jwt: data.jwt,
           };
         }
@@ -109,15 +122,21 @@ export default NextAuth({
     async jwt({ token, user, account, profile }) {
       // Persist the OAuth access_token to the token right after signin
       if (user && account) {
-        token.accessToken = account.access_token;
-
+        // Check if the users's membership has expired
+        if (user.membershipExpired) {
+          // Membership expired, don't pass a JWT
+          token.membershipExpired = user.membershipExpired;
+        } else {
+          // Membership is active, pass a JWT
+          token.accessToken = account.access_token;
+          // Mark user's early access status
+          token.earlyAccess = user.earlyAccess;
+          // Record user's token
+          token.jwt = user.jwt;
+        }
         // Set a time after which we will refresh this token upon a new pageload
         let currentTime = DateTime.now();
         token.refreshHorizon = currentTime.plus({ seconds: 30 });
-        // Mark user's early access status
-        token.earlyAccess = user.earlyAccess;
-        // Record user's token
-        token.jwt = user.jwt;
       }
 
       // TODO: Check for token expiration and refresh session properties
@@ -132,6 +151,7 @@ export default NextAuth({
       if (token) {
         session.accessToken = token.jti;
         session.earlyAccess = token.earlyAccess;
+        session.membershipExpired = token.membershipExpired;
       }
 
       if (user) {

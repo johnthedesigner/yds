@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Layout from "../components/Layout";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -9,9 +9,23 @@ import AuthBlock from "../components/AuthBlock";
 
 const Login = ({ callbackUrl }) => {
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    // Check for changes to our session and trigger redirects
+    if (session && status) {
+      if (session.membershipExpired) {
+        // Membership is expired, redirect to renewal prompt
+        setError("Membership Expired");
+      } else if (status === "authenticated") {
+        // Membership is active, redirect to callback URL
+        router.push(callbackUrl);
+      }
+    }
+  }, [callbackUrl, router, session, status]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +43,6 @@ const Login = ({ callbackUrl }) => {
         // Otherwise, reset the error and complete login
         setError(null);
         setSuccess("Success! you're signed in.");
-        router.push(callbackUrl);
       }
     });
   };

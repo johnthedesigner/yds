@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const LoginButton = ({ currentPath, session }) => {
   // If we're logged in show the user info and "Sign Out" button
-  if (session) {
+  if (session && session.accessToken) {
     return (
       <>
         <span className="auth-menu__user-avatar">

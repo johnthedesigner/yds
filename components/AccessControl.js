@@ -1,7 +1,11 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import _ from "lodash";
 import { DateTime } from "luxon";
 import { useSession } from "next-auth/react";
+
+// Check if user is authenticated and membership is not expired
+const authCheck = (status) => {
+  return status === "authenticated";
+};
 
 export const WithEarlyAccess = ({ children }) => {
   const { data: session, status } = useSession();
@@ -9,7 +13,7 @@ export const WithEarlyAccess = ({ children }) => {
   if (status === "loading") {
     return <p>Loading...</p>;
   }
-  if (status === "authenticated" && session.earlyAccess === true) {
+  if (authCheck(status) && session.earlyAccess === true) {
     return <>{children}</>;
   } else {
     return null;
@@ -23,7 +27,7 @@ export const WithRegularAccess = ({ children }) => {
   if (status === "loading") {
     return <p>Loading...</p>;
   }
-  if (status === "authenticated" && !earlyAccess) {
+  if (authCheck(status) && !earlyAccess) {
     return <>{children}</>;
   } else {
     return null;
@@ -33,7 +37,7 @@ export const WithRegularAccess = ({ children }) => {
 export const WithAnyAccess = ({ children }) => {
   const { status } = useSession();
 
-  if (status === "authenticated") {
+  if (authCheck(status)) {
     return <>{children}</>;
   } else {
     return null;
@@ -43,7 +47,7 @@ export const WithAnyAccess = ({ children }) => {
 export const WithoutAccess = ({ children }) => {
   const { status } = useSession();
 
-  if (status === "unauthenticated") {
+  if (!authCheck(status)) {
     return <>{children}</>;
   } else {
     return null;
