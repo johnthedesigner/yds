@@ -11,18 +11,18 @@ import {
   flattenConnection,
   getProductsByCollection,
 } from "../../utils/shopify";
-import { getShopConfig } from "../../utils/strapi";
+import { getShopConfig, getShopHelpText } from "../../utils/strapi";
 import { WithoutAccess } from "../../components/AccessControl";
 import ShopHelpText from "../../components/ShopHelpText";
 import ProductCategories from "../../components/ProductCategories";
 
-const ShopIndex = ({ topVarieties, topSupplies, shopConfig }) => {
+const ShopIndex = ({ topVarieties, topSupplies, shopConfig, shopHelpText }) => {
   return (
     <Layout>
       <NewSeo page={pages.shop} />
       <div className="shop-index">
         <ProductCategories />
-        <ShopHelpText shopConfig={shopConfig} />
+        <ShopHelpText shopConfig={shopConfig} shopHelpText={shopHelpText} />
         <div className="shop-index__header">
           <div className="shop-index__welcome-text">
             <h1>Y.D.S. Shop</h1>
@@ -73,9 +73,15 @@ export const getServerSideProps = async (ctx) => {
   let topVarieties = await getProductsByCollection("top-varieties");
   let topSupplies = await getProductsByCollection("top-supplies");
   let shopConfig = await getShopConfig();
+  let shopHelpText = await getShopHelpText();
 
   return {
-    props: { topVarieties, topSupplies, shopConfig: shopConfig.attributes },
+    props: {
+      topVarieties,
+      topSupplies,
+      shopConfig: shopConfig.attributes,
+      shopHelpText: shopHelpText.attributes,
+    },
   };
 };
 
