@@ -39,7 +39,6 @@ const refreshToken = async (token) => {
     let refreshHorizon = currentTime.plus({ seconds: 30 });
 
     // Build new token with updated properties
-    console.log("token", token);
     return {
       ...token,
       earlyAccess: data.earlyAccess,
