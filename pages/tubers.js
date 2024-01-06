@@ -17,7 +17,7 @@ const Tubers = () => {
         side="left"
         image="/tubers.jpg"
         imageAlt="Dahlia tubers ready to be divided">
-        <h3>Preparing for Our 2023 Tuber Sale</h3>
+        <h3>Preparing for Our 2024 Tuber Sale</h3>
         <p>
           Locally grown dahlias! We have dahlia tubers grown in Massachusetts by
           Yankee Dahlia Society members & Growing Partners.
