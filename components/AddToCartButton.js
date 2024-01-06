@@ -71,40 +71,42 @@ const AddToCartButton = ({ shopConfig, handleClick, product }) => {
   }
 
   // Selectively render price text
-  if (enableAddToCart) {
+  if (session && session.membershipExpired) {
     return (
-      <button className="button" onClick={handleClick}>
-        Add to Cart
-      </button>
+      <em>
+        Your membership has expired,{" "}
+        <Link href="/membership-expired">
+          <a>Renew today</a>
+        </Link>{" "}
+        to purchase from the YDS shop.
+      </em>
     );
   } else {
-    if (session && session.membershipExpired) {
+    if (enableAddToCart) {
       return (
-        <em>
-          Your membership has expired,{" "}
-          <Link href="/membership-expired">
-            <a>Renew today</a>
-          </Link>{" "}
-          to purchase from the YDS shop.
-        </em>
-      );
-    } else if (status === "authenticated") {
-      return (
-        <em>
-          Sales are closed. Members will be notified in advance of our next
-          sale.
-        </em>
+        <button className="button" onClick={handleClick}>
+          Add to Cart
+        </button>
       );
     } else {
-      return (
-        <em>
-          Sales are open to members only.{" "}
-          <Link href="/membership">
-            <a>Become a member</a>
-          </Link>{" "}
-          to get notified when our shop opens.
-        </em>
-      );
+      if (status === "authenticated") {
+        return (
+          <em>
+            Sales are closed. Members will be notified in advance of our next
+            sale.
+          </em>
+        );
+      } else {
+        return (
+          <em>
+            Sales are open to members only.{" "}
+            <Link href="/membership">
+              <a>Become a member</a>
+            </Link>{" "}
+            to get notified when our shop opens.
+          </em>
+        );
+      }
     }
   }
 };
