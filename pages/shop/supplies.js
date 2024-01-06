@@ -49,7 +49,7 @@ const ShopIndex = ({ products, queryTags, shopConfig, shopHelpText }) => {
     <Layout>
       <NewSeo page={pages["supplies"]} />
       <ProductCategories category="Supplies" />
-      <ShopHelpText shopConfig={shopConfig} getShopHelpText={shopHelpText} />
+      <ShopHelpText shopConfig={shopConfig} shopHelpText={shopHelpText} />
       <div className="product-detail__breadcrumb">
         <Link href="/shop">
           <a>Shop</a>
@@ -113,9 +113,16 @@ export const getServerSideProps = async (ctx) => {
   let products = await getProductsByTags(productType, tags);
   // Fetch Shop Configuration
   let shopConfig = await getShopConfig();
+  // Fetch shop help text
+  let shopHelpText = await getShopHelpText();
 
   return {
-    props: { products, queryTags: tags, shopConfig: shopConfig.attributes },
+    props: {
+      products,
+      queryTags: tags,
+      shopConfig: shopConfig.attributes,
+      shopHelpText: shopHelpText.attributes,
+    },
   };
 };
 
