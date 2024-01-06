@@ -78,7 +78,17 @@ const AddToCartButton = ({ shopConfig, handleClick, product }) => {
       </button>
     );
   } else {
-    if (status === "authenticated") {
+    if (session && session.membershipExpired) {
+      return (
+        <em>
+          Your membership has expired,{" "}
+          <Link href="/membership-expired">
+            <a>Renew today</a>
+          </Link>{" "}
+          to purchase from the YDS shop.
+        </em>
+      );
+    } else if (status === "authenticated") {
       return (
         <em>
           Sales are closed. Members will be notified in advance of our next
