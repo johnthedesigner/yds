@@ -19,17 +19,21 @@ const ShopHelpText = ({ shopConfig, shopHelpText }) => {
   };
 
   return (
-    <div className="shop-help-text">
-      <div className="shop-help-text__body">
-        <h4 className="shop-help-text__title">{shopHelpText.title}</h4>
-        <div
-          className="shop-help-text__text"
-          dangerouslySetInnerHTML={{
-            __html: splitParagraphs(shopHelpText.message),
-          }}
-        />
-      </div>
-    </div>
+    <>
+      {shopHelpText.showHelpText && (
+        <div className="shop-help-text">
+          <div className="shop-help-text__body">
+            <h4 className="shop-help-text__title">{shopHelpText.title}</h4>
+            <div
+              className="shop-help-text__text"
+              dangerouslySetInnerHTML={{
+                __html: splitParagraphs(shopHelpText.message),
+              }}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
