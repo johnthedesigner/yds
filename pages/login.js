@@ -20,6 +20,7 @@ const Login = ({ callbackUrl }) => {
       if (session.membershipExpired) {
         // Membership is expired, redirect to renewal prompt
         setError("Membership Expired");
+        router.push("/membership-expired");
       } else if (status === "authenticated") {
         // Membership is active, redirect to callback URL
         router.push(callbackUrl);
