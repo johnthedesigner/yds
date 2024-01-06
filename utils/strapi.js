@@ -23,3 +23,19 @@ export const getShopConfig = async () => {
 
   return data.data;
 };
+
+export const getMembershipExpiredText = async () => {
+  let requestUrl = `${STRAPI_API}membership-expired-text`;
+
+  let { data } = await axios.get(requestUrl);
+
+  return data.data;
+};
+
+export const getShopHelpText = async () => {
+  let requestUrl = `${STRAPI_API}shop-help-text`;
+
+  let { data } = await axios.get(requestUrl);
+
+  return data.data;
+};

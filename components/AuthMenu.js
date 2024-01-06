@@ -2,12 +2,22 @@ import _ from "lodash";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 
 const LoginButton = ({ currentPath, session }) => {
   // If we're logged in show the user info and "Sign Out" button
-  if (session) {
+  if (session && session.accessToken) {
     return (
       <>
+        {session.membershipExpired && (
+          <>
+            <Link href="/membership-expired">
+              <a className="membership-expired">
+                Membership Expired, Renew Today
+              </a>
+            </Link>
+          </>
+        )}
         <span className="auth-menu__user-avatar">
           <Image
             src="/user-avatar.svg"

@@ -35,15 +35,15 @@ const Tubers = () => {
           Tuber sales provide a good source of club funding: supporting club
           programming and activities while being a great source for members to
           have access to tubers for sale. Your purchases directly support YDS
-          and are a vital part of our club! We are looking forward to our second
-          annual club tuber sale in just a few short weeks. This season we grew
-          lots of wonderful varieties and look forward to offering them first to
-          our club members.
+          and are a vital part of our club! We are looking forward to our third
+          annual club tuber sale in the new year. This season we grew lots of
+          wonderful varieties and look forward to offering them first to our
+          club members.
         </p>
         <p>
           Join YDS, get access to our tuber sale, enjoy wonderful club
-          programming and make friends. The YDS Tuber sale goes live soon. Join
-          today to get details.
+          programming and make friends. The YDS Tuber sale goes live early
+          January 2024. Join today to get details.
         </p>
         <p>
           Do you have extra space to grow Y.D.S. tubers? If so, we&apos;d love

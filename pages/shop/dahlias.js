@@ -14,15 +14,15 @@ import { getProductsByTags } from "../../utils/shopify";
 
 import pages from "../../utils/pages.json";
 import catalogData from "../../utils/catalogData.json";
-import { getShopConfig } from "../../utils/strapi";
+import { getShopConfig, getShopHelpText } from "../../utils/strapi";
 import { useSession } from "next-auth/react";
-import ShopHelpText from "../../components/ShopHelpText";
 import ProductCategories from "../../components/ProductCategories";
+import ShopHelpText from "../../components/ShopHelpText";
 
 // TODO: this needs to change to "dahlias"
 const productType = "tubers";
 
-const ShopIndex = ({ products, queryTags, shopConfig }) => {
+const ShopIndex = ({ products, queryTags, shopConfig, shopHelpText }) => {
   const [sortOption, setSortOption] = useState("titleAsc");
 
   // If there are no products available, show "not found"
@@ -51,7 +51,7 @@ const ShopIndex = ({ products, queryTags, shopConfig }) => {
     <Layout>
       <NewSeo page={pages["dahlias"]} />
       <ProductCategories category="Dahlias" />
-      <ShopHelpText shopConfig={shopConfig} />
+      <ShopHelpText shopConfig={shopConfig} shopHelpText={shopHelpText} />
       <div className="product-detail__breadcrumb">
         <Link href="/shop">
           <a>Shop</a>
@@ -115,9 +115,16 @@ export const getServerSideProps = async (ctx) => {
   let products = await getProductsByTags(productType, tags);
   // Fetch Shop Configuration
   let shopConfig = await getShopConfig();
+  // Fetch shop help text
+  let shopHelpText = await getShopHelpText();
 
   return {
-    props: { products, queryTags: tags, shopConfig: shopConfig.attributes },
+    props: {
+      products,
+      queryTags: tags,
+      shopConfig: shopConfig.attributes,
+      shopHelpText: shopHelpText.attributes,
+    },
   };
 };
 

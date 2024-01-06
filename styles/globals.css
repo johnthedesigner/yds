@@ -128,6 +128,11 @@ a {
   cursor: pointer;
 }
 
+.button--stretch {
+  display: block;
+  text-align: center;
+}
+
 .button--homepage {
   display: block;
   width: fit-content;
@@ -151,6 +156,37 @@ a.button {
   bottom: 0;
   left: 0;
   border: #c65a60 solid 1px;
+}
+
+.membership-expired {
+  display: inline-block;
+  background: var(--red-08);
+  color: var(--red-01);
+  border-radius: 0.125rem;
+  padding: 0.25rem 0.5rem;
+  margin-right: 1rem;
+  text-decoration: none;
+  transition: all linear 0.2s;
+}
+
+.membership-expired:hover {
+  background: var(--red-06);
+}
+
+.membership-expired:before {
+  content: "!";
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
+  margin-right: 0.5rem;
+  padding-top: 0.0625rem;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: var(--red-01);
+  color: var(--red-08);
+  text-align: center;
+  font-weight: bold;
 }
 
 .text-button {
@@ -636,7 +672,7 @@ button[type="submit"].donation-form__submit-button {
   margin: 0.5rem 0;
 }
 
-.shop-help-text__text {
+.shop-help-text__text p {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
