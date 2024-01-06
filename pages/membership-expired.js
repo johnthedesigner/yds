@@ -1,26 +1,20 @@
-import { useEffect, useState } from "react";
-
 import Layout from "../components/Layout";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
-import AuthBlock from "../components/AuthBlock";
-import Image from "next/image";
+import { getMembershipExpiredText } from "../utils/strapi";
 
-const MembershipExpired = ({ callbackUrl }) => {
+const MembershipExpired = ({ membershipExpiredText }) => {
+  console.log(membershipExpiredText);
+
   return (
     <Layout>
       <div className="auth-block__wrapper">
         <div className="auth-block">
           <div className="auth-block__header">
-            <h1 className="auth-block__title">Your membership has expired</h1>
+            <h1 className="auth-block__title">{membershipExpiredText.title}</h1>
           </div>
           <div className="auth-block__body">
-            <p>
-              The current membership year began August 1, 2023 and ends July 31,
-              2024.
-            </p>
+            <p>{membershipExpiredText.message}</p>
             <p>
               <Link href="/membership">
                 <a className="button button--stretch">About YDS Membership</a>
@@ -39,13 +33,13 @@ const MembershipExpired = ({ callbackUrl }) => {
 };
 
 // Fetch products for server side rendering
-export const getServerSideProps = async (context) => {
-  // Get callback url from query params
-  let { callbackUrl } = context.query;
+export const getServerSideProps = async () => {
+  // Fetch Shop Configuration
+  let membershipExpiredText = await getMembershipExpiredText();
 
   // If there is no callback URL in the query params, fall back on the homepage
   return {
-    props: { callbackUrl: callbackUrl ? callbackUrl : "/" },
+    props: { membershipExpiredText: membershipExpiredText.attributes },
   };
 };
 

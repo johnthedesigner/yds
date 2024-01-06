@@ -672,7 +672,7 @@ button[type="submit"].donation-form__submit-button {
   margin: 0.5rem 0;
 }
 
-.shop-help-text__text {
+.shop-help-text__text p {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;

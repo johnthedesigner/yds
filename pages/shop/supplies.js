@@ -14,13 +14,13 @@ import { getProductsByTags } from "../../utils/shopify";
 
 import pages from "../../utils/pages.json";
 import catalogData from "../../utils/catalogData.json";
-import { getShopConfig } from "../../utils/strapi";
+import { getShopConfig, getShopHelpText } from "../../utils/strapi";
 import ShopHelpText from "../../components/ShopHelpText";
 import ProductCategories from "../../components/ProductCategories";
 
 const productType = "supplies";
 
-const ShopIndex = ({ products, queryTags, shopConfig }) => {
+const ShopIndex = ({ products, queryTags, shopConfig, shopHelpText }) => {
   const [sortOption, setSortOption] = useState("titleAsc");
 
   // If there are no products available, show "not found"
@@ -49,7 +49,7 @@ const ShopIndex = ({ products, queryTags, shopConfig }) => {
     <Layout>
       <NewSeo page={pages["supplies"]} />
       <ProductCategories category="Supplies" />
-      <ShopHelpText shopConfig={shopConfig} />
+      <ShopHelpText shopConfig={shopConfig} getShopHelpText={shopHelpText} />
       <div className="product-detail__breadcrumb">
         <Link href="/shop">
           <a>Shop</a>
