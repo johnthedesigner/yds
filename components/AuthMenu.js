@@ -7,7 +7,6 @@ import Link from "next/link";
 const LoginButton = ({ currentPath, session }) => {
   // If we're logged in show the user info and "Sign Out" button
   if (session && session.accessToken) {
-    console.log(session);
     return (
       <>
         {session.membershipExpired && (

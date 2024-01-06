@@ -2,7 +2,6 @@ import { DateTime } from "luxon";
 import _ from "lodash";
 
 const ShopHelpText = ({ shopConfig, shopHelpText }) => {
-  console.log(shopHelpText);
   let earlyAccessDate = DateTime.fromISO(
     shopConfig.earlyAccessShopStart
   ).toFormat("EEEE, DD, t");
