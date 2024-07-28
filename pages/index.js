@@ -22,28 +22,30 @@ const Index = ({ events }) => {
       }
       isCommercePage={false}>
       <NewSeo page={pages.home} />
-      <Pingpong
-        side="left"
-        image="/planting-dahlias.jpg"
-        imageAlt="A garden with rows of dahlias being planted"
-        ratioWidth={1}
-        ratioHeight={1.5}>
-        <h3>
-          <b>We want you!</b> for Yankee Dahlia Society!
-        </h3>
-        <p>
-          YDS Memberships are available today for both individual and business
-          members. Register soon to attend your first meeting!
-        </p>
-        <Link href="/membership">
-          <a
-            className="button button--homepage"
-            title="Find out more about YDS memberships">
-            Find out more
-          </a>
-        </Link>
-        <HomeEventBlock events={events} />
-      </Pingpong>
+      {false && (
+        <Pingpong
+          side="left"
+          image="/planting-dahlias.jpg"
+          imageAlt="A garden with rows of dahlias being planted"
+          ratioWidth={1}
+          ratioHeight={1.5}>
+          <h3>
+            <b>We want you!</b> for Yankee Dahlia Society!
+          </h3>
+          <p>
+            YDS Memberships are available today for both individual and business
+            members. Register soon to attend your first meeting!
+          </p>
+          <Link href="/membership">
+            <a
+              className="button button--homepage"
+              title="Find out more about YDS memberships">
+              Find out more
+            </a>
+          </Link>
+          <HomeEventBlock events={events} />
+        </Pingpong>
+      )}
       <Bumper
         text="Already a member and looking for ways to lend a hand within Yankee Dahlia Society?"
         buttonUrl="/get-involved"

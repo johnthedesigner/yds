@@ -79,9 +79,7 @@ export default function Footer({ collection, product }) {
             </a>
           </li>
         </ul>
-        <div className="donation-form__wrapper">
-          <Donate />
-        </div>
+        <div className="donation-form__wrapper">{false && <Donate />}</div>
       </div>
       <div className="footer__bottom">
         <p className="footer__legal-text">

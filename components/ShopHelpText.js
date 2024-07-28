@@ -2,6 +2,8 @@ import { DateTime } from "luxon";
 import _ from "lodash";
 
 const ShopHelpText = ({ shopConfig, shopHelpText }) => {
+  let showHelpText = false; // Disabling help text
+
   let earlyAccessDate = DateTime.fromISO(
     shopConfig.earlyAccessShopStart
   ).toFormat("EEEE, DD, t");
@@ -20,7 +22,7 @@ const ShopHelpText = ({ shopConfig, shopHelpText }) => {
 
   return (
     <>
-      {shopHelpText.showHelpText && (
+      {shopHelpText.showHelpText && showHelpText && (
         <div className="shop-help-text">
           <div className="shop-help-text__body">
             <h4 className="shop-help-text__title">{shopHelpText.title}</h4>
