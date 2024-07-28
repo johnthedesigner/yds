@@ -58,9 +58,9 @@
     "title": "Membership",
     "description": "Become a member of Yankee Dahlia Society to attend meetings, classes and garden tours.",
     "path": "/membership",
-    "inMenu": true,
-    "inFooter": true,
-    "inSitemap": true
+    "inMenu": false,
+    "inFooter": false,
+    "inSitemap": false
   },
   "join": {
     "label": "Join",
@@ -112,9 +112,9 @@
     "title": "About Us",
     "description": "We had a vision of creating a fun space where people who love dahlias could gather and connect, in person and through social media, to learn, have fun, and enjoy growing dahlias together.",
     "path": "/about",
-    "inMenu": true,
-    "inFooter": true,
-    "inSitemap": true
+    "inMenu": false,
+    "inFooter": false,
+    "inSitemap": false
   },
   "contact": {
     "label": "Contact Us",
