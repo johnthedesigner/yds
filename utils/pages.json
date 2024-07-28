@@ -22,7 +22,7 @@
     "title": "YDS Dahlia Supplies Fundraiser",
     "description": "As a new club just over one year old, we need to purchase floral exhibit supplies and floral containers to provide for our Dahlia Exhibits now and for years to come. We appreciate your support to help us reach our goal. Thank you for your donation!",
     "path": "/fundraiser",
-    "inMenu": true,
+    "inMenu": false,
     "inFooter": false,
     "inSitemap": false
   },
@@ -94,18 +94,18 @@
     "title": "Dahlia Shows",
     "description": "A calendar of regional and international Dahlia shows.",
     "path": "/shows",
-    "inMenu": true,
-    "inFooter": true,
-    "inSitemap": true
+    "inMenu": false,
+    "inFooter": false,
+    "inSitemap": false
   },
   "tubers": {
     "label": "Our Tubers",
     "title": "Our Tubers",
     "description": "Find out about our annual tuber sales and tuber swaps. Get some of your favorite dahlia varieties and help to support Yankee Dahlia Society at the same time",
     "path": "/tubers",
-    "inMenu": true,
-    "inFooter": true,
-    "inSitemap": true
+    "inMenu": false,
+    "inFooter": false,
+    "inSitemap": false
   },
   "about": {
     "label": "About Us",
