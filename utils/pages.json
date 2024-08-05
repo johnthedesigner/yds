@@ -22,7 +22,7 @@
     "title": "YDS Dahlia Supplies Fundraiser",
     "description": "As a new club just over one year old, we need to purchase floral exhibit supplies and floral containers to provide for our Dahlia Exhibits now and for years to come. We appreciate your support to help us reach our goal. Thank you for your donation!",
     "path": "/fundraiser",
-    "inMenu": true,
+    "inMenu": false,
     "inFooter": false,
     "inSitemap": false
   },
@@ -58,7 +58,7 @@
     "title": "Membership",
     "description": "Become a member of Yankee Dahlia Society to attend meetings, classes and garden tours.",
     "path": "/membership",
-    "inMenu": true,
+    "inMenu": false,
     "inFooter": false,
     "inSitemap": false
   },
@@ -94,8 +94,8 @@
     "title": "Dahlia Shows",
     "description": "A calendar of regional and international Dahlia shows.",
     "path": "/shows",
-    "inMenu": true,
-    "inFooter": true,
+    "inMenu": false,
+    "inFooter": false,
     "inSitemap": false
   },
   "tubers": {
@@ -103,8 +103,8 @@
     "title": "Our Tubers",
     "description": "Find out about our annual tuber sales and tuber swaps. Get some of your favorite dahlia varieties and help to support Yankee Dahlia Society at the same time",
     "path": "/tubers",
-    "inMenu": true,
-    "inFooter": true,
+    "inMenu": false,
+    "inFooter": false,
     "inSitemap": false
   },
   "about": {
@@ -112,8 +112,8 @@
     "title": "About Us",
     "description": "We had a vision of creating a fun space where people who love dahlias could gather and connect, in person and through social media, to learn, have fun, and enjoy growing dahlias together.",
     "path": "/about",
-    "inMenu": true,
-    "inFooter": true,
+    "inMenu": false,
+    "inFooter": false,
     "inSitemap": false
   },
   "contact": {
