@@ -1,64 +1,64 @@
-import Link from "next/link";
-
-import Layout from "../components/Layout";
-import Hero from "../components/Hero";
-import Pingpong from "../components/Pingpong";
-import Bumper from "../components/Bumper";
-import HomeEventBlock from "../components/HomeEventBlock";
+import Image from "next/image";
 import NewSeo from "../components/NewSeo";
 import pages from "../utils/pages.json";
-import { getCollection } from "../utils/strapi";
 
-const Index = ({ events }) => {
+const Index = () => {
   return (
-    <Layout
-      hero={
-        <Hero
-          title="Yankee Dahlia Society"
-          image="/purple-flowers.jpg"
-          overlay="false"
-          height="40vh"
-        />
-      }
-      isCommercePage={false}>
+    <>
       <NewSeo page={pages.home} />
-      {false && (
-        <Pingpong
-          side="left"
-          image="/planting-dahlias.jpg"
-          imageAlt="A garden with rows of dahlias being planted"
-          ratioWidth={1}
-          ratioHeight={1.5}>
-          <h3>
-            <b>We want you!</b> for Yankee Dahlia Society!
-          </h3>
-          <p>
-            YDS Memberships are available today for both individual and business
-            members. Register soon to attend your first meeting!
-          </p>
-          <Link href="/membership">
-            <a
-              className="button button--homepage"
-              title="Find out more about YDS memberships">
-              Find out more
-            </a>
-          </Link>
-          <HomeEventBlock events={events} />
-        </Pingpong>
-      )}
-      <Bumper
-        text="Already a member and looking for ways to lend a hand within Yankee Dahlia Society?"
-        buttonUrl="/get-involved"
-        buttonLabel="More Ways to Get Involved"
-      />
-    </Layout>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+        }}>
+        <div
+          style={{
+            flex: 1,
+            minWidth: "500px",
+            background: "url(/blizzard-min.png)",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center center",
+          }}
+        />
+        <div
+          style={{
+            flex: 1,
+            minWidth: "500px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "1rem",
+            boxSizing: "border-box",
+          }}>
+          <div style={{ width: "30rem", maxWidth: "80vw" }}>
+            <div>
+              <Image
+                className="logo--desktop"
+                src="/logo-header.svg"
+                alt="YDS Logo"
+                width="240"
+                height="216"
+              />
+            </div>
+            <div style={{ padding: ".5rem" }}>
+              <h1
+                style={{
+                  fontSize: "2rem",
+                }}>
+                2021–2024
+              </h1>
+              <p>Thank you to everyone in our dahlia community!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
-};
-
-// Fetch shows for server side rendering
-export const getServerSideProps = async (ctx) => {
-  let events = await getCollection("events");
-  return { props: { events } };
 };
 
 export default Index;
