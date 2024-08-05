@@ -32,8 +32,8 @@
     "description": "Buy tubers, cuttings, supplies & gift certificates to help grow dahlias and to grow Y.D.S.",
     "path": "/shop",
     "inMenu": true,
-    "inFooter": true,
-    "inSitemap": true
+    "inFooter": false,
+    "inSitemap": false
   },
   "dahlias": {
     "label": "Shop Dahlias",
@@ -42,7 +42,7 @@
     "path": "/shop/dahlias",
     "inMenu": false,
     "inFooter": false,
-    "inSitemap": true
+    "inSitemap": false
   },
   "supplies": {
     "label": "Shop Supplies",
@@ -51,7 +51,7 @@
     "path": "/shop/supplies",
     "inMenu": false,
     "inFooter": false,
-    "inSitemap": true
+    "inSitemap": false
   },
   "membership": {
     "label": "Membership",
@@ -59,8 +59,8 @@
     "description": "Become a member of Yankee Dahlia Society to attend meetings, classes and garden tours.",
     "path": "/membership",
     "inMenu": true,
-    "inFooter": true,
-    "inSitemap": true
+    "inFooter": false,
+    "inSitemap": false
   },
   "join": {
     "label": "Join",
@@ -69,7 +69,7 @@
     "path": "/membership/join",
     "inMenu": false,
     "inFooter": false,
-    "inSitemap": true
+    "inSitemap": false
   },
   "getInvolved": {
     "label": "Get Involved",
@@ -77,8 +77,8 @@
     "description": "Get more involved with Yankee Dahlia Society, volunteer, let us tour your garden. There are plenty of fun ways to get more involved.",
     "path": "/get-involved",
     "inMenu": false,
-    "inFooter": true,
-    "inSitemap": true
+    "inFooter": false,
+    "inSitemap": false
   },
   "meetings": {
     "label": "Meetings",
@@ -86,8 +86,8 @@
     "description": "Find out when we are having our next meeting, event or garden tour and plan ahead to join in on the fun.",
     "path": "/meetings",
     "inMenu": true,
-    "inFooter": true,
-    "inSitemap": true
+    "inFooter": false,
+    "inSitemap": false
   },
   "shows": {
     "label": "Shows",
@@ -96,7 +96,7 @@
     "path": "/shows",
     "inMenu": true,
     "inFooter": true,
-    "inSitemap": true
+    "inSitemap": false
   },
   "tubers": {
     "label": "Our Tubers",
@@ -105,7 +105,7 @@
     "path": "/tubers",
     "inMenu": true,
     "inFooter": true,
-    "inSitemap": true
+    "inSitemap": false
   },
   "about": {
     "label": "About Us",
@@ -114,7 +114,7 @@
     "path": "/about",
     "inMenu": true,
     "inFooter": true,
-    "inSitemap": true
+    "inSitemap": false
   },
   "contact": {
     "label": "Contact Us",
@@ -123,7 +123,7 @@
     "path": "/contact",
     "inMenu": true,
     "inFooter": true,
-    "inSitemap": true
+    "inSitemap": false
   },
   "businessMembers": {
     "label": "Businesses",
@@ -132,7 +132,7 @@
     "path": "/business-members",
     "inMenu": false,
     "inFooter": false,
-    "inSitemap": true
+    "inSitemap": false
   },
   "businessMembershipInfo": {
     "label": "Business Membership Info",
